@@ -584,11 +584,11 @@ input[type="date"] { width: 125px; }
 <body class="theme-blue">
 
 <!-- Splash Screen -->
-<div id="splashScreen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#faf8f5;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .55s ease,visibility .55s ease;">
-  <div style="width:168px;height:168px;border-radius:38px;background:#d9a0a0;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(217,160,160,.42);">
-    <img src="icon-192.png" alt="" style="width:138px;height:138px;border-radius:30px;object-fit:cover;">
+<div id="splashScreen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#faf8f5;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .45s ease,visibility .45s ease;">
+  <div style="width:120px;height:120px;border-radius:28px;background:#d9a0a0;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(217,160,160,.35);">
+    <img src="icon-192.png" alt="" style="width:96px;height:96px;border-radius:22px;object-fit:cover;">
   </div>
-  <div style="margin-top:32px;font-size:20px;font-weight:600;color:#5a4a4a;letter-spacing:.6px;">元气小红工作台</div>
+  <div style="margin-top:24px;font-size:17px;font-weight:600;color:#5a4a4a;letter-spacing:.5px;">元气小红工作台</div>
 </div>
 
 <!-- Background Layer -->
@@ -3377,7 +3377,7 @@ setTimeout(() => {
     splash.style.visibility = 'hidden';
     setTimeout(() => splash.remove(), 500);
   }
-}, 1200);
+}, 900);
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
