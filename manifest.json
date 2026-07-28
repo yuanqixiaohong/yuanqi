@@ -1,0 +1,25 @@
+{
+  "name": "元气小红工作台",
+  "short_name": "元气小红",
+  "description": "元气小红个人工作台 - 记账、健身、学习打卡一站式工具",
+  "start_url": "workspace_optimized.html",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#fdf5f5",
+  "theme_color": "#e8a0a0",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='42' fill='%23e8a0a0'/><circle cx='96' cy='96' r='52' fill='%23f5e6c8'/><path d='M96 44 A52 52 0 0 0 96 148 Z' fill='%232c3e50'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='112' fill='%23e8a0a0'/><circle cx='256' cy='256' r='138' fill='%23f5e6c8'/><path d='M256 118 A138 138 0 0 0 256 394 Z' fill='%232c3e50'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
