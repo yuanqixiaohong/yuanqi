@@ -136,7 +136,7 @@ body {
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 .header .logo-icon { font-size: 22px; }
-.header .title { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+.header .title { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; line-height: 1.25; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .header .subtitle { font-size: 11px; opacity: 0.85; }
 .header .hdr-btn {
   background: rgba(255,255,255,0.2); border: none; color: white;
@@ -596,7 +596,7 @@ input[type="date"] { width: 125px; }
 
 <!-- Header -->
 <div class="header">
-  <span class="title">元气小红</span>
+  <div class="title"><span>元气</span><span>小红</span></div>
   <div class="header-right">
     <span class="subtitle" id="currentDate">2026年7月28日 星期二</span>
   <div class="hdr-actions">
