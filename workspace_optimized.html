@@ -601,6 +601,7 @@ input[type="date"] { width: 125px; }
     <span class="subtitle" id="currentDate">2026年7月28日 星期二</span>
   <div class="hdr-actions">
     <button class="hdr-btn" onclick="showExportModal()">📥 导出</button>
+    <button class="hdr-btn" onclick="showBackupModal()">💾 备份</button>
     <button class="hdr-btn" onclick="showSettingsModal()">🎨 设置</button>
   </div>
   </div>
@@ -2972,6 +2973,73 @@ function exportToPDF() {
   closeModal();
 }
 
+// ============ BACKUP & RESTORE (全量数据) ============
+function showBackupModal() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  const size = raw ? (new Blob([raw]).size / 1024).toFixed(1) : '0';
+  $('#modalContainer').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal">
+        <h3>💾 数据备份与恢复</h3>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px;line-height:1.6">
+          所有数据都保存在手机本地。备份可将全部数据导出为一个 JSON 文件，换手机或清缓存后可用它恢复。<br>
+          当前数据大小：约 ${size} KB
+        </div>
+        <div class="btn-row" style="flex-wrap:wrap;gap:8px">
+          <button class="btn btn-outline" onclick="closeModal()">取消</button>
+          <button class="btn btn-primary" onclick="backupAllData()">📤 备份全部数据</button>
+          <button class="btn btn-primary" onclick="restoreAllData()">📥 从文件恢复</button>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:#fff8f8;border-radius:8px;font-size:11px;color:#8a6a6a;line-height:1.5">
+          <b>注意：</b>恢复数据会覆盖当前所有数据，请谨慎操作。建议先备份当前数据再恢复。
+        </div>
+      </div>
+    </div>`;
+}
+
+function backupAllData() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) { showToast('暂无数据可备份'); return; }
+  const blob = new Blob([raw], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `元气小红工作台_备份_${todayStr()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  closeModal();
+  showToast('备份文件已下载，请妥善保存');
+}
+
+function restoreAllData() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json,application/json';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const json = event.target.result;
+        const parsed = JSON.parse(json);
+        if (!parsed || typeof parsed !== 'object') throw new Error('格式不正确');
+        localStorage.setItem(STORAGE_KEY, json);
+        closeModal();
+        showToast('数据恢复成功，1 秒后刷新页面');
+        setTimeout(() => location.reload(), 1000);
+      } catch (err) {
+        showToast('备份文件格式错误：' + err.message);
+      }
+    };
+    reader.onerror = () => showToast('读取文件失败');
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
 // ============ PAGE: READING (书影阁) ============
 const BOOK_COVERS = [
   'linear-gradient(135deg,#667eea,#764ba2)','linear-gradient(135deg,#f093fb,#f5576c)',
@@ -3369,15 +3437,20 @@ setInterval(() => {
   updateDate();
 }, 60000);
 
-// Hide splash screen after app is rendered
-setTimeout(() => {
+// Hide splash screen once page is fully loaded, with a quick natural fade
+function hideSplashScreen() {
   const splash = document.getElementById('splashScreen');
   if (splash) {
     splash.style.opacity = '0';
     splash.style.visibility = 'hidden';
     setTimeout(() => splash.remove(), 500);
   }
-}, 900);
+}
+if (document.readyState === 'complete') {
+  hideSplashScreen();
+} else {
+  window.addEventListener('load', hideSplashScreen);
+}
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
