@@ -136,7 +136,7 @@ body {
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 .header .logo-icon { font-size: 22px; }
-.header .title { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; line-height: 1.25; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.header .title { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
 .header .subtitle { font-size: 11px; opacity: 0.85; }
 .header .hdr-btn {
   background: rgba(255,255,255,0.2); border: none; color: white;
@@ -596,12 +596,11 @@ input[type="date"] { width: 125px; }
 
 <!-- Header -->
 <div class="header">
-  <div class="title"><span>元气</span><span>小红</span></div>
+  <span class="title">元气小红</span>
   <div class="header-right">
     <span class="subtitle" id="currentDate">2026年7月28日 星期二</span>
   <div class="hdr-actions">
     <button class="hdr-btn" onclick="showExportModal()">📥 导出</button>
-    <button class="hdr-btn" onclick="showBackupModal()">💾 备份</button>
     <button class="hdr-btn" onclick="showSettingsModal()">🎨 设置</button>
   </div>
   </div>
@@ -619,6 +618,7 @@ input[type="date"] { width: 125px; }
     <div class="nav-item" data-page="year"><span class="nav-icon">📅</span><span>年历</span></div>
     <div class="nav-item" data-page="reading"><span class="nav-icon">📚</span><span>书影阁</span><span class="nav-badge" id="readingBadge">0</span></div>
     <div class="nav-item" data-page="gold"><span class="nav-icon">💎</span><span>贵金属</span></div>
+    <div class="nav-item" data-action="backup"><span class="nav-icon">💾</span><span>备份</span></div>
   </div>
 
   <div class="content" id="contentArea">
@@ -1603,6 +1603,10 @@ function applyBackground() {
 // ============ NAVIGATION ============
 $$('.nav-item').forEach(item => {
   item.addEventListener('click', () => {
+    if (item.dataset.action === 'backup') {
+      showBackupModal();
+      return;
+    }
     $$('.nav-item').forEach(i => i.classList.remove('active'));
     item.classList.add('active');
     const page = item.dataset.page;
