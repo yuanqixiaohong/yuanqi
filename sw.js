@@ -1,4 +1,4 @@
-const CACHE_NAME = 'yuanqi-workbench-v7';
+const CACHE_NAME = 'yuanqi-workbench-v8';
 const ASSETS = [
   './workspace_optimized.html',
   './manifest.json',
@@ -52,20 +52,18 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // For navigation requests, try cache first, then network
+  // For navigation requests, network-first — always get latest HTML
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      caches.match(event.request).then((response) => {
-        return response || fetch(event.request).then((fetchResponse) => {
-          const clone = fetchResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, clone);
-          });
-          return fetchResponse;
-        }).catch(() => {
-          // Fallback to cached main page when offline
-          return caches.match('./workspace_optimized.html');
+      fetch(event.request).then((fetchResponse) => {
+        const clone = fetchResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, clone);
         });
+        return fetchResponse;
+      }).catch(() => {
+        // Fallback to cached main page when offline
+        return caches.match('./workspace_optimized.html');
       })
     );
     return;
