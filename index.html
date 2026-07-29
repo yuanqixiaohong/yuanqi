@@ -2,14 +2,22 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=workspace_optimized.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#d9a0a0">
 <title>元气小红工作台</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-<script>location.replace('workspace_optimized.html');</script>
 </head>
-<body></body>
+<body>
+  <h1>元气小红工作台</h1>
+  <p>正在加载...</p>
+  <script>
+    // 延迟跳转，给 TWA 时间完成初始化
+    setTimeout(() => {
+      window.location.href = 'workspace_optimized.html';
+    }, 100);
+  </script>
+</body>
 </html>
