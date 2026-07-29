@@ -9,7 +9,7 @@
 <title>元气小红工作台</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
-<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js" async></script>
 <style>
 :root {
   --primary: #e8a0a0;
@@ -584,11 +584,10 @@ input[type="date"] { width: 125px; }
 <body class="theme-blue">
 
 <!-- Splash Screen -->
-<div id="splashScreen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#faf8f5;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .45s ease,visibility .45s ease;">
-  <div style="width:120px;height:120px;border-radius:28px;background:#d9a0a0;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(217,160,160,.35);">
-    <img src="icon-192.png" alt="" style="width:96px;height:96px;border-radius:22px;object-fit:cover;">
+<div id="splashScreen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#faf8f5;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .45s ease,visibility .45s ease;opacity:0;visibility:hidden;">
+  <div style="width:84px;height:84px;border-radius:22px;background:#d9a0a0;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(217,160,160,.35);">
+    <img src="icon-192.png" alt="" style="width:66px;height:66px;border-radius:16px;object-fit:cover;">
   </div>
-  <div style="margin-top:24px;font-size:17px;font-weight:600;color:#5a4a4a;letter-spacing:.5px;">元气小红工作台</div>
 </div>
 
 <!-- Background Layer -->
@@ -3440,6 +3439,14 @@ setInterval(() => {
   if (p === 'year') renderYear();
   updateDate();
 }, 60000);
+
+// Splash screen: show only in normal browser/PWA, hide in TWA/APK to avoid duplicate system splash
+const isTWA = document.referrer && document.referrer.startsWith('android-app://');
+const splash = document.getElementById('splashScreen');
+if (splash && !isTWA) {
+  splash.style.opacity = '1';
+  splash.style.visibility = 'visible';
+}
 
 // Hide splash screen once page is fully loaded, with a quick natural fade
 function hideSplashScreen() {
