@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.yuanqixiaohong.yuanqi",
+      "sha256_cert_fingerprints": [
+        "46:4D:D7:13:58:C1:48:44:9F:35:04:72:18:0D:28:BC:60:30:DF:96:C0:EB:E0:78:03:9E:B7:7E:90:FE:45:B5"
+      ]
+    }
+  }
+]
