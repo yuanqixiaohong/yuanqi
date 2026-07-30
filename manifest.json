@@ -2,7 +2,7 @@
   "name": "元气小红工作台",
   "short_name": "元气小红",
   "description": "元气小红个人工作台 - 记账、健身、学习打卡一站式工具",
-  "start_url": "workspace_optimized.html",
+  "index.html": "workspace_optimized.html",
   "scope": ".",
   "display": "fullscreen",
 "display_override": ["fullscreen", "standalone"],
