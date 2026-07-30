@@ -1,4 +1,4 @@
-const CACHE_NAME = 'yuanqi-workbench-v31'
+const CACHE_NAME = 'yuanqi-workbench-v32'
 const ASSETS = [
   './index.html',
   './manifest.json',
@@ -72,7 +72,7 @@ self.addEventListener('fetch', (event) => {
   // This prevents the TWA splash screen from hanging forever on slow networks
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetchWithTimeout(event.request, 3000).then((fetchResponse) => {
+      fetchWithTimeout(event.request, 5000).then((fetchResponse) => {
         const clone = fetchResponse.clone();
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, clone);
