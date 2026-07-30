@@ -1,4 +1,4 @@
-const CACHE_NAME = 'yuanqi-workbench-v30'
+const CACHE_NAME = 'yuanqi-workbench-v31'
 const ASSETS = [
   './index.html',
   './manifest.json',
