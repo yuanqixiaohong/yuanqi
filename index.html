@@ -2,14 +2,20 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=workspace_optimized.html">
 <meta name="theme-color" content="#d9a0a0">
 <title>元气小红工作台</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-<script>location.replace('workspace_optimized.html');</script>
 </head>
-<body></body>
+<body>
+<p style="text-align:center;margin-top:40vh;font-family:Microsoft YaHei;color:#999;">正在加载...</p>
+<script>
+  // 延迟 200ms 跳转，确保 PWA/TWA 已完全初始化
+  setTimeout(function(){
+    window.location.replace('workspace_optimized.html');
+  }, 200);
+</script>
+</body>
 </html>
