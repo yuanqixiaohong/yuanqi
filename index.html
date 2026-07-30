@@ -2,7 +2,6 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#d9a0a0">
 <title>元气小红工作台</title>
 <link rel="manifest" href="manifest.json">
@@ -11,13 +10,11 @@
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 </head>
 <body>
-  <h1>元气小红工作台</h1>
-  <p>正在加载...</p>
-  <script>
-    // 延迟跳转，给 TWA 时间完成初始化
-    setTimeout(() => {
-      window.location.href = 'workspace_optimized.html';
-    }, 100);
-  </script>
+<p style="text-align:center;margin-top:40vh;font-family:Microsoft YaHei;color:#999;">正在加载...</p>
+<script>
+  setTimeout(function(){
+    window.location.replace('workspace_optimized.html');
+  }, 200);
+</script>
 </body>
 </html>
