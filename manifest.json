@@ -2,10 +2,10 @@
   "name": "元气小红工作台",
   "short_name": "元气小红",
   "description": "元气小红个人工作台 - 记账、健身、学习打卡一站式工具",
-  "start_url": "workspace_optimized.html",
+  "start_url": "index.html",
   "scope": ".",
-  "display": "fullscreen",
-  "display_override": ["fullscreen", "standalone"],
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
   "background_color": "#faf8f5",
   "theme_color": "#d9a0a0",
   "orientation": "portrait-primary",
@@ -33,15 +33,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "splash-screen.png",
-      "sizes": "1264x2661",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "启动页"
     }
   ]
 }
