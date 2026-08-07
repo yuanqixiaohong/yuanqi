@@ -446,6 +446,33 @@ input[type="date"] { width: 125px; }
 .photo-upload-btn:hover { background: var(--primary); color: white; }
 .photo-preview { width: 100%; max-height: 80px; object-fit: cover; border-radius: 6px; margin-top: 4px; }
 
+/* Food Recognition Modal */
+.food-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: flex-end; justify-content: center; animation: fadeIn 0.2s ease; }
+.food-modal { background: white; border-radius: 16px 16px 0 0; width: 100%; max-width: 480px; max-height: 85vh; overflow-y: auto; padding: 16px; animation: slideUp 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.food-modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.food-modal-header h3 { font-size: 16px; font-weight: 700; margin: 0; color: var(--text); }
+.food-modal-close { font-size: 20px; color: var(--text-light); cursor: pointer; padding: 4px 8px; }
+.food-modal-photo { width: 100%; max-height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 12px; }
+.food-cat-tabs { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 8px; -webkit-overflow-scrolling: touch; }
+.food-cat-tab { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; white-space: nowrap; background: var(--bg); border: 1px solid var(--border); cursor: pointer; color: var(--text); transition: all 0.2s; }
+.food-cat-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+.food-search-results { max-height: 200px; overflow-y: auto; margin-bottom: 10px; }
+.food-result-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 4px; cursor: pointer; transition: all 0.2s; background: white; }
+.food-result-item:hover, .food-result-item.selected { border-color: var(--primary); background: #fff8f6; }
+.food-result-item .fr-name { flex: 1; font-size: 12px; font-weight: 600; color: var(--text); }
+.food-result-item .fr-unit { font-size: 10px; color: var(--text-light); }
+.food-result-item .fr-cal { font-size: 13px; font-weight: 700; color: var(--accent-orange); }
+.food-modal-manual { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 6px; }
+.food-modal-manual .form-row { display: flex; gap: 8px; align-items: flex-end; }
+.food-modal-manual .form-row .form-group { flex: 1; }
+.food-modal-actions { display: flex; gap: 8px; margin-top: 12px; }
+.food-modal-actions .btn { flex: 1; }
+.photo-source-row { display: flex; gap: 4px; }
+.photo-source-btn { display: inline-flex; align-items: center; gap: 2px; padding: 4px 6px; border-radius: 6px; font-size: 10px; font-weight: 600; background: var(--bg); border: 1px dashed var(--primary); color: var(--primary); cursor: pointer; transition: all 0.2s; }
+.photo-source-btn:hover { background: var(--primary); color: white; }
+
 /* Upcoming */
 .upcoming-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
 .upcoming-item { background: #fffafa; border-radius: var(--radius-sm); padding: 10px; text-align: center; border: 1px solid var(--border); }
@@ -1855,23 +1882,152 @@ function addWeightLog(){const date=$('#wtDate').value,morning=parseFloat($('#wtM
 function deleteWeightLog(id){data.weightLogs=data.weightLogs.filter(l=>l.id!==id);saveData();renderWeightData();showToast('已删除');}
 
 // ============ CALORIE TRACKER (每日热量记录) ============
+const FOOD_CATS = [
+  {key:'all',icon:'🍽️',label:'全部'},{key:'staple',icon:'🍚',label:'主食'},{key:'meat',icon:'🥩',label:'肉类'},
+  {key:'seafood',icon:'🐟',label:'海鲜'},{key:'veggie',icon:'🥬',label:'蔬菜'},{key:'fruit',icon:'🍎',label:'水果'},
+  {key:'drink',icon:'🥤',label:'饮品'},{key:'fastfood',icon:'🍔',label:'快餐'},{key:'chinese',icon:'🥘',label:'中餐'},
+  {key:'snack',icon:'🍪',label:'零食'},{key:'soup',icon:'🍲',label:'汤粥'},{key:'breakfast',icon:'🥞',label:'早餐'},
+  {key:'dessert',icon:'🍰',label:'甜点'}
+];
 const FOOD_DB = [
-  {n:'米饭',c:116,u:'1碗(100g)'},{n:'杂粮饭',c:132,u:'1碗(100g)'},{n:'馒头',c:223,u:'1个(100g)'},{n:'面条',c:137,u:'1碗(100g)'},
-  {n:'全麦面包',c:247,u:'2片(70g)'},{n:'红薯',c:99,u:'100g'},{n:'紫薯',c:82,u:'100g'},{n:'燕麦',c:367,u:'100g'},
-  {n:'玉米',c:86,u:'1根(200g)'},{n:'包子',c:227,u:'1个(100g)'},{n:'饺子',c:240,u:'10个'},{n:'炒饭',c:188,u:'1碗(200g)'},
-  {n:'鸡胸肉',c:133,u:'100g'},{n:'鸡蛋',c:78,u:'1个(50g)'},{n:'水煮蛋',c:78,u:'1个(50g)'},{n:'牛肉',c:250,u:'100g'},
-  {n:'猪肉',c:395,u:'100g'},{n:'鱼肉',c:145,u:'100g'},{n:'虾',c:87,u:'100g'},{n:'豆腐',c:81,u:'100g'},
-  {n:'牛奶',c:54,u:'100ml'},{n:'脱脂牛奶',c:35,u:'100ml'},{n:'酸奶',c:72,u:'100ml'},{n:'豆浆',c:31,u:'100ml'},
-  {n:'西兰花',c:36,u:'100g'},{n:'菠菜',c:28,u:'100g'},{n:'白菜',c:20,u:'100g'},{n:'黄瓜',c:16,u:'100g'},
-  {n:'番茄',c:22,u:'100g'},{n:'生菜',c:16,u:'100g'},{n:'胡萝卜',c:41,u:'100g'},{n:'蘑菇',c:22,u:'100g'},
-  {n:'冬瓜',c:12,u:'100g'},{n:'芹菜',c:20,u:'100g'},{n:'菌菇汤',c:45,u:'1碗'},{n:'凉拌黄瓜',c:40,u:'1份'},
-  {n:'苹果',c:53,u:'1个(200g)'},{n:'香蕉',c:93,u:'1根(150g)'},{n:'橙子',c:48,u:'1个(200g)'},{n:'葡萄',c:44,u:'100g'},
-  {n:'西瓜',c:26,u:'100g'},{n:'草莓',c:32,u:'100g'},{n:'蓝莓',c:57,u:'100g'},{n:'猕猴桃',c:61,u:'1个(100g)'},
-  {n:'坚果',c:600,u:'100g'},{n:'黑巧克力',c:546,u:'100g'},{n:'全麦饼干',c:350,u:'100g'},{n:'橄榄油',c:884,u:'100g'},
-  {n:'鸡胸肉沙拉',c:280,u:'1份'},{n:'三明治',c:350,u:'1个'},{n:'寿司',c:150,u:'6个'},{n:'披萨',c:266,u:'1片'},
-  {n:'汉堡',c:295,u:'1个'},{n:'火锅',c:800,u:'1顿'},{n:'麻辣烫',c:500,u:'1碗'},{n:'炒菜',c:300,u:'1份'},
-  {n:'排骨汤',c:280,u:'1碗'},{n:'鸡汤',c:200,u:'1碗'},{n:'杂粮粥',c:60,u:'1碗'},{n:'小米粥',c:46,u:'1碗'},
-  {n:'鸡蛋饼',c:220,u:'1个'},{n:'手抓饼',c:320,u:'1个'},{n:'生煎包',c:260,u:'4个'},{n:'小笼包',c:230,u:'6个'}
+  // 主食 staple
+  {n:'米饭',c:116,u:'1碗(100g)',cat:'staple'},{n:'杂粮饭',c:132,u:'1碗(100g)',cat:'staple'},{n:'糙米饭',c:112,u:'1碗(100g)',cat:'staple'},
+  {n:'白粥',c:46,u:'1碗',cat:'staple'},{n:'小米粥',c:46,u:'1碗',cat:'staple'},{n:'杂粮粥',c:60,u:'1碗',cat:'staple'},
+  {n:'皮蛋瘦肉粥',c:175,u:'1碗',cat:'staple'},{n:'馒头',c:223,u:'1个(100g)',cat:'staple'},{n:'花卷',c:217,u:'1个(100g)',cat:'staple'},
+  {n:'面条',c:137,u:'1碗(100g)',cat:'staple'},{n:'拉面',c:163,u:'1碗(150g)',cat:'staple'},{n:'刀削面',c:139,u:'1碗(150g)',cat:'staple'},
+  {n:'意大利面',c:158,u:'1盘(150g)',cat:'staple'},{n:'炒面',c:164,u:'1盘(200g)',cat:'staple'},{n:'牛肉面',c:280,u:'1碗',cat:'staple'},
+  {n:'担担面',c:380,u:'1碗',cat:'staple'},{n:'热干面',c:360,u:'1碗',cat:'staple'},{n:'炸酱面',c:330,u:'1碗',cat:'staple'},
+  {n:'米粉',c:110,u:'1碗(200g)',cat:'staple'},{n:'鱼粉',c:320,u:'1碗',cat:'staple'},{n:'螺蛳粉',c:380,u:'1碗',cat:'staple'},
+  {n:'河粉',c:219,u:'1盘(200g)',cat:'staple'},{n:'全麦面包',c:247,u:'2片(70g)',cat:'staple'},{n:'白面包',c:265,u:'2片(70g)',cat:'staple'},
+  {n:'吐司',c:280,u:'2片(70g)',cat:'staple'},{n:'红薯',c:99,u:'100g',cat:'staple'},{n:'紫薯',c:82,u:'100g',cat:'staple'},
+  {n:'燕麦',c:367,u:'100g',cat:'staple'},{n:'玉米',c:86,u:'1根(200g)',cat:'staple'},{n:'糯米饭',c:175,u:'1碗(150g)',cat:'staple'},
+  {n:'炒饭',c:188,u:'1碗(200g)',cat:'staple'},{n:'蛋炒饭',c:210,u:'1碗(200g)',cat:'staple'},{n:'扬州炒饭',c:230,u:'1碗(250g)',cat:'staple'},
+  {n:'煲仔饭',c:290,u:'1碗',cat:'staple'},{n:'咖喱饭',c:320,u:'1盘',cat:'staple'},{n:'饭团',c:180,u:'1个',cat:'staple'},
+  {n:'年糕',c:154,u:'100g',cat:'staple'},{n:'饺子',c:240,u:'10个',cat:'staple'},{n:'水饺',c:240,u:'10个',cat:'staple'},
+  {n:'煎饺',c:265,u:'8个',cat:'staple'},{n:'包子',c:227,u:'1个(100g)',cat:'staple'},{n:'菜包',c:180,u:'1个(100g)',cat:'staple'},
+  {n:'肉包',c:230,u:'1个(100g)',cat:'staple'},{n:'豆沙包',c:220,u:'1个(100g)',cat:'staple'},{n:'烧麦',c:268,u:'4个',cat:'staple'},
+  {n:'馄饨',c:250,u:'1碗(10个)',cat:'staple'},{n:'云吞面',c:280,u:'1碗',cat:'staple'},
+  // 肉类 meat
+  {n:'鸡胸肉',c:133,u:'100g',cat:'meat'},{n:'鸡腿',c:181,u:'1个(150g)',cat:'meat'},{n:'鸡翅',c:194,u:'2个(100g)',cat:'meat'},
+  {n:'烤鸡',c:215,u:'100g',cat:'meat'},{n:'白切鸡',c:195,u:'100g',cat:'meat'},{n:'口水鸡',c:230,u:'1份',cat:'meat'},
+  {n:'宫保鸡丁',c:260,u:'1份',cat:'meat'},{n:'辣子鸡',c:280,u:'1份',cat:'meat'},{n:'黄焖鸡',c:230,u:'1份',cat:'meat'},
+  {n:'鸡蛋',c:78,u:'1个(50g)',cat:'meat'},{n:'水煮蛋',c:78,u:'1个(50g)',cat:'meat'},{n:'煎蛋',c:90,u:'1个(50g)',cat:'meat'},
+  {n:'茶叶蛋',c:75,u:'1个(50g)',cat:'meat'},{n:'蒸蛋',c:62,u:'1碗',cat:'meat'},{n:'番茄炒蛋',c:160,u:'1份',cat:'meat'},
+  {n:'牛肉',c:250,u:'100g',cat:'meat'},{n:'牛排',c:271,u:'1块(150g)',cat:'meat'},{n:'红烧牛肉',c:280,u:'1份',cat:'meat'},
+  {n:'卤牛肉',c:215,u:'100g',cat:'meat'},{n:'水煮牛肉',c:300,u:'1份',cat:'meat'},{n:'肥牛',c:320,u:'100g',cat:'meat'},
+  {n:'猪肉',c:395,u:'100g',cat:'meat'},{n:'红烧肉',c:510,u:'1份',cat:'meat'},{n:'回锅肉',c:340,u:'1份',cat:'meat'},
+  {n:'糖醋排骨',c:360,u:'1份',cat:'meat'},{n:'排骨',c:278,u:'100g',cat:'meat'},{n:'东坡肉',c:480,u:'1份',cat:'meat'},
+  {n:'猪排',c:320,u:'1块(120g)',cat:'meat'},{n:'里脊肉',c:155,u:'100g',cat:'meat'},{n:'培根',c:541,u:'100g',cat:'meat'},
+  {n:'火腿',c:330,u:'100g',cat:'meat'},{n:'香肠',c:508,u:'1根(80g)',cat:'meat'},{n:'腊肉',c:692,u:'100g',cat:'meat'},
+  {n:'羊肉',c:294,u:'100g',cat:'meat'},{n:'羊肉串',c:220,u:'5串',cat:'meat'},{n:'烤肉',c:310,u:'1份',cat:'meat'},
+  {n:'鸭肉',c:240,u:'100g',cat:'meat'},{n:'烤鸭',c:338,u:'1份',cat:'meat'},{n:'盐水鸭',c:260,u:'1份',cat:'meat'},
+  {n:'豆腐',c:81,u:'100g',cat:'meat'},{n:'麻婆豆腐',c:180,u:'1份',cat:'meat'},{n:'臭豆腐',c:200,u:'5块',cat:'meat'},
+  {n:'油豆腐',c:244,u:'100g',cat:'meat'},{n:'腐竹',c:459,u:'100g',cat:'meat'},{n:'豆干',c:140,u:'100g',cat:'meat'},
+  // 海鲜 seafood
+  {n:'鱼肉',c:145,u:'100g',cat:'seafood'},{n:'三文鱼',c:208,u:'100g',cat:'seafood'},{n:'金枪鱼',c:184,u:'100g',cat:'seafood'},
+  {n:'鲈鱼',c:105,u:'100g',cat:'seafood'},{n:'带鱼',c:127,u:'100g',cat:'seafood'},{n:'鲫鱼',c:108,u:'100g',cat:'seafood'},
+  {n:'清蒸鱼',c:160,u:'1条',cat:'seafood'},{n:'红烧鱼',c:210,u:'1条',cat:'seafood'},{n:'酸菜鱼',c:240,u:'1份',cat:'seafood'},
+  {n:'水煮鱼',c:260,u:'1份',cat:'seafood'},{n:'烤鱼',c:230,u:'1条',cat:'seafood'},{n:'生鱼片',c:150,u:'1份(80g)',cat:'seafood'},
+  {n:'虾',c:87,u:'100g',cat:'seafood'},{n:'基围虾',c:90,u:'100g',cat:'seafood'},{n:'小龙虾',c:92,u:'100g',cat:'seafood'},
+  {n:'白灼虾',c:95,u:'1份(200g)',cat:'seafood'},{n:'油焖大虾',c:180,u:'1份',cat:'seafood'},{n:'虾仁',c:87,u:'100g',cat:'seafood'},
+  {n:'螃蟹',c:95,u:'1只(200g)',cat:'seafood'},{n:'大闸蟹',c:103,u:'1只(200g)',cat:'seafood'},{n:'蟹肉',c:62,u:'100g',cat:'seafood'},
+  {n:'扇贝',c:60,u:'5个',cat:'seafood'},{n:'生蚝',c:73,u:'3个',cat:'seafood'},{n:'蛤蜊',c:62,u:'100g',cat:'seafood'},
+  {n:'鱿鱼',c:92,u:'100g',cat:'seafood'},{n:'墨鱼',c:81,u:'100g',cat:'seafood'},{n:'章鱼',c:82,u:'100g',cat:'seafood'},
+  {n:'海带',c:12,u:'100g',cat:'seafood'},{n:'紫菜',c:207,u:'100g',cat:'seafood'},{n:'海鱼',c:120,u:'100g',cat:'seafood'},
+  // 蔬菜 veggie
+  {n:'西兰花',c:36,u:'100g',cat:'veggie'},{n:'菠菜',c:28,u:'100g',cat:'veggie'},{n:'白菜',c:20,u:'100g',cat:'veggie'},
+  {n:'大白菜',c:17,u:'100g',cat:'veggie'},{n:'小白菜',c:15,u:'100g',cat:'veggie'},{n:'黄瓜',c:16,u:'100g',cat:'veggie'},
+  {n:'番茄',c:22,u:'100g',cat:'veggie'},{n:'生菜',c:16,u:'100g',cat:'veggie'},{n:'胡萝卜',c:41,u:'100g',cat:'veggie'},
+  {n:'蘑菇',c:22,u:'100g',cat:'veggie'},{n:'冬瓜',c:12,u:'100g',cat:'veggie'},{n:'芹菜',c:20,u:'100g',cat:'veggie'},
+  {n:'茄子',c:23,u:'100g',cat:'veggie'},{n:'青椒',c:22,u:'100g',cat:'veggie'},{n:'土豆',c:77,u:'100g',cat:'veggie'},
+  {n:'红薯叶',c:30,u:'100g',cat:'veggie'},{n:'空心菜',c:20,u:'100g',cat:'veggie'},{n:'韭菜',c:26,u:'100g',cat:'veggie'},
+  {n:'豆角',c:31,u:'100g',cat:'veggie'},{n:'四季豆',c:28,u:'100g',cat:'veggie'},{n:'豆芽',c:18,u:'100g',cat:'veggie'},
+  {n:'绿豆芽',c:18,u:'100g',cat:'veggie'},{n:'黄花菜',c:38,u:'100g',cat:'veggie'},{n:'苦瓜',c:22,u:'100g',cat:'veggie'},
+  {n:'丝瓜',c:20,u:'100g',cat:'veggie'},{n:'南瓜',c:23,u:'100g',cat:'veggie'},{n:'莲藕',c:73,u:'100g',cat:'veggie'},
+  {n:'山药',c:57,u:'100g',cat:'veggie'},{n:'芋头',c:79,u:'100g',cat:'veggie'},{n:'洋葱',c:40,u:'100g',cat:'veggie'},
+  {n:'大蒜',c:126,u:'100g',cat:'veggie'},{n:'姜',c:41,u:'100g',cat:'veggie'},{n:'辣椒',c:40,u:'100g',cat:'veggie'},
+  {n:'秋葵',c:25,u:'100g',cat:'veggie'},{n:'芦笋',c:22,u:'100g',cat:'veggie'},{n:'木耳',c:27,u:'100g',cat:'veggie'},
+  {n:'金针菇',c:32,u:'100g',cat:'veggie'},{n:'香菇',c:26,u:'100g',cat:'veggie'},{n:'杏鲍菇',c:35,u:'100g',cat:'veggie'},
+  {n:'凉拌黄瓜',c:40,u:'1份',cat:'veggie'},{n:'炒时蔬',c:80,u:'1份',cat:'veggie'},{n:'蒜蓉西兰花',c:70,u:'1份',cat:'veggie'},
+  {n:'干煸四季豆',c:150,u:'1份',cat:'veggie'},{n:'地三鲜',c:180,u:'1份',cat:'veggie'},{n:'酸辣土豆丝',c:120,u:'1份',cat:'veggie'},
+  // 水果 fruit
+  {n:'苹果',c:53,u:'1个(200g)',cat:'fruit'},{n:'香蕉',c:93,u:'1根(150g)',cat:'fruit'},{n:'橙子',c:48,u:'1个(200g)',cat:'fruit'},
+  {n:'葡萄',c:44,u:'100g',cat:'fruit'},{n:'西瓜',c:26,u:'100g',cat:'fruit'},{n:'草莓',c:32,u:'100g',cat:'fruit'},
+  {n:'蓝莓',c:57,u:'100g',cat:'fruit'},{n:'猕猴桃',c:61,u:'1个(100g)',cat:'fruit'},{n:'桃子',c:48,u:'1个(150g)',cat:'fruit'},
+  {n:'梨',c:51,u:'1个(200g)',cat:'fruit'},{n:'芒果',c:35,u:'100g',cat:'fruit'},{n:'菠萝',c:41,u:'100g',cat:'fruit'},
+  {n:'榴莲',c:147,u:'100g',cat:'fruit'},{n:'荔枝',c:70,u:'100g',cat:'fruit'},{n:'龙眼',c:71,u:'100g',cat:'fruit'},
+  {n:'樱桃',c:46,u:'100g',cat:'fruit'},{n:'火龙果',c:51,u:'100g',cat:'fruit'},{n:'哈密瓜',c:34,u:'100g',cat:'fruit'},
+  {n:'木瓜',c:29,u:'100g',cat:'fruit'},{n:'柚子',c:42,u:'100g',cat:'fruit'},{n:'柠檬',c:37,u:'1个(100g)',cat:'fruit'},
+  {n:'橘子',c:47,u:'1个(100g)',cat:'fruit'},{n:'柿子',c:74,u:'1个(100g)',cat:'fruit'},{n:'石榴',c:72,u:'100g',cat:'fruit'},
+  {n:'山竹',c:73,u:'100g',cat:'fruit'},{n:'百香果',c:66,u:'1个(50g)',cat:'fruit'},{n:'无花果',c:65,u:'100g',cat:'fruit'},
+  {n:'枣',c:122,u:'100g',cat:'fruit'},{n:'椰子',c:354,u:'100g',cat:'fruit'},{n:'牛油果',c:171,u:'1个(150g)',cat:'fruit'},
+  // 饮品 drink
+  {n:'牛奶',c:54,u:'100ml',cat:'drink'},{n:'脱脂牛奶',c:35,u:'100ml',cat:'drink'},{n:'酸奶',c:72,u:'100ml',cat:'drink'},
+  {n:'豆浆',c:31,u:'100ml',cat:'drink'},{n:'黑咖啡',c:2,u:'1杯(240ml)',cat:'drink'},{n:'拿铁',c:136,u:'1杯(350ml)',cat:'drink'},
+  {n:'美式咖啡',c:15,u:'1杯(350ml)',cat:'drink'},{n:'卡布奇诺',c:88,u:'1杯(240ml)',cat:'drink'},{n:'摩卡',c:200,u:'1杯(350ml)',cat:'drink'},
+  {n:'奶茶',c:280,u:'1杯(500ml)',cat:'drink'},{n:'珍珠奶茶',c:350,u:'1杯(500ml)',cat:'drink'},{n:'果茶',c:150,u:'1杯(500ml)',cat:'drink'},
+  {n:'柠檬水',c:15,u:'1杯(500ml)',cat:'drink'},{n:'蜂蜜水',c:80,u:'1杯(300ml)',cat:'drink'},{n:'橙汁',c:112,u:'1杯(250ml)',cat:'drink'},
+  {n:'苹果汁',c:117,u:'1杯(250ml)',cat:'drink'},{n:'西瓜汁',c:58,u:'1杯(250ml)',cat:'drink'},{n:'可乐',c:180,u:'1罐(330ml)',cat:'drink'},
+  {n:'雪碧',c:170,u:'1罐(330ml)',cat:'drink'},{n:'芬达',c:175,u:'1罐(330ml)',cat:'drink'},{n:'运动饮料',c:97,u:'1瓶(500ml)',cat:'drink'},
+  {n:'红牛',c:120,u:'1罐(250ml)',cat:'drink'},{n:'啤酒',c:153,u:'1罐(500ml)',cat:'drink'},{n:'红酒',c:125,u:'1杯(150ml)',cat:'drink'},
+  {n:'白酒',c:350,u:'1两(50ml)',cat:'drink'},{n:'威士忌',c:250,u:'1杯(45ml)',cat:'drink'},{n:'绿茶',c:1,u:'1杯(350ml)',cat:'drink'},
+  {n:'红茶',c:2,u:'1杯(350ml)',cat:'drink'},{n:'乌龙茶',c:2,u:'1杯(350ml)',cat:'drink'},{n:'豆奶',c:45,u:'100ml',cat:'drink'},
+  {n:'椰汁',c:51,u:'100ml',cat:'drink'},{n:'养乐多',c:70,u:'1瓶(100ml)',cat:'drink'},{n:'气泡水',c:0,u:'1瓶(500ml)',cat:'drink'},
+  // 快餐 fastfood
+  {n:'汉堡',c:295,u:'1个',cat:'fastfood'},{n:'巨无霸',c:550,u:'1个',cat:'fastfood'},{n:'鸡肉卷',c:320,u:'1个',cat:'fastfood'},
+  {n:'披萨',c:266,u:'1片',cat:'fastfood'},{n:'三明治',c:350,u:'1个',cat:'fastfood'},{n:'热狗',c:290,u:'1个',cat:'fastfood'},
+  {n:'寿司',c:150,u:'6个',cat:'fastfood'},{n:'刺身',c:140,u:'1份(80g)',cat:'fastfood'},{n:'天妇罗',c:220,u:'1份',cat:'fastfood'},
+  {n:'炸鸡',c:246,u:'2块(100g)',cat:'fastfood'},{n:'炸鸡腿',c:260,u:'1个(150g)',cat:'fastfood'},{n:'炸鸡翅',c:280,u:'3个',cat:'fastfood'},
+  {n:'薯条',c:312,u:'1份(中)',cat:'fastfood'},{n:'薯片',c:547,u:'1包(50g)',cat:'fastfood'},{n:'洋葱圈',c:411,u:'1份',cat:'fastfood'},
+  {n:'鸡块',c:240,u:'6块',cat:'fastfood'},{n:'塔可',c:170,u:'1个',cat:'fastfood'},{n:'卷饼',c:300,u:'1个',cat:'fastfood'},
+  {n:'关东煮',c:180,u:'1份',cat:'fastfood'},{n:'章鱼小丸子',c:210,u:'6个',cat:'fastfood'},{n:'烤肠',c:280,u:'1根',cat:'fastfood'},
+  {n:'肉夹馍',c:360,u:'1个',cat:'fastfood'},{n:'煎饼果子',c:350,u:'1个',cat:'fastfood'},{n:'手抓饼',c:320,u:'1个',cat:'fastfood'},
+  // 中餐 chinese
+  {n:'火锅',c:800,u:'1顿',cat:'chinese'},{n:'麻辣烫',c:500,u:'1碗',cat:'chinese'},{n:'冒菜',c:450,u:'1份',cat:'chinese'},
+  {n:'麻辣香锅',c:480,u:'1份',cat:'chinese'},{n:'串串香',c:400,u:'1顿',cat:'chinese'},{n:'烧烤',c:500,u:'1顿',cat:'chinese'},
+  {n:'烤鱼',c:350,u:'1条',cat:'chinese'},{n:'酸菜鱼',c:240,u:'1份',cat:'chinese'},{n:'水煮肉片',c:320,u:'1份',cat:'chinese'},
+  {n:'宫保鸡丁',c:260,u:'1份',cat:'chinese'},{n:'鱼香肉丝',c:230,u:'1份',cat:'chinese'},{n:'麻婆豆腐',c:180,u:'1份',cat:'chinese'},
+  {n:'回锅肉',c:340,u:'1份',cat:'chinese'},{n:'红烧肉',c:510,u:'1份',cat:'chinese'},{n:'梅菜扣肉',c:420,u:'1份',cat:'chinese'},
+  {n:'干锅',c:380,u:'1份',cat:'chinese'},{n:'铁板烧',c:350,u:'1份',cat:'chinese'},{n:'炒菜',c:300,u:'1份',cat:'chinese'},
+  {n:'番茄炒蛋',c:160,u:'1份',cat:'chinese'},{n:'青椒肉丝',c:220,u:'1份',cat:'chinese'},{n:'土豆丝',c:120,u:'1份',cat:'chinese'},
+  {n:'红烧茄子',c:180,u:'1份',cat:'chinese'},{n:'干煸四季豆',c:150,u:'1份',cat:'chinese'},{n:'蒜蓉粉丝蒸虾',c:220,u:'1份',cat:'chinese'},
+  {n:'糖醋里脊',c:320,u:'1份',cat:'chinese'},{n:'锅包肉',c:340,u:'1份',cat:'chinese'},{n:'地三鲜',c:180,u:'1份',cat:'chinese'},
+  {n:'大盘鸡',c:350,u:'1份',cat:'chinese'},{n:'兰州拉面',c:320,u:'1碗',cat:'chinese'},{n:'重庆小面',c:280,u:'1碗',cat:'chinese'},
+  // 零食 snack
+  {n:'坚果',c:600,u:'100g',cat:'snack'},{n:'核桃',c:654,u:'100g',cat:'snack'},{n:'杏仁',c:578,u:'100g',cat:'snack'},
+  {n:'腰果',c:553,u:'100g',cat:'snack'},{n:'花生',c:567,u:'100g',cat:'snack'},{n:'瓜子',c:606,u:'100g',cat:'snack'},
+  {n:'黑巧克力',c:546,u:'100g',cat:'snack'},{n:'牛奶巧克力',c:535,u:'100g',cat:'snack'},{n:'白巧克力',c:539,u:'100g',cat:'snack'},
+  {n:'全麦饼干',c:350,u:'100g',cat:'snack'},{n:'苏打饼干',c:421,u:'100g',cat:'snack'},{n:'曲奇',c:500,u:'100g',cat:'snack'},
+  {n:'薯片',c:547,u:'100g',cat:'snack'},{n:'虾条',c:480,u:'100g',cat:'snack'},{n:'爆米花',c:387,u:'100g',cat:'snack'},
+  {n:'果冻',c:60,u:'1个(100g)',cat:'snack'},{n:'布丁',c:110,u:'1杯(100g)',cat:'snack'},{n:'海苔',c:177,u:'1包(5g)',cat:'snack'},
+  {n:'辣条',c:350,u:'1包(50g)',cat:'snack'},{n:'肉松',c:396,u:'100g',cat:'snack'},{n:'牛肉干',c:410,u:'100g',cat:'snack'},
+  {n:'猪肉脯',c:430,u:'100g',cat:'snack'},{n:'话梅',c:250,u:'100g',cat:'snack'},{n:'蜜饯',c:320,u:'100g',cat:'snack'},
+  {n:'葡萄干',c:299,u:'100g',cat:'snack'},{n:'红枣',c:274,u:'100g',cat:'snack'},{n:'能量棒',c:360,u:'1根(60g)',cat:'snack'},
+  {n:'蛋黄派',c:420,u:'1个(30g)',cat:'snack'},{n:'威化饼',c:530,u:'100g',cat:'snack'},{n:'方便面',c:472,u:'1包(100g)',cat:'snack'},
+  // 汤粥 soup
+  {n:'排骨汤',c:280,u:'1碗',cat:'soup'},{n:'鸡汤',c:200,u:'1碗',cat:'soup'},{n:'鱼汤',c:180,u:'1碗',cat:'soup'},
+  {n:'紫菜蛋花汤',c:60,u:'1碗',cat:'soup'},{n:'番茄蛋汤',c:70,u:'1碗',cat:'soup'},{n:'酸辣汤',c:120,u:'1碗',cat:'soup'},
+  {n:'菌菇汤',c:45,u:'1碗',cat:'soup'},{n:'银耳汤',c:85,u:'1碗',cat:'soup'},{n:'绿豆汤',c:75,u:'1碗',cat:'soup'},
+  {n:'红豆汤',c:95,u:'1碗',cat:'soup'},{n:'白粥',c:46,u:'1碗',cat:'soup'},{n:'小米粥',c:46,u:'1碗',cat:'soup'},
+  {n:'杂粮粥',c:60,u:'1碗',cat:'soup'},{n:'皮蛋瘦肉粥',c:175,u:'1碗',cat:'soup'},{n:'海鲜粥',c:160,u:'1碗',cat:'soup'},
+  {n:'南瓜粥',c:55,u:'1碗',cat:'soup'},{n:'红枣银耳羹',c:90,u:'1碗',cat:'soup'},{n:'冬瓜排骨汤',c:180,u:'1碗',cat:'soup'},
+  // 早餐 breakfast
+  {n:'鸡蛋饼',c:220,u:'1个',cat:'breakfast'},{n:'手抓饼',c:320,u:'1个',cat:'breakfast'},{n:'生煎包',c:260,u:'4个',cat:'breakfast'},
+  {n:'小笼包',c:230,u:'6个',cat:'breakfast'},{n:'油条',c:386,u:'1根(60g)',cat:'breakfast'},{n:'烧饼',c:326,u:'1个(80g)',cat:'breakfast'},
+  {n:'葱油饼',c:320,u:'1份',cat:'breakfast'},{n:'煎饼',c:350,u:'1个',cat:'breakfast'},{n:'肠粉',c:180,u:'1份',cat:'breakfast'},
+  {n:'豆浆油条',c:420,u:'1套',cat:'breakfast'},{n:'茶叶蛋',c:75,u:'1个',cat:'breakfast'},{n:'包子',c:227,u:'1个(100g)',cat:'breakfast'},
+  {n:'肉包',c:230,u:'1个(100g)',cat:'breakfast'},{n:'菜包',c:180,u:'1个(100g)',cat:'breakfast'},{n:'豆沙包',c:220,u:'1个(100g)',cat:'breakfast'},
+  {n:'花卷',c:217,u:'1个(100g)',cat:'breakfast'},{n:'馒头',c:223,u:'1个(100g)',cat:'breakfast'},{n:'白粥',c:46,u:'1碗',cat:'breakfast'},
+  {n:'小米粥',c:46,u:'1碗',cat:'breakfast'},{n:'燕麦片',c:367,u:'1碗(40g)',cat:'breakfast'},{n:'玉米',c:86,u:'1根(200g)',cat:'breakfast'},
+  {n:'红薯',c:99,u:'100g',cat:'breakfast'},{n:'吐司',c:280,u:'2片(70g)',cat:'breakfast'},{n:'三明治',c:350,u:'1个',cat:'breakfast'},
+  // 甜点 dessert
+  {n:'蛋糕',c:348,u:'1块(100g)',cat:'dessert'},{n:'芝士蛋糕',c:386,u:'1块(100g)',cat:'dessert'},{n:'提拉米苏',c:350,u:'1块(100g)',cat:'dessert'},
+  {n:'冰淇淋',c:207,u:'1球(80g)',cat:'dessert'},{n:'雪糕',c:230,u:'1根(80g)',cat:'dessert'},{n:'马卡龙',c:460,u:'2个(20g)',cat:'dessert'},
+  {n:'蛋挞',c:310,u:'1个(50g)',cat:'dessert'},{n:'泡芙',c:320,u:'1个(40g)',cat:'dessert'},{n:'铜锣烧',c:340,u:'1个(60g)',cat:'dessert'},
+  {n:'麻薯',c:250,u:'1个(40g)',cat:'dessert'},{n:'汤圆',c:260,u:'6个',cat:'dessert'},{n:'月饼',c:420,u:'1个(100g)',cat:'dessert'},
+  {n:'麻花',c:527,u:'100g',cat:'dessert'},{n:'驴打滚',c:320,u:'100g',cat:'dessert'},{n:'桂花糕',c:280,u:'100g',cat:'dessert'},
+  {n:'葡式蛋挞',c:320,u:'1个(50g)',cat:'dessert'},{n:'千层蛋糕',c:370,u:'1块(100g)',cat:'dessert'},{n:'慕斯蛋糕',c:330,u:'1块(100g)',cat:'dessert'},
+  {n:'糖水',c:110,u:'1碗',cat:'dessert'},{n:'红豆沙',c:160,u:'1碗',cat:'dessert'},{n:'芝麻糊',c:250,u:'1碗',cat:'dessert'}
 ];
 const EXERCISE_DB = [
   {n:'慢跑',met:7.0,icon:'🏃'},{n:'快走',met:4.3,icon:'🚶'},{n:'跳绳',met:12.3,icon:'🤸'},
@@ -1946,8 +2102,12 @@ function renderCalorieTracker(tdee, cs) {
             </div>
             <div class="form-group"><label>热量(kcal)</label><input type="number" id="foodCal_${m.key}" placeholder="0" style="width:70px"></div>
             <div class="form-group">
-              <label>拍照识别</label>
-              <label class="photo-upload-btn">📷 拍照<input type="file" accept="image/*" capture="environment" style="display:none" onchange="handleFoodPhoto(this,'${m.key}')"></label>
+              <label>拍照/识别</label>
+              <div class="photo-source-row">
+                <label class="photo-source-btn">📷<input type="file" accept="image/*" capture="environment" style="display:none" onchange="handleFoodPhoto(this,'${m.key}','camera')"></label>
+                <label class="photo-source-btn">🖼️<input type="file" accept="image/*" style="display:none" onchange="handleFoodPhoto(this,'${m.key}','album')"></label>
+                <span class="photo-source-btn" onclick="openFoodRecognitionModal('${m.key}','','browse')">📋</span>
+              </div>
             </div>
             <button class="btn btn-primary" onclick="addFoodItem('${m.key}')">➕</button>
           </div>
@@ -2000,15 +2160,16 @@ function renderCalorieTracker(tdee, cs) {
 function showFoodSuggestions(meal, query) {
   const box = $(`#foodSug_${meal}`);
   if (!query || query.length < 1) { box.innerHTML=''; return; }
-  const matches = FOOD_DB.filter(f => f.n.includes(query)).slice(0,5);
-  if (matches.length === 0) { box.innerHTML='<span style="font-size:10px;color:var(--text-light)">未找到，请手动输入热量</span>'; return; }
-  box.innerHTML = matches.map(f => `<span class="food-suggestion" onclick="selectFood('${meal}','${f.n}',${f.c},'${f.u}')">${f.n} ${f.c}kcal</span>`).join('');
+  const matches = FOOD_DB.filter(f => f.n.includes(query)).slice(0,8);
+  if (matches.length === 0) { box.innerHTML='<span style="font-size:10px;color:var(--text-light)">未找到，请手动输入热量或点📋浏览</span>'; return; }
+  box.innerHTML = matches.map(f => `<span class="food-suggestion" onclick="selectFood('${meal}','${f.n.replace(/'/g,"\\'")}',${f.c},'${f.u.replace(/'/g,"\\'")}')">${f.n} ${f.c}kcal</span>`).join('');
 }
 
 function selectFood(meal, name, cal, unit) {
   $(`#foodName_${meal}`).value = name;
   $(`#foodCal_${meal}`).value = cal;
   $(`#foodSug_${meal}`).innerHTML = '';
+  if (unit) $(`#foodName_${meal}`).dataset.unit = unit;
 }
 
 function addFoodItem(meal) {
@@ -2017,8 +2178,8 @@ function addFoodItem(meal) {
   if (!name || isNaN(cal) || cal <= 0) { showToast('请填写食物名称和热量'); return; }
   const trackerDate = $('#calTrackerDate').value;
   const log = getCalorieLog(trackerDate);
-  const photo = $(`#foodPhoto_${meal}`) ? $(`#foodPhoto_${meal}`).value : '';
-  log.meals[meal].push({ id: uid(), name, cal, portion: '', photo: photo || '' });
+  const portion = $(`#foodName_${meal}`).dataset.unit || '';
+  log.meals[meal].push({ id: uid(), name, cal, portion, photo: '' });
   saveData(); renderWeightData(); showToast('食物已添加');
 }
 
@@ -2029,33 +2190,137 @@ function deleteFoodItem(meal, id) {
   saveData(); renderWeightData();
 }
 
-function handleFoodPhoto(input, meal) {
+function handleFoodPhoto(input, meal, source) {
   const file = input.files[0];
   if (!file) return;
+  input.value = '';
   const reader = new FileReader();
   reader.onload = function(e) {
     const img = new Image();
     img.onload = function() {
       const canvas = document.createElement('canvas');
-      const maxW = 200;
+      const maxW = 300;
       const scale = Math.min(1, maxW / img.width);
       canvas.width = img.width * scale;
       canvas.height = img.height * scale;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      const thumb = canvas.toDataURL('image/jpeg', 0.6);
-      const log = getCalorieLog($('#calTrackerDate').value);
-      const foodName = $(`#foodName_${meal}`).value.trim() || '拍照食物';
-      const existingCal = parseInt($(`#foodCal_${meal}`).value) || 0;
-      const dbMatch = FOOD_DB.find(f => foodName.includes(f.n) || f.n.includes(foodName));
-      const cal = existingCal > 0 ? existingCal : (dbMatch ? dbMatch.c : 0);
-      log.meals[meal].push({ id: uid(), name: foodName, cal, portion: dbMatch ? dbMatch.u : '', photo: thumb });
-      saveData(); renderWeightData();
-      showToast(dbMatch ? `识别到${dbMatch.n} 约${dbMatch.c}kcal` : '照片已添加，请补充热量');
+      const thumb = canvas.toDataURL('image/jpeg', 0.7);
+      openFoodRecognitionModal(meal, thumb, source);
     };
     img.src = e.target.result;
   };
   reader.readAsDataURL(file);
+}
+
+let _foodModalState = { meal: '', photo: '', selectedFood: null, cat: 'all', query: '' };
+
+function openFoodRecognitionModal(meal, photo, source) {
+  _foodModalState = { meal, photo, selectedFood: null, cat: 'all', query: '' };
+  renderFoodModal();
+}
+
+function renderFoodModal() {
+  let overlay = document.getElementById('foodModalOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'foodModalOverlay';
+    overlay.className = 'food-modal-overlay';
+    document.body.appendChild(overlay);
+  }
+  const st = _foodModalState;
+  let results = [];
+  if (st.query) {
+    results = FOOD_DB.filter(f => f.n.includes(st.query)).slice(0, 20);
+  } else if (st.cat === 'all') {
+    results = FOOD_DB.slice(0, 20);
+  } else {
+    results = FOOD_DB.filter(f => f.cat === st.cat);
+  }
+
+  overlay.innerHTML = `
+    <div class="food-modal" onclick="event.stopPropagation()">
+      <div class="food-modal-header">
+        <h3>🔍 智能识别食物</h3>
+        <span class="food-modal-close" onclick="closeFoodModal()">✕</span>
+      </div>
+      ${st.photo ? `<img class="food-modal-photo" src="${st.photo}" alt="食物照片">` : ''}
+      <div style="font-size:11px;color:var(--text-light);margin-bottom:8px;text-align:center">👆 从下方选择或搜索你的食物，系统将自动匹配热量</div>
+      <input type="text" id="foodModalSearch" placeholder="输入食物名称搜索..." value="${st.query}" oninput="updateFoodModalQuery(this.value)" style="width:100%;margin-bottom:8px" autocomplete="off">
+      <div class="food-cat-tabs">
+        ${FOOD_CATS.map(c => `<span class="food-cat-tab ${st.cat===c.key?'active':''}" onclick="updateFoodModalCat('${c.key}')">${c.icon} ${c.label}</span>`).join('')}
+      </div>
+      <div class="food-search-results">
+        ${results.length === 0 ? '<div style="text-align:center;padding:20px;color:var(--text-light);font-size:12px">未找到匹配食物，请手动输入</div>' :
+          results.map(f => `
+            <div class="food-result-item ${st.selectedFood && st.selectedFood.n===f.n?'selected':''}" onclick="selectModalFood('${f.n.replace(/'/g,"\\'")}',${f.c},'${f.u.replace(/'/g,"\\'")}')">
+              <span class="fr-name">${f.n}</span>
+              <span class="fr-unit">${f.u}</span>
+              <span class="fr-cal">${f.c} kcal</span>
+            </div>
+          `).join('')
+        }
+      </div>
+      <div class="food-modal-manual">
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:6px">手动输入（选填）</div>
+        <div class="form-row">
+          <div class="form-group"><label>食物名称</label><input type="text" id="foodModalName" placeholder="食物名称" value="${st.selectedFood?st.selectedFood.n:''}"></div>
+          <div class="form-group" style="max-width:90px"><label>热量(kcal)</label><input type="number" id="foodModalCal" placeholder="0" value="${st.selectedFood?st.selectedFood.c:''}"></div>
+        </div>
+        <div class="form-group" style="margin-top:4px"><label>份量</label><input type="text" id="foodModalUnit" placeholder="如 1碗(200g)" value="${st.selectedFood?st.selectedFood.u:''}"></div>
+      </div>
+      <div class="food-modal-actions">
+        <button class="btn" onclick="closeFoodModal()" style="background:var(--bg);color:var(--text)">取消</button>
+        <button class="btn btn-primary" onclick="confirmFoodModal()">✅ 确认添加</button>
+      </div>
+    </div>
+  `;
+  overlay.onclick = function(e) { if (e.target === overlay) closeFoodModal(); };
+}
+
+function updateFoodModalQuery(val) {
+  _foodModalState.query = val;
+  _foodModalState.cat = 'all';
+  renderFoodModal();
+  const inp = document.getElementById('foodModalSearch');
+  if (inp) { inp.focus(); inp.setSelectionRange(val.length, val.length); }
+}
+
+function updateFoodModalCat(cat) {
+  _foodModalState.cat = cat;
+  _foodModalState.query = '';
+  renderFoodModal();
+}
+
+function selectModalFood(name, cal, unit) {
+  _foodModalState.selectedFood = { n: name, c: cal, u: unit };
+  const nameInp = document.getElementById('foodModalName');
+  const calInp = document.getElementById('foodModalCal');
+  const unitInp = document.getElementById('foodModalUnit');
+  if (nameInp) nameInp.value = name;
+  if (calInp) calInp.value = cal;
+  if (unitInp) unitInp.value = unit;
+  document.querySelectorAll('.food-result-item').forEach(el => el.classList.remove('selected'));
+}
+
+function confirmFoodModal() {
+  const name = document.getElementById('foodModalName').value.trim();
+  const cal = parseInt(document.getElementById('foodModalCal').value);
+  const unit = document.getElementById('foodModalUnit').value.trim();
+  if (!name) { showToast('请输入食物名称'); return; }
+  if (isNaN(cal) || cal <= 0) { showToast('请输入有效热量'); return; }
+  const trackerDate = $('#calTrackerDate').value;
+  const log = getCalorieLog(trackerDate);
+  log.meals[_foodModalState.meal].push({ id: uid(), name, cal, portion: unit, photo: _foodModalState.photo });
+  saveData(); renderWeightData();
+  closeFoodModal();
+  showToast(`已添加: ${name} ${cal}kcal`);
+}
+
+function closeFoodModal() {
+  const overlay = document.getElementById('foodModalOverlay');
+  if (overlay) overlay.remove();
+  _foodModalState = { meal: '', photo: '', selectedFood: null, cat: 'all', query: '' };
 }
 
 function addExerciseLog() {
