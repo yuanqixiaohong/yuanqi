@@ -399,6 +399,53 @@ input[type="date"] { width: 125px; }
 .recipe-card .recipe-title { font-weight: 600; font-size: 12px; margin-bottom: 5px; }
 .recipe-card .recipe-content { font-size: 10px; color: var(--text-light); line-height: 1.6; }
 
+/* Calorie Tracker */
+.cal-tracker-summary { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 12px; }
+.cal-summary-card { border-radius: var(--radius-sm); padding: 10px 12px; text-align: center; border: 1px solid; }
+.cal-summary-card .cs-num { font-size: 20px; font-weight: 800; line-height: 1.2; }
+.cal-summary-card .cs-label { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+.cal-summary-card.intake { background: linear-gradient(135deg,#fff8f0,#fcecd8); border-color: #f0d8b8; }
+.cal-summary-card.intake .cs-num { color: var(--accent-orange); }
+.cal-summary-card.burn { background: linear-gradient(135deg,#f0fff5,#e8fce8); border-color: #c8e6d0; }
+.cal-summary-card.burn .cs-num { color: var(--accent-green); }
+.cal-summary-card.deficit { background: linear-gradient(135deg,#fdf5f5,#f8ece8); border-color: #ecd0d0; }
+.cal-summary-card.deficit .cs-num { color: var(--primary); }
+.deficit-bar { height: 8px; border-radius: 4px; background: var(--progress-bg); overflow: hidden; margin: 6px 0 10px; }
+.deficit-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.meal-section { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px; margin-bottom: 8px; background: #fffafa; }
+.meal-header { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.meal-header .meal-icon { font-size: 16px; }
+.meal-header .meal-title { font-weight: 700; font-size: 12px; color: var(--text); flex: 1; }
+.meal-header .meal-cal { font-size: 12px; font-weight: 700; color: var(--accent-orange); }
+.meal-add-row { display: flex; gap: 6px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 6px; }
+.meal-add-row input[type="text"] { flex: 1; min-width: 80px; }
+.meal-add-row input[type="number"] { width: 70px; }
+.food-item { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 6px; background: white; border: 1px solid var(--border); margin-bottom: 4px; font-size: 11px; }
+.food-item .food-photo { width: 28px; height: 28px; border-radius: 5px; object-fit: cover; flex-shrink: 0; }
+.food-item .food-photo-placeholder { width: 28px; height: 28px; border-radius: 5px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.food-item .food-name { flex: 1; font-weight: 500; color: var(--text); }
+.food-item .food-cal { font-weight: 700; color: var(--accent-orange); white-space: nowrap; }
+.food-item .food-del { color: var(--text-light); cursor: pointer; font-size: 13px; padding: 0 2px; }
+.food-item .food-del:hover { color: var(--primary); }
+.food-suggestions { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.food-suggestion { padding: 3px 8px; border-radius: 10px; font-size: 10px; background: var(--bg); border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; color: var(--text); }
+.food-suggestion:hover { border-color: var(--primary); color: var(--primary); }
+.exercise-item { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 6px; background: #f8fff8; border: 1px solid #d4f0d4; margin-bottom: 4px; font-size: 11px; }
+.exercise-item .ex-icon { font-size: 16px; }
+.exercise-item .ex-name { flex: 1; font-weight: 500; color: var(--text); }
+.exercise-item .ex-detail { font-size: 10px; color: var(--text-light); }
+.exercise-item .ex-cal { font-weight: 700; color: var(--accent-green); white-space: nowrap; }
+.exercise-item .ex-del { color: var(--text-light); cursor: pointer; font-size: 13px; padding: 0 2px; }
+.exercise-item .ex-del:hover { color: var(--primary); }
+.suggestion-box { border-radius: var(--radius-sm); padding: 12px; margin-top: 10px; border: 1px solid; font-size: 11px; line-height: 1.7; }
+.suggestion-box.good { background: linear-gradient(135deg,#f0fff5,#e8fce8); border-color: #c8e6d0; }
+.suggestion-box.warn { background: linear-gradient(135deg,#fff8f0,#fcecd8); border-color: #f0d8b8; }
+.suggestion-box.alert { background: linear-gradient(135deg,#fdf5f5,#f8ece8); border-color: #ecd0d0; }
+.suggestion-box .sug-title { font-weight: 700; font-size: 12px; margin-bottom: 4px; }
+.photo-upload-btn { display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; background: var(--bg); border: 1px dashed var(--primary); color: var(--primary); cursor: pointer; transition: all 0.2s; }
+.photo-upload-btn:hover { background: var(--primary); color: white; }
+.photo-preview { width: 100%; max-height: 80px; object-fit: cover; border-radius: 6px; margin-top: 4px; }
+
 /* Upcoming */
 .upcoming-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
 .upcoming-item { background: #fffafa; border-radius: var(--radius-sm); padding: 10px; text-align: center; border: 1px solid var(--border); }
@@ -1530,7 +1577,7 @@ function loadData() {
     return d;
   }
   return {
-    expenses: [], weightLogs: [], giftRecords: [],
+    expenses: [], weightLogs: [], giftRecords: [], calorieLogs: [],
     petExpenses: [],
     goldHoldings: { goldPhysical: 0, silverTd: 0, accumulateGold: 0, ruyiGold: 0, goldPrice: 0, silverPrice: 0 },
     goldRecords: [],
@@ -1729,6 +1776,7 @@ function renderWeightData() {
         <div class="calorie-tip">💡 建议每日摄入 ${def500}~${def750} kcal，预计每周减重 0.5~0.75 kg</div>
       </div>
     </div>
+    ${renderCalorieTracker(tdee, cs)}
     <div class="card">
       <div class="card-header"><span class="card-icon">🍽️</span><h2>科学食谱参考</h2></div>
       <div class="recipe-grid">
@@ -1805,6 +1853,295 @@ function toggleCalorieSettings(){const el=$('#calorieSettings');el.classList.tog
 function saveCalorieSettings(){data.calorieSettings={height:parseFloat($('#csHeight').value)||165,currentWeight:parseFloat($('#csWeight').value)||60,targetWeight:parseFloat($('#csTarget').value)||55,age:parseInt($('#csAge').value)||25,gender:$('#csGender').value,activityLevel:$('#csActivity').value};saveData();renderWeightData();showToast('设置已保存');}
 function addWeightLog(){const date=$('#wtDate').value,morning=parseFloat($('#wtMorning').value),ev=$('#wtEvening').value,evening=ev?parseFloat(ev):null,note=$('#wtNote').value.trim();if(!date||isNaN(morning)||morning<=0){showToast('请至少填写日期和晨重');return;}data.weightLogs.push({id:uid(),date,morningWeight:morning,eveningWeight:evening,note});saveData();renderWeightData();showToast('体重记录成功！');}
 function deleteWeightLog(id){data.weightLogs=data.weightLogs.filter(l=>l.id!==id);saveData();renderWeightData();showToast('已删除');}
+
+// ============ CALORIE TRACKER (每日热量记录) ============
+const FOOD_DB = [
+  {n:'米饭',c:116,u:'1碗(100g)'},{n:'杂粮饭',c:132,u:'1碗(100g)'},{n:'馒头',c:223,u:'1个(100g)'},{n:'面条',c:137,u:'1碗(100g)'},
+  {n:'全麦面包',c:247,u:'2片(70g)'},{n:'红薯',c:99,u:'100g'},{n:'紫薯',c:82,u:'100g'},{n:'燕麦',c:367,u:'100g'},
+  {n:'玉米',c:86,u:'1根(200g)'},{n:'包子',c:227,u:'1个(100g)'},{n:'饺子',c:240,u:'10个'},{n:'炒饭',c:188,u:'1碗(200g)'},
+  {n:'鸡胸肉',c:133,u:'100g'},{n:'鸡蛋',c:78,u:'1个(50g)'},{n:'水煮蛋',c:78,u:'1个(50g)'},{n:'牛肉',c:250,u:'100g'},
+  {n:'猪肉',c:395,u:'100g'},{n:'鱼肉',c:145,u:'100g'},{n:'虾',c:87,u:'100g'},{n:'豆腐',c:81,u:'100g'},
+  {n:'牛奶',c:54,u:'100ml'},{n:'脱脂牛奶',c:35,u:'100ml'},{n:'酸奶',c:72,u:'100ml'},{n:'豆浆',c:31,u:'100ml'},
+  {n:'西兰花',c:36,u:'100g'},{n:'菠菜',c:28,u:'100g'},{n:'白菜',c:20,u:'100g'},{n:'黄瓜',c:16,u:'100g'},
+  {n:'番茄',c:22,u:'100g'},{n:'生菜',c:16,u:'100g'},{n:'胡萝卜',c:41,u:'100g'},{n:'蘑菇',c:22,u:'100g'},
+  {n:'冬瓜',c:12,u:'100g'},{n:'芹菜',c:20,u:'100g'},{n:'菌菇汤',c:45,u:'1碗'},{n:'凉拌黄瓜',c:40,u:'1份'},
+  {n:'苹果',c:53,u:'1个(200g)'},{n:'香蕉',c:93,u:'1根(150g)'},{n:'橙子',c:48,u:'1个(200g)'},{n:'葡萄',c:44,u:'100g'},
+  {n:'西瓜',c:26,u:'100g'},{n:'草莓',c:32,u:'100g'},{n:'蓝莓',c:57,u:'100g'},{n:'猕猴桃',c:61,u:'1个(100g)'},
+  {n:'坚果',c:600,u:'100g'},{n:'黑巧克力',c:546,u:'100g'},{n:'全麦饼干',c:350,u:'100g'},{n:'橄榄油',c:884,u:'100g'},
+  {n:'鸡胸肉沙拉',c:280,u:'1份'},{n:'三明治',c:350,u:'1个'},{n:'寿司',c:150,u:'6个'},{n:'披萨',c:266,u:'1片'},
+  {n:'汉堡',c:295,u:'1个'},{n:'火锅',c:800,u:'1顿'},{n:'麻辣烫',c:500,u:'1碗'},{n:'炒菜',c:300,u:'1份'},
+  {n:'排骨汤',c:280,u:'1碗'},{n:'鸡汤',c:200,u:'1碗'},{n:'杂粮粥',c:60,u:'1碗'},{n:'小米粥',c:46,u:'1碗'},
+  {n:'鸡蛋饼',c:220,u:'1个'},{n:'手抓饼',c:320,u:'1个'},{n:'生煎包',c:260,u:'4个'},{n:'小笼包',c:230,u:'6个'}
+];
+const EXERCISE_DB = [
+  {n:'慢跑',met:7.0,icon:'🏃'},{n:'快走',met:4.3,icon:'🚶'},{n:'跳绳',met:12.3,icon:'🤸'},
+  {n:'游泳',met:8.0,icon:'🏊'},{n:'骑行',met:7.5,icon:'🚴'},{n:'跳操',met:6.0,icon:'💃'},
+  {n:'瑜伽',met:3.0,icon:'🧘'},{n:'力量训练',met:6.0,icon:'🏋️'},{n:'爬楼梯',met:8.8,icon:'🪜'},
+  {n:'篮球',met:8.0,icon:'🏀'},{n:'羽毛球',met:5.5,icon:'🏸'},{n:'卷腹',met:4.5,icon:'🔥'},
+  {n:'平板支撑',met:4.0,icon:'💪'},{n:'深蹲',met:5.0,icon:'🦵'},{n:'舞蹈',met:5.0,icon:'🕺'},
+  {n:'快跑',met:11.5,icon:'🏃‍♀️'},{n:'爬山',met:6.0,icon:'⛰️'},{n:'乒乓球',met:4.0,icon:'🏓'}
+];
+const MEAL_TYPES = [
+  {key:'breakfast',icon:'🥗',label:'早餐'},{key:'lunch',icon:'🍱',label:'午餐'},
+  {key:'dinner',icon:'🥘',label:'晚餐'},{key:'snack',icon:'🍎',label:'加餐'}
+];
+
+function getCalorieLog(date) {
+  if (!data.calorieLogs) data.calorieLogs = [];
+  let log = data.calorieLogs.find(l => l.date === date);
+  if (!log) {
+    log = { id: uid(), date, meals: { breakfast: [], lunch: [], dinner: [], snack: [] }, exercises: [] };
+    data.calorieLogs.push(log);
+    saveData();
+  }
+  if (!log.meals) log.meals = { breakfast: [], lunch: [], dinner: [], snack: [] };
+  if (!log.exercises) log.exercises = [];
+  return log;
+}
+
+function renderCalorieTracker(tdee, cs) {
+  const trackerDate = $('#calTrackerDate') ? $('#calTrackerDate').value : todayStr();
+  const log = getCalorieLog(trackerDate);
+  let totalIntake = 0, totalExercise = 0;
+  MEAL_TYPES.forEach(m => { totalIntake += (log.meals[m.key]||[]).reduce((s,f)=>s+(f.cal||0),0); });
+  totalExercise = log.exercises.reduce((s,e)=>s+(e.cal||0),0);
+  const totalBurn = tdee + totalExercise;
+  const deficit = totalBurn - totalIntake;
+  const weight = cs.currentWeight || 60;
+  const targetDeficit = tdee - (tdee - 500); // 500 as ideal
+  const deficitPct = Math.min(100, Math.max(0, (deficit / (tdee * 0.4)) * 100));
+
+  const sug = getCalorieSuggestion(deficit, tdee, totalIntake, log, cs);
+
+  return `
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">📊</span><h2>每日热量记录</h2>
+        <div style="margin-left:auto"><input type="date" id="calTrackerDate" value="${trackerDate}" onchange="renderWeightData()" style="font-size:11px;width:125px"></div>
+      </div>
+      <div class="cal-tracker-summary">
+        <div class="cal-summary-card intake"><div class="cs-num">${totalIntake}</div><div class="cs-label">🍽️ 摄入 (kcal)</div></div>
+        <div class="cal-summary-card burn"><div class="cs-num">${totalBurn}</div><div class="cs-label">🔥 消耗 (kcal)</div></div>
+        <div class="cal-summary-card deficit"><div class="cs-num" style="color:${deficit>=0?'var(--accent-green)':'var(--primary)'}">${deficit>=0?'+':''}${deficit}</div><div class="cs-label">⚡ 热量缺口 (kcal)</div></div>
+      </div>
+      <div class="deficit-bar"><div class="deficit-bar-fill" style="width:${deficitPct}%;background:${deficit>=0?'linear-gradient(90deg,var(--accent-green),var(--accent-orange))':'var(--primary)'}"></div></div>
+      <div style="font-size:10px;color:var(--text-light);text-align:center;margin-bottom:10px">
+        消耗 = TDEE(${tdee}) + 运动消耗(${totalExercise}) ｜ 缺口 = 消耗 - 摄入
+      </div>
+      ${MEAL_TYPES.map(m => {
+        const items = log.meals[m.key]||[];
+        const mealCal = items.reduce((s,f)=>s+(f.cal||0),0);
+        return `
+        <div class="meal-section">
+          <div class="meal-header">
+            <span class="meal-icon">${m.icon}</span>
+            <span class="meal-title">${m.label}</span>
+            <span class="meal-cal">${mealCal} kcal</span>
+          </div>
+          <div class="meal-add-row">
+            <div class="form-group" style="flex:1;min-width:80px">
+              <label>食物名称</label>
+              <input type="text" id="foodName_${m.key}" placeholder="输入或搜索食物" oninput="showFoodSuggestions('${m.key}',this.value)" autocomplete="off">
+              <div class="food-suggestions" id="foodSug_${m.key}"></div>
+            </div>
+            <div class="form-group"><label>热量(kcal)</label><input type="number" id="foodCal_${m.key}" placeholder="0" style="width:70px"></div>
+            <div class="form-group">
+              <label>拍照识别</label>
+              <label class="photo-upload-btn">📷 拍照<input type="file" accept="image/*" capture="environment" style="display:none" onchange="handleFoodPhoto(this,'${m.key}')"></label>
+            </div>
+            <button class="btn btn-primary" onclick="addFoodItem('${m.key}')">➕</button>
+          </div>
+          ${items.map(f=>`
+            <div class="food-item">
+              ${f.photo?`<img class="food-photo" src="${f.photo}" alt="">`:`<div class="food-photo-placeholder">${m.icon}</div>`}
+              <span class="food-name">${f.name}${f.portion?' · '+f.portion:''}</span>
+              <span class="food-cal">${f.cal} kcal</span>
+              <span class="food-del" onclick="deleteFoodItem('${m.key}','${f.id}')">🗑</span>
+            </div>
+          `).join('')}
+        </div>`;
+      }).join('')}
+      <div class="meal-section" style="background:#f8fff8;border-color:#d4f0d4">
+        <div class="meal-header">
+          <span class="meal-icon">🏃</span>
+          <span class="meal-title">运动消耗</span>
+          <span class="meal-cal" style="color:var(--accent-green)">${totalExercise} kcal</span>
+        </div>
+        <div class="meal-add-row">
+          <div class="form-group" style="flex:1;min-width:100px">
+            <label>运动类型</label>
+            <select id="exType" style="width:100%">
+              ${EXERCISE_DB.map((e,i)=>`<option value="${i}">${e.icon} ${e.n} (MET ${e.met})</option>`).join('')}
+            </select>
+          </div>
+          <div class="form-group"><label>时长(分钟)</label><input type="number" id="exDuration" placeholder="30" style="width:70px" value="30"></div>
+          <div class="form-group"><label>预计消耗</label><div style="font-size:14px;font-weight:700;color:var(--accent-green);padding:7px 0" id="exPreview">-- kcal</div></div>
+          <button class="btn btn-primary" onclick="addExerciseLog()">➕ 添加</button>
+        </div>
+        <div style="font-size:10px;color:var(--text-light);margin-bottom:6px">计算公式: MET × 体重(${weight}kg) × 时长(小时)</div>
+        ${log.exercises.map(e=>`
+          <div class="exercise-item">
+            <span class="ex-icon">${e.icon}</span>
+            <span class="ex-name">${e.name}</span>
+            <span class="ex-detail">${e.duration}分钟</span>
+            <span class="ex-cal">${e.cal} kcal</span>
+            <span class="ex-del" onclick="deleteExerciseLog('${e.id}')">🗑</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="suggestion-box ${sug.type}">
+        <div class="sug-title">${sug.icon} ${sug.title}</div>
+        <div>${sug.today}</div>
+        ${sug.tomorrow?`<div style="margin-top:6px;padding-top:6px;border-top:1px dashed rgba(0,0,0,0.1)"><strong>📅 明日建议：</strong>${sug.tomorrow}</div>`:''}
+      </div>
+    </div>`;
+}
+
+function showFoodSuggestions(meal, query) {
+  const box = $(`#foodSug_${meal}`);
+  if (!query || query.length < 1) { box.innerHTML=''; return; }
+  const matches = FOOD_DB.filter(f => f.n.includes(query)).slice(0,5);
+  if (matches.length === 0) { box.innerHTML='<span style="font-size:10px;color:var(--text-light)">未找到，请手动输入热量</span>'; return; }
+  box.innerHTML = matches.map(f => `<span class="food-suggestion" onclick="selectFood('${meal}','${f.n}',${f.c},'${f.u}')">${f.n} ${f.c}kcal</span>`).join('');
+}
+
+function selectFood(meal, name, cal, unit) {
+  $(`#foodName_${meal}`).value = name;
+  $(`#foodCal_${meal}`).value = cal;
+  $(`#foodSug_${meal}`).innerHTML = '';
+}
+
+function addFoodItem(meal) {
+  const name = $(`#foodName_${meal}`).value.trim();
+  const cal = parseInt($(`#foodCal_${meal}`).value);
+  if (!name || isNaN(cal) || cal <= 0) { showToast('请填写食物名称和热量'); return; }
+  const trackerDate = $('#calTrackerDate').value;
+  const log = getCalorieLog(trackerDate);
+  const photo = $(`#foodPhoto_${meal}`) ? $(`#foodPhoto_${meal}`).value : '';
+  log.meals[meal].push({ id: uid(), name, cal, portion: '', photo: photo || '' });
+  saveData(); renderWeightData(); showToast('食物已添加');
+}
+
+function deleteFoodItem(meal, id) {
+  const trackerDate = $('#calTrackerDate').value;
+  const log = getCalorieLog(trackerDate);
+  log.meals[meal] = log.meals[meal].filter(f => f.id !== id);
+  saveData(); renderWeightData();
+}
+
+function handleFoodPhoto(input, meal) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const maxW = 200;
+      const scale = Math.min(1, maxW / img.width);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const thumb = canvas.toDataURL('image/jpeg', 0.6);
+      const log = getCalorieLog($('#calTrackerDate').value);
+      const foodName = $(`#foodName_${meal}`).value.trim() || '拍照食物';
+      const existingCal = parseInt($(`#foodCal_${meal}`).value) || 0;
+      const dbMatch = FOOD_DB.find(f => foodName.includes(f.n) || f.n.includes(foodName));
+      const cal = existingCal > 0 ? existingCal : (dbMatch ? dbMatch.c : 0);
+      log.meals[meal].push({ id: uid(), name: foodName, cal, portion: dbMatch ? dbMatch.u : '', photo: thumb });
+      saveData(); renderWeightData();
+      showToast(dbMatch ? `识别到${dbMatch.n} 约${dbMatch.c}kcal` : '照片已添加，请补充热量');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function addExerciseLog() {
+  const exIdx = parseInt($('#exType').value);
+  const duration = parseInt($('#exDuration').value);
+  if (isNaN(duration) || duration <= 0) { showToast('请输入运动时长'); return; }
+  const ex = EXERCISE_DB[exIdx];
+  const cs = data.calorieSettings;
+  const weight = cs.currentWeight || 60;
+  const cal = Math.round(ex.met * weight * (duration / 60));
+  const trackerDate = $('#calTrackerDate').value;
+  const log = getCalorieLog(trackerDate);
+  log.exercises.push({ id: uid(), name: ex.n, icon: ex.icon, met: ex.met, duration, cal });
+  saveData(); renderWeightData(); showToast(`${ex.n} 已添加，消耗${cal}kcal`);
+}
+
+function deleteExerciseLog(id) {
+  const trackerDate = $('#calTrackerDate').value;
+  const log = getCalorieLog(trackerDate);
+  log.exercises = log.exercises.filter(e => e.id !== id);
+  saveData(); renderWeightData();
+}
+
+function getCalorieSuggestion(deficit, tdee, intake, log, cs) {
+  const exCal = log.exercises.reduce((s,e)=>s+e.cal,0);
+  const breakfast = (log.meals.breakfast||[]).reduce((s,f)=>s+f.cal,0);
+  const lunch = (log.meals.lunch||[]).reduce((s,f)=>s+f.cal,0);
+  const dinner = (log.meals.dinner||[]).reduce((s,f)=>s+f.cal,0);
+  const snack = (log.meals.snack||[]).reduce((s,f)=>s+f.cal,0);
+  const targetLow = tdee - 750, targetHigh = tdee - 300;
+
+  let type, icon, title, today, tomorrow = '';
+
+  if (deficit > 1000) {
+    type = 'alert'; icon = '⚠️'; title = '热量缺口过大！';
+    today = `今日缺口 <strong>${deficit} kcal</strong>，远超安全范围。长期如此可能导致肌肉流失、基础代谢下降、免疫力降低。`;
+    tomorrow = `明天建议增加 <strong>200-300 kcal</strong> 摄入（如加1个鸡蛋+1杯牛奶），运动量减少到30分钟以内。优先补充蛋白质和碳水。`;
+  } else if (deficit >= 750) {
+    type = 'warn'; icon = '⚡'; title = '缺口偏大，需注意营养均衡';
+    today = `今日缺口 <strong>${deficit} kcal</strong>，属于加速减重区间。效果明显但需保证蛋白质摄入，防止肌肉流失。`;
+    tomorrow = `明天建议维持摄入在 <strong>${tdee-600}~${tdee-400} kcal</strong>，补充优质蛋白（鸡胸肉/鱼/蛋），适量减少有氧运动。`;
+  } else if (deficit >= 500) {
+    type = 'good'; icon = '✅'; title = '理想减重缺口！';
+    today = `今日缺口 <strong>${deficit} kcal</strong>，完美的减脂节奏！按此速度预计每周减重 <strong>0.5-0.75 kg</strong>，可持续且健康。`;
+    if (exCal > 0) tomorrow = `明天保持今日运动量，饮食可微调：${breakfast<300?'早餐增加全麦面包':lunch>tdee*0.4?'午餐适当减量':'三餐比例合理'}。`;
+    else tomorrow = `明天建议增加 <strong>30分钟有氧运动</strong>（慢跑/跳绳），配合当前饮食节奏效果更佳。`;
+  } else if (deficit >= 300) {
+    type = 'good'; icon = '👍'; title = '温和减重缺口';
+    today = `今日缺口 <strong>${deficit} kcal</strong>，温和减重区间。适合长期坚持，体重会缓慢下降。`;
+    tomorrow = `明天可以${exCal<200?'增加20-30分钟有氧运动':intake>tdee?'减少100-200kcal摄入':'保持当前节奏'}，将缺口提升到500+ kcal加速减脂。`;
+  } else if (deficit >= 100) {
+    type = 'warn'; icon = '📊'; title = '缺口较小，减重速度偏慢';
+    today = `今日缺口仅 <strong>${deficit} kcal</strong>，体重下降会很缓慢。`;
+    tomorrow = `明天建议${intake>tdee*0.8?'<strong>减少150-250 kcal</strong>摄入（少1碗米饭或1个包子）':''}${exCal<150?'，增加<strong>30分钟跳绳或慢跑</strong>（约消耗200-300kcal）':''}。`;
+  } else if (deficit >= 0) {
+    type = 'warn'; icon = '😐'; title = '基本持平，需创造更大缺口';
+    today = `今日热量基本持平（缺口仅 ${deficit} kcal），体重将保持不变。`;
+    tomorrow = `明天需要创造 <strong>300-500 kcal</strong> 缺口：${dinner>tdee*0.35?'晚餐减量（少150kcal）':lunch>tdee*0.35?'午餐减量（少150kcal）':'控制加餐'} + 增加<strong>30分钟运动</strong>。`;
+  } else {
+    const over = Math.abs(deficit);
+    type = 'alert'; icon = '🚨'; title = '摄入超标！';
+    today = `今日摄入超出消耗 <strong>${over} kcal</strong>！${dinner>lunch&&dinner>breakfast?'晚餐摄入过多':lunch>breakfast?'午餐热量偏高':'全天饮食超标'}，需要调整。`;
+    const needMin = Math.ceil(over / 7.0 / (cs.currentWeight||60) * 60);
+    tomorrow = `明天需减少 <strong>${Math.min(over,500)} kcal</strong> 摄入，或增加 <strong>${needMin}分钟慢跑</strong>（约消耗${over}kcal）。建议晚餐以蔬菜+蛋白质为主，减少主食。`;
+  }
+
+  // 个性化饮食结构建议
+  if (breakfast > 0 && breakfast < 200) tomorrow += ' 早餐热量偏低，建议补充碳水+蛋白质（如全麦面包+鸡蛋+牛奶）。';
+  if (snack > 200) tomorrow += ` 加餐热量${snack}kcal偏高，明天建议用水果替代零食。`;
+  if (dinner > tdee * 0.35) tomorrow += ' 晚餐热量占比过高，建议明天晚餐控制在总摄入的30%以内。';
+
+  return { type, icon, title, today, tomorrow };
+}
+
+// 实时预览运动消耗
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'exDuration' || e.target.id === 'exType') {
+    const exIdx = parseInt($('#exType')?.value || 0);
+    const dur = parseInt($('#exDuration')?.value || 0);
+    const ex = EXERCISE_DB[exIdx];
+    const w = data.calorieSettings.currentWeight || 60;
+    const cal = dur > 0 ? Math.round(ex.met * w * (dur/60)) : 0;
+    const prev = $('#exPreview');
+    if (prev) prev.textContent = cal + ' kcal';
+  }
+});
 
 // ============ DAILY CHECK-IN ============
 function getTodayCheckin() {
