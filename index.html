@@ -1456,63 +1456,85 @@ input[type="date"] { width: 125px; }
       <div class="empty-state"><div class="empty-icon">💰</div><p>还没有收入记录~</p></div>
     </div></div>
     <div class="page" id="page-gold">
+    <div class="card" style="background:linear-gradient(135deg,#fffdf5,#fff8e8);border:1px solid #f0e0c0">
+      <div class="card-header">
+        <span class="card-icon">📊</span><h2>实时大盘价</h2>
+        <span style="margin-left:auto;font-size:11px;color:var(--text-light)">未获取</span>
+        <button class="btn btn-primary" style="margin-left:8px;padding:6px 14px;font-size:12px" onclick="fetchMetalPrices()">🔄 刷新</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+        <div style="background:#fff8f0;border-radius:12px;padding:16px;text-align:center;border:1px solid #f0e0c0">
+          <div style="font-size:13px;font-weight:600;color:#b8860b">🥇 黄金大盘价</div>
+          <div style="font-size:28px;font-weight:800;color:#d4a017;margin:6px 0">¥0.00<span style="font-size:13px;font-weight:400">/g</span></div>
+          <div style="font-size:11px;color:var(--text-light)">点击刷新获取实时价格</div>
+        </div>
+        <div style="background:#f0f4ff;border-radius:12px;padding:16px;text-align:center;border:1px solid #d0d8f0">
+          <div style="font-size:13px;font-weight:600;color:#4682b4">🥈 白银大盘价</div>
+          <div style="font-size:28px;font-weight:800;color:#5a8ac4;margin:6px 0">¥0.00<span style="font-size:13px;font-weight:400">/g</span></div>
+          <div style="font-size:11px;color:var(--text-light)">点击刷新获取实时价格</div>
+        </div>
+      </div>
+    </div>
     <div class="stats-row">
-      <div class="stat-card"><div class="stat-icon" style="background:#fff8f0">🥇</div><div class="stat-info"><div class="stat-value">0.00 g</div><div class="stat-label">黄金持仓</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#f0f4ff">🥈</div><div class="stat-info"><div class="stat-value">0.00 g</div><div class="stat-label">白银持仓</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#fff8f0">🥇</div><div class="stat-info"><div class="stat-value">0.00 g</div><div class="stat-label">黄金实物</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#f0f4ff">🥈</div><div class="stat-info"><div class="stat-value">0.00 g</div><div class="stat-label">白银实物</div></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#f0fff0">💰</div><div class="stat-info"><div class="stat-value">0.00 g</div><div class="stat-label">积存金</div></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#fff0f5">💎</div><div class="stat-info"><div class="stat-value">0.00 g</div><div class="stat-label">如意积存金</div></div></div>
     </div>
-
     <div class="card">
       <div class="card-header"><span class="card-icon">📊</span><h2>盈亏统计</h2></div>
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
         <div style="background:#f0fff0;border-radius:10px;padding:12px;text-align:center;border:1px solid #c8e6c9">
-          <div style="font-size:11px;color:var(--text-light)">黄金浮盈/亏</div>
-          <div style="font-size:20px;font-weight:700;color:var(--accent-green)">+¥0</div>
-          <div style="font-size:10px;color:var(--text-light)">均价 ¥0/g · 现价 ¥0/g</div>
+          <div style="font-size:11px;color:var(--text-light)">🥇 黄金浮盈/亏</div>
+          <div style="font-size:18px;font-weight:700;color:var(--accent-green)">+¥0</div>
+          <div style="font-size:10px;color:var(--text-light)">无持仓</div>
         </div>
         <div style="background:#f0fff0;border-radius:10px;padding:12px;text-align:center;border:1px solid #c8e6c9">
-          <div style="font-size:11px;color:var(--text-light)">白银浮盈/亏</div>
-          <div style="font-size:20px;font-weight:700;color:var(--accent-green)">+¥0</div>
-          <div style="font-size:10px;color:var(--text-light)">均价 ¥0/g · 现价 ¥0/g</div>
+          <div style="font-size:11px;color:var(--text-light)">🥈 白银浮盈/亏</div>
+          <div style="font-size:18px;font-weight:700;color:var(--accent-green)">+¥0</div>
+          <div style="font-size:10px;color:var(--text-light)">无持仓</div>
+        </div>
+        <div style="background:#f0fff0;border-radius:10px;padding:12px;text-align:center;border:1px solid #c8e6c9">
+          <div style="font-size:11px;color:var(--text-light)">💰 积存金浮盈/亏</div>
+          <div style="font-size:18px;font-weight:700;color:var(--accent-green)">+¥0</div>
+          <div style="font-size:10px;color:var(--text-light)">无持仓</div>
+        </div>
+        <div style="background:#f0fff0;border-radius:10px;padding:12px;text-align:center;border:1px solid #c8e6c9">
+          <div style="font-size:11px;color:var(--text-light)">💎 如意积存金浮盈/亏</div>
+          <div style="font-size:18px;font-weight:700;color:var(--accent-green)">+¥0</div>
+          <div style="font-size:10px;color:var(--text-light)">无持仓</div>
         </div>
       </div>
-      <div style="text-align:center;margin-top:12px;padding:10px;background:linear-gradient(135deg,#f0fff5,#e8f5e8);border-radius:10px;border:1px solid #c8e6c9">
+      <div style="text-align:center;margin-top:12px;padding:12px;background:linear-gradient(135deg,#f0fff5,#e8f5e8);border-radius:10px;border:1px solid #c8e6c9">
         <div style="font-size:11px;color:var(--text-light)">总浮盈/亏</div>
         <div style="font-size:28px;font-weight:800;color:var(--accent-green)">+¥0</div>
-        <div style="font-size:10px;color:var(--text-light)">总成本 ¥0 · 总市值 ¥0</div>
+        <div style="font-size:10px;color:var(--text-light)">总成本 ¥0 · 总市值 ¥0 · 总持仓 0.00g</div>
       </div>
     </div>
-
     <div class="card">
       <div class="card-header"><span class="card-icon">✏️</span><h2>记录交易</h2></div>
       <div class="form-row">
-        <div class="form-group"><label>日期</label><input type="date" id="grDate" value="2026-07-28"></div>
-        <div class="form-group"><label>类型</label><select id="grType"><option value="gold">🥇 黄金实物</option><option value="silver">🥈 白银实物</option></select></div>
+        <div class="form-group"><label>日期</label><input type="date" id="grDate"></div>
+        <div class="form-group"><label>类型</label><select id="grType"><option value="gold">🥇 黄金实物</option><option value="silver">🥈 白银实物</option><option value="accumulateGold">💰 积存金</option><option value="ruyiGold">💎 如意积存金</option></select></div>
         <div class="form-group"><label>方向</label><select id="grDir"><option value="buy">📥 买入</option><option value="sell">📤 卖出</option></select></div>
         <div class="form-group"><label>克数</label><input type="number" id="grGrams" placeholder="0.00" step="0.01" min="0"></div>
         <div class="form-group"><label>金额 ¥</label><input type="number" id="grAmount" placeholder="0" step="0.01" min="0"></div>
-        <div class="form-group"><label>备注</label><input type="text" id="grNote" placeholder="手镯/金条..." style="width:120px"></div>
+        <div class="form-group"><label>备注</label><input type="text" id="grNote" placeholder="手镯/金条/定投..." style="width:120px"></div>
         <button class="btn btn-primary" onclick="addGoldRecord()">➕ 添加</button>
       </div>
     </div>
-
     <div class="card">
       <div class="card-header"><span class="card-icon">📋</span><h2>交易明细</h2></div>
       <div class="empty-state"><div class="empty-icon">💎</div><p>还没有交易记录~</p></div>
     </div>
-
     <div class="card">
-      <div class="card-header"><span class="card-icon">⚙️</span><h2>当前价格设置</h2></div>
+      <div class="card-header"><span class="card-icon">⚙️</span><h2>价格设置</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">自动获取失败时可手动输入</span></div>
       <div class="form-row">
-        <div class="form-group"><label>当前金价 (元/g)</label><input type="number" id="goldPrice" value="0" step="0.01"></div>
-        <div class="form-group"><label>当前银价 (元/g)</label><input type="number" id="silverPrice" value="0" step="0.01"></div>
-        <div class="form-group"><label>积存金 (g)</label><input type="number" id="accumulateGold" value="0" step="0.01"></div>
-        <div class="form-group"><label>如意积存金 (g)</label><input type="number" id="ruyiGold" value="0" step="0.01"></div>
+        <div class="form-group"><label>金价 (元/g)</label><input type="number" id="goldPrice" value="0" step="0.01"></div>
+        <div class="form-group"><label>银价 (元/g)</label><input type="number" id="silverPrice" value="0" step="0.01"></div>
         <button class="btn btn-primary" onclick="saveGoldHoldings()">💾 保存</button>
       </div>
-    </div></div>
-    <div class="page" id="page-gift">
+    </div></div><div class="page" id="page-gift">
     <div class="stats-row">
       <div class="stat-card"><div class="stat-icon" style="background:#fff0f0">💝</div><div class="stat-info"><div class="stat-value" style="color:var(--primary)">¥0</div><div class="stat-label">累计送出</div></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:#f0fff0">🎁</div><div class="stat-info"><div class="stat-value" style="color:var(--accent-green)">¥0</div><div class="stat-label">累计收到</div></div></div>
@@ -1606,7 +1628,7 @@ function loadData() {
   return {
     expenses: [], weightLogs: [], giftRecords: [], calorieLogs: [],
     petExpenses: [],
-    goldHoldings: { goldPhysical: 0, silverTd: 0, accumulateGold: 0, ruyiGold: 0, goldPrice: 0, silverPrice: 0 },
+    goldHoldings: { goldPrice: 0, silverPrice: 0, goldUsdPrice: 0, silverUsdPrice: 0, usdCnyRate: 7.25, goldPriceSource: 'manual', lastPriceUpdate: null, prevGoldPrice: 0, prevSilverPrice: 0 },
     goldRecords: [],
     savingsPlan: { target: 50000, deadline: '' },
     incomeRecords: [],
@@ -2811,133 +2833,242 @@ function deleteIncome(id) {
 }
 
 // ============ PAGE 5: GOLD / PRECIOUS METALS ============
+
+// 资产类型配置
+const METAL_TYPES = [
+  { value: 'gold', label: '黄金实物', icon: '🥇', priceKey: 'goldPrice' },
+  { value: 'silver', label: '白银实物', icon: '🥈', priceKey: 'silverPrice' },
+  { value: 'accumulateGold', label: '积存金', icon: '💰', priceKey: 'goldPrice' },
+  { value: 'ruyiGold', label: '如意积存金', icon: '💎', priceKey: 'goldPrice' },
+];
+
+const GRAM_PER_OZ = 31.1035; // 1金衡盎司 = 31.1035克
+
+// 计算某类资产的统计
+function calcMetalStats(records, type, currentPrice) {
+  const typeRecords = records.filter(function(r) { return r.type === type; });
+  const bought = typeRecords.filter(function(r) { return r.direction === 'buy'; });
+  const sold = typeRecords.filter(function(r) { return r.direction === 'sell'; });
+  var totalBoughtGrams = bought.reduce(function(s, r) { return s + r.grams; }, 0);
+  var totalSoldGrams = sold.reduce(function(s, r) { return s + r.grams; }, 0);
+  var totalCost = bought.reduce(function(s, r) { return s + r.amount; }, 0);
+  var totalRevenue = sold.reduce(function(s, r) { return s + r.amount; }, 0);
+  var netGrams = totalBoughtGrams - totalSoldGrams;
+  var avgPrice = totalBoughtGrams > 0 ? totalCost / totalBoughtGrams : 0;
+  var marketValue = netGrams * currentPrice;
+  var profit = marketValue - (totalCost - totalRevenue);
+  var profitPct = (totalCost - totalRevenue) > 0 ? (profit / (totalCost - totalRevenue)) * 100 : 0;
+  return { netGrams: netGrams, avgPrice: avgPrice, marketValue: marketValue, profit: profit, profitPct: profitPct, totalCost: totalCost, totalRevenue: totalRevenue, count: typeRecords.length };
+}
+
+// 自动获取大盘价格
+async function fetchMetalPrices() {
+  try {
+    showToast('正在获取大盘价格...');
+    var results = await Promise.all([
+      fetch('https://api.gold-api.com/price/XAU').then(function(r) { return r.json(); }),
+      fetch('https://api.gold-api.com/price/XAG').then(function(r) { return r.json(); }),
+      fetch('https://api.exchangerate-api.com/v4/latest/USD').then(function(r) { return r.json(); })
+    ]);
+    var goldData = results[0];
+    var silverData = results[1];
+    var fxData = results[2];
+    var usdCny = (fxData.rates && fxData.rates.CNY) || 7.25;
+    var goldUsd = goldData.price;
+    var silverUsd = silverData.price;
+    var goldCny = goldUsd / GRAM_PER_OZ * usdCny;
+    var silverCny = silverUsd / GRAM_PER_OZ * usdCny;
+    var h = data.goldHoldings || {};
+    h.prevGoldPrice = h.goldPrice || 0;
+    h.prevSilverPrice = h.silverPrice || 0;
+    h.goldPrice = Math.round(goldCny * 100) / 100;
+    h.silverPrice = Math.round(silverCny * 100) / 100;
+    h.goldUsdPrice = goldUsd;
+    h.silverUsdPrice = silverUsd;
+    h.usdCnyRate = usdCny;
+    h.goldPriceSource = 'auto';
+    h.lastPriceUpdate = new Date().toISOString();
+    data.goldHoldings = h;
+    saveData();
+    renderGold();
+    showToast('大盘价格已更新！');
+  } catch (e) {
+    console.error('fetchMetalPrices error:', e);
+    showToast('获取大盘价格失败，请手动输入或稍后重试');
+  }
+}
+
 function renderGold() {
-  const h = data.goldHoldings || { goldPhysical: 0, silverTd: 0, accumulateGold: 0, ruyiGold: 0, goldPrice: 0, silverPrice: 0 };
-  const records = data.goldRecords || [];
+  var h = data.goldHoldings || { goldPrice: 0, silverPrice: 0 };
+  var records = data.goldRecords || [];
 
-  // Calculate from transaction records
-  const goldRecords = records.filter(r => r.type === 'gold');
-  const silverRecords = records.filter(r => r.type === 'silver');
+  // 计算4种资产统计
+  var goldStats = calcMetalStats(records, 'gold', h.goldPrice || 0);
+  var silverStats = calcMetalStats(records, 'silver', h.silverPrice || 0);
+  var accStats = calcMetalStats(records, 'accumulateGold', h.goldPrice || 0);
+  var ruyiStats = calcMetalStats(records, 'ruyiGold', h.goldPrice || 0);
 
-  const totalGoldBought = goldRecords.filter(r => r.direction === 'buy').reduce((s, r) => s + r.grams, 0);
-  const totalGoldSold = goldRecords.filter(r => r.direction === 'sell').reduce((s, r) => s + r.grams, 0);
-  const totalGoldCost = goldRecords.filter(r => r.direction === 'buy').reduce((s, r) => s + r.amount, 0);
-  const totalGoldRevenue = goldRecords.filter(r => r.direction === 'sell').reduce((s, r) => s + r.amount, 0);
-  const netGoldGrams = totalGoldBought - totalGoldSold;
-  const avgGoldPrice = totalGoldBought > 0 ? totalGoldCost / totalGoldBought : 0;
-  const goldMarketValue = netGoldGrams * h.goldPrice;
-  const goldProfit = goldMarketValue - (totalGoldCost - totalGoldRevenue);
+  // 总计
+  var totalMarketValue = goldStats.marketValue + silverStats.marketValue + accStats.marketValue + ruyiStats.marketValue;
+  var totalCostAll = goldStats.totalCost + silverStats.totalCost + accStats.totalCost + ruyiStats.totalCost;
+  var totalRevenueAll = goldStats.totalRevenue + silverStats.totalRevenue + accStats.totalRevenue + ruyiStats.totalRevenue;
+  var totalProfit = goldStats.profit + silverStats.profit + accStats.profit + ruyiStats.profit;
+  var totalNetGrams = goldStats.netGrams + silverStats.netGrams + accStats.netGrams + ruyiStats.netGrams;
 
-  const totalSilverBought = silverRecords.filter(r => r.direction === 'buy').reduce((s, r) => s + r.grams, 0);
-  const totalSilverSold = silverRecords.filter(r => r.direction === 'sell').reduce((s, r) => s + r.grams, 0);
-  const totalSilverCost = silverRecords.filter(r => r.direction === 'buy').reduce((s, r) => s + r.amount, 0);
-  const totalSilverRevenue = silverRecords.filter(r => r.direction === 'sell').reduce((s, r) => s + r.amount, 0);
-  const netSilverGrams = totalSilverBought - totalSilverSold;
-  const avgSilverPrice = totalSilverBought > 0 ? totalSilverCost / totalSilverBought : 0;
-  const silverMarketValue = netSilverGrams * h.silverPrice;
-  const silverProfit = silverMarketValue - (totalSilverCost - totalSilverRevenue);
+  // 涨跌幅
+  var goldChange = h.prevGoldPrice ? h.goldPrice - h.prevGoldPrice : 0;
+  var goldChangePct = h.prevGoldPrice ? (goldChange / h.prevGoldPrice * 100) : 0;
+  var silverChange = h.prevSilverPrice ? h.silverPrice - h.prevSilverPrice : 0;
+  var silverChangePct = h.prevSilverPrice ? (silverChange / h.prevSilverPrice * 100) : 0;
 
-  const totalCost = totalGoldCost + totalSilverCost;
-  const totalRevenue = totalGoldRevenue + totalSilverRevenue;
-  const totalMarketValue = goldMarketValue + silverMarketValue;
-  const totalProfit = totalMarketValue - (totalCost - totalRevenue);
+  // 更新时间
+  var updateTimeStr = '未获取';
+  if (h.lastPriceUpdate) {
+    var d = new Date(h.lastPriceUpdate);
+    updateTimeStr = (d.getMonth()+1) + '/' + d.getDate() + ' ' + ('0'+d.getHours()).slice(-2) + ':' + ('0'+d.getMinutes()).slice(-2);
+  }
+  var priceSourceLabel = h.goldPriceSource === 'auto' ? '自动获取' : '手动输入';
 
-  $('#page-gold').innerHTML = `
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-icon" style="background:#fff8f0">🥇</div><div class="stat-info"><div class="stat-value">${netGoldGrams.toFixed(2)} g</div><div class="stat-label">黄金持仓</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#f0f4ff">🥈</div><div class="stat-info"><div class="stat-value">${netSilverGrams.toFixed(2)} g</div><div class="stat-label">白银持仓</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#f0fff0">💰</div><div class="stat-info"><div class="stat-value">${h.accumulateGold.toFixed(2)} g</div><div class="stat-label">积存金</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#fff0f5">💎</div><div class="stat-info"><div class="stat-value">${h.ruyiGold.toFixed(2)} g</div><div class="stat-label">如意积存金</div></div></div>
-    </div>
+  // 类型选项
+  var typeOptions = METAL_TYPES.map(function(t) { return '<option value="' + t.value + '">' + t.icon + ' ' + t.label + '</option>'; }).join('');
 
-    <div class="card">
-      <div class="card-header"><span class="card-icon">📊</span><h2>盈亏统计</h2></div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
-        <div style="background:${goldProfit >= 0 ? '#f0fff0' : '#fff0f0'};border-radius:10px;padding:12px;text-align:center;border:1px solid ${goldProfit >= 0 ? '#c8e6c9' : '#f0d0d0'}">
-          <div style="font-size:11px;color:var(--text-light)">黄金浮盈/亏</div>
-          <div style="font-size:20px;font-weight:700;color:${goldProfit >= 0 ? 'var(--accent-green)' : 'var(--primary)'}">${goldProfit >= 0 ? '+' : ''}¥${goldProfit.toFixed(0)}</div>
-          <div style="font-size:10px;color:var(--text-light)">均价 ¥${avgGoldPrice.toFixed(0)}/g · 现价 ¥${h.goldPrice.toFixed(0)}/g</div>
-        </div>
-        <div style="background:${silverProfit >= 0 ? '#f0fff0' : '#fff0f0'};border-radius:10px;padding:12px;text-align:center;border:1px solid ${silverProfit >= 0 ? '#c8e6c9' : '#f0d0d0'}">
-          <div style="font-size:11px;color:var(--text-light)">白银浮盈/亏</div>
-          <div style="font-size:20px;font-weight:700;color:${silverProfit >= 0 ? 'var(--accent-green)' : 'var(--primary)'}">${silverProfit >= 0 ? '+' : ''}¥${silverProfit.toFixed(0)}</div>
-          <div style="font-size:10px;color:var(--text-light)">均价 ¥${avgSilverPrice.toFixed(0)}/g · 现价 ¥${h.silverPrice.toFixed(0)}/g</div>
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:12px;padding:10px;background:${totalProfit >= 0 ? 'linear-gradient(135deg,#f0fff5,#e8f5e8)' : 'linear-gradient(135deg,#fff5f5,#f5e0e0)'};border-radius:10px;border:1px solid ${totalProfit >= 0 ? '#c8e6c9' : '#f0d0d0'}">
-        <div style="font-size:11px;color:var(--text-light)">总浮盈/亏</div>
-        <div style="font-size:28px;font-weight:800;color:${totalProfit >= 0 ? 'var(--accent-green)' : 'var(--primary)'}">${totalProfit >= 0 ? '+' : ''}¥${totalProfit.toFixed(0)}</div>
-        <div style="font-size:10px;color:var(--text-light)">总成本 ¥${totalCost.toFixed(0)} · 总市值 ¥${totalMarketValue.toFixed(0)}</div>
-      </div>
-    </div>
+  // 交易明细
+  var sortedRecords = records.slice().sort(function(a, b) { return b.date.localeCompare(a.date); });
+  var recordsHtml = records.length === 0
+    ? '<div class="empty-state"><div class="empty-icon">💎</div><p>还没有交易记录~</p></div>'
+    : '<div class="table-wrapper"><table><thead><tr><th>日期</th><th>类型</th><th>方向</th><th>克数</th><th>金额</th><th>成交价</th><th>备注</th><th>操作</th></tr></thead><tbody>'
+      + sortedRecords.map(function(r) {
+          var ti = METAL_TYPES.find(function(t) { return t.value === r.type; }) || { icon: '❓', label: r.type };
+          return '<tr><td>' + r.date + '</td><td>' + ti.icon + ' ' + ti.label + '</td>'
+            + '<td><span class="dir-tag" style="background:' + (r.direction === 'buy' ? '#f0fff0' : '#fff0f0') + ';color:' + (r.direction === 'buy' ? 'var(--accent-green)' : 'var(--primary)') + '">' + (r.direction === 'buy' ? '📥 买入' : '📤 卖出') + '</span></td>'
+            + '<td>' + r.grams.toFixed(2) + ' g</td>'
+            + '<td style="font-weight:600;color:' + (r.direction === 'buy' ? 'var(--primary)' : 'var(--accent-green)') + '">¥' + r.amount.toFixed(2) + '</td>'
+            + '<td>¥' + (r.amount / r.grams).toFixed(2) + '/g</td>'
+            + '<td>' + (r.note || '-') + '</td>'
+            + '<td><button class="btn btn-danger" onclick="deleteGoldRecord(\'' + r.id + '\')">🗑</button></td></tr>';
+        }).join('')
+      + '</tbody></table></div>';
 
-    <div class="card">
-      <div class="card-header"><span class="card-icon">✏️</span><h2>记录交易</h2></div>
-      <div class="form-row">
-        <div class="form-group"><label>日期</label><input type="date" id="grDate" value="${todayStr()}"></div>
-        <div class="form-group"><label>类型</label><select id="grType"><option value="gold">🥇 黄金实物</option><option value="silver">🥈 白银实物</option></select></div>
-        <div class="form-group"><label>方向</label><select id="grDir"><option value="buy">📥 买入</option><option value="sell">📤 卖出</option></select></div>
-        <div class="form-group"><label>克数</label><input type="number" id="grGrams" placeholder="0.00" step="0.01" min="0"></div>
-        <div class="form-group"><label>金额 ¥</label><input type="number" id="grAmount" placeholder="0" step="0.01" min="0"></div>
-        <div class="form-group"><label>备注</label><input type="text" id="grNote" placeholder="手镯/金条..." style="width:120px"></div>
-        <button class="btn btn-primary" onclick="addGoldRecord()">➕ 添加</button>
-      </div>
-    </div>
+  // 盈亏卡片
+  function profitCard(label, icon, stats) {
+    var isProfit = stats.profit >= 0;
+    return '<div style="background:' + (isProfit ? '#f0fff0' : '#fff0f0') + ';border-radius:10px;padding:12px;text-align:center;border:1px solid ' + (isProfit ? '#c8e6c9' : '#f0d0d0') + '">'
+      + '<div style="font-size:11px;color:var(--text-light)">' + icon + ' ' + label + '浮盈/亏</div>'
+      + '<div style="font-size:18px;font-weight:700;color:' + (isProfit ? 'var(--accent-green)' : 'var(--primary)') + '">' + (isProfit ? '+' : '') + '¥' + stats.profit.toFixed(0) + '</div>'
+      + '<div style="font-size:10px;color:var(--text-light)">' + (stats.netGrams > 0 ? '持仓 ' + stats.netGrams.toFixed(2) + 'g · 均价 ¥' + stats.avgPrice.toFixed(0) + '/g' : '无持仓') + '</div>'
+      + '</div>';
+  }
 
-    <div class="card">
-      <div class="card-header"><span class="card-icon">📋</span><h2>交易明细</h2></div>
-      ${records.length === 0 ? '<div class="empty-state"><div class="empty-icon">💎</div><p>还没有交易记录~</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>日期</th><th>类型</th><th>方向</th><th>克数</th><th>金额</th><th>成交价</th><th>备注</th><th>操作</th></tr></thead><tbody>${records.sort((a,b) => b.date.localeCompare(a.date)).map(r => `<tr><td>${r.date}</td><td>${r.type === 'gold' ? '🥇 黄金' : '🥈 白银'}</td><td><span class="dir-tag" style="background:${r.direction === 'buy' ? '#f0fff0' : '#fff0f0'};color:${r.direction === 'buy' ? 'var(--accent-green)' : 'var(--primary)'}">${r.direction === 'buy' ? '📥 买入' : '📤 卖出'}</span></td><td>${r.grams.toFixed(2)} g</td><td style="font-weight:600;color:${r.direction === 'buy' ? 'var(--primary)' : 'var(--accent-green)'}">¥${r.amount.toFixed(2)}</td><td>¥${(r.amount / r.grams).toFixed(2)}/g</td><td>${r.note || '-'}</td><td><button class="btn btn-danger" onclick="deleteGoldRecord('${r.id}')">🗑</button></td></tr>`).join('')}</tbody></table></div>`}
-    </div>
-
-    <div class="card">
-      <div class="card-header"><span class="card-icon">⚙️</span><h2>当前价格设置</h2></div>
-      <div class="form-row">
-        <div class="form-group"><label>当前金价 (元/g)</label><input type="number" id="goldPrice" value="${h.goldPrice}" step="0.01"></div>
-        <div class="form-group"><label>当前银价 (元/g)</label><input type="number" id="silverPrice" value="${h.silverPrice}" step="0.01"></div>
-        <div class="form-group"><label>积存金 (g)</label><input type="number" id="accumulateGold" value="${h.accumulateGold}" step="0.01"></div>
-        <div class="form-group"><label>如意积存金 (g)</label><input type="number" id="ruyiGold" value="${h.ruyiGold}" step="0.01"></div>
-        <button class="btn btn-primary" onclick="saveGoldHoldings()">💾 保存</button>
-      </div>
-    </div>`;
+  $('#page-gold').innerHTML = ''
+    // 大盘价格卡片
+    + '<div class="card" style="background:linear-gradient(135deg,#fffdf5,#fff8e8);border:1px solid #f0e0c0">'
+    +   '<div class="card-header">'
+    +     '<span class="card-icon">📊</span><h2>实时大盘价</h2>'
+    +     '<span style="margin-left:auto;font-size:11px;color:var(--text-light)">' + priceSourceLabel + ' · ' + updateTimeStr + '</span>'
+    +     '<button class="btn btn-primary" style="margin-left:8px;padding:6px 14px;font-size:12px" onclick="fetchMetalPrices()">🔄 刷新</button>'
+    +   '</div>'
+    +   '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">'
+    // 黄金大盘
+    +     '<div style="background:#fff8f0;border-radius:12px;padding:16px;text-align:center;border:1px solid #f0e0c0">'
+    +       '<div style="font-size:13px;font-weight:600;color:#b8860b">🥇 黄金大盘价</div>'
+    +       '<div style="font-size:28px;font-weight:800;color:#d4a017;margin:6px 0">¥' + (h.goldPrice || 0).toFixed(2) + '<span style="font-size:13px;font-weight:400">/g</span></div>'
+    +       '<div style="font-size:11px;color:var(--text-light)">国际 $' + (h.goldUsdPrice || 0).toFixed(2) + '/oz · 汇率 ' + (h.usdCnyRate || 0).toFixed(2) + '</div>'
+    +       (goldChange !== 0 ? '<div style="font-size:13px;font-weight:600;color:' + (goldChange > 0 ? 'var(--primary)' : 'var(--accent-green)') + ';margin-top:4px">' + (goldChange > 0 ? '↑' : '↓') + ' ' + Math.abs(goldChange).toFixed(2) + ' (' + (goldChangePct > 0 ? '+' : '') + goldChangePct.toFixed(2) + '%)</div>' : '<div style="font-size:13px;color:var(--text-light);margin-top:4px">—</div>')
+    +     '</div>'
+    // 白银大盘
+    +     '<div style="background:#f0f4ff;border-radius:12px;padding:16px;text-align:center;border:1px solid #d0d8f0">'
+    +       '<div style="font-size:13px;font-weight:600;color:#4682b4">🥈 白银大盘价</div>'
+    +       '<div style="font-size:28px;font-weight:800;color:#5a8ac4;margin:6px 0">¥' + (h.silverPrice || 0).toFixed(2) + '<span style="font-size:13px;font-weight:400">/g</span></div>'
+    +       '<div style="font-size:11px;color:var(--text-light)">国际 $' + (h.silverUsdPrice || 0).toFixed(2) + '/oz · 汇率 ' + (h.usdCnyRate || 0).toFixed(2) + '</div>'
+    +       (silverChange !== 0 ? '<div style="font-size:13px;font-weight:600;color:' + (silverChange > 0 ? 'var(--primary)' : 'var(--accent-green)') + ';margin-top:4px">' + (silverChange > 0 ? '↑' : '↓') + ' ' + Math.abs(silverChange).toFixed(2) + ' (' + (silverChangePct > 0 ? '+' : '') + silverChangePct.toFixed(2) + '%)</div>' : '<div style="font-size:13px;color:var(--text-light);margin-top:4px">—</div>')
+    +     '</div>'
+    +   '</div>'
+    + '</div>'
+    // 持仓概览
+    + '<div class="stats-row">'
+    +   '<div class="stat-card"><div class="stat-icon" style="background:#fff8f0">🥇</div><div class="stat-info"><div class="stat-value">' + goldStats.netGrams.toFixed(2) + ' g</div><div class="stat-label">黄金实物</div></div></div>'
+    +   '<div class="stat-card"><div class="stat-icon" style="background:#f0f4ff">🥈</div><div class="stat-info"><div class="stat-value">' + silverStats.netGrams.toFixed(2) + ' g</div><div class="stat-label">白银实物</div></div></div>'
+    +   '<div class="stat-card"><div class="stat-icon" style="background:#f0fff0">💰</div><div class="stat-info"><div class="stat-value">' + accStats.netGrams.toFixed(2) + ' g</div><div class="stat-label">积存金</div></div></div>'
+    +   '<div class="stat-card"><div class="stat-icon" style="background:#fff0f5">💎</div><div class="stat-info"><div class="stat-value">' + ruyiStats.netGrams.toFixed(2) + ' g</div><div class="stat-label">如意积存金</div></div></div>'
+    + '</div>'
+    // 盈亏统计
+    + '<div class="card">'
+    +   '<div class="card-header"><span class="card-icon">📊</span><h2>盈亏统计</h2></div>'
+    +   '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">'
+    +     profitCard('黄金', '🥇', goldStats)
+    +     profitCard('白银', '🥈', silverStats)
+    +     profitCard('积存金', '💰', accStats)
+    +     profitCard('如意积存金', '💎', ruyiStats)
+    +   '</div>'
+    +   '<div style="text-align:center;margin-top:12px;padding:12px;background:' + (totalProfit >= 0 ? 'linear-gradient(135deg,#f0fff5,#e8f5e8)' : 'linear-gradient(135deg,#fff5f5,#f5e0e0)') + ';border-radius:10px;border:1px solid ' + (totalProfit >= 0 ? '#c8e6c9' : '#f0d0d0') + '">'
+    +     '<div style="font-size:11px;color:var(--text-light)">总浮盈/亏</div>'
+    +     '<div style="font-size:28px;font-weight:800;color:' + (totalProfit >= 0 ? 'var(--accent-green)' : 'var(--primary)') + '">' + (totalProfit >= 0 ? '+' : '') + '¥' + totalProfit.toFixed(0) + '</div>'
+    +     '<div style="font-size:10px;color:var(--text-light)">总成本 ¥' + (totalCostAll - totalRevenueAll).toFixed(0) + ' · 总市值 ¥' + totalMarketValue.toFixed(0) + ' · 总持仓 ' + totalNetGrams.toFixed(2) + 'g</div>'
+    +   '</div>'
+    + '</div>'
+    // 记录交易
+    + '<div class="card">'
+    +   '<div class="card-header"><span class="card-icon">✏️</span><h2>记录交易</h2></div>'
+    +   '<div class="form-row">'
+    +     '<div class="form-group"><label>日期</label><input type="date" id="grDate" value="' + todayStr() + '"></div>'
+    +     '<div class="form-group"><label>类型</label><select id="grType">' + typeOptions + '</select></div>'
+    +     '<div class="form-group"><label>方向</label><select id="grDir"><option value="buy">📥 买入</option><option value="sell">📤 卖出</option></select></div>'
+    +     '<div class="form-group"><label>克数</label><input type="number" id="grGrams" placeholder="0.00" step="0.01" min="0"></div>'
+    +     '<div class="form-group"><label>金额 ¥</label><input type="number" id="grAmount" placeholder="0" step="0.01" min="0"></div>'
+    +     '<div class="form-group"><label>备注</label><input type="text" id="grNote" placeholder="手镯/金条/定投..." style="width:120px"></div>'
+    +     '<button class="btn btn-primary" onclick="addGoldRecord()">➕ 添加</button>'
+    +   '</div>'
+    + '</div>'
+    // 交易明细
+    + '<div class="card">'
+    +   '<div class="card-header"><span class="card-icon">📋</span><h2>交易明细</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">共 ' + records.length + ' 条</span></div>'
+    +   recordsHtml
+    + '</div>'
+    // 价格设置
+    + '<div class="card">'
+    +   '<div class="card-header"><span class="card-icon">⚙️</span><h2>价格设置</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">自动获取失败时可手动输入</span></div>'
+    +   '<div class="form-row">'
+    +     '<div class="form-group"><label>金价 (元/g)</label><input type="number" id="goldPrice" value="' + (h.goldPrice || 0) + '" step="0.01"></div>'
+    +     '<div class="form-group"><label>银价 (元/g)</label><input type="number" id="silverPrice" value="' + (h.silverPrice || 0) + '" step="0.01"></div>'
+    +     '<button class="btn btn-primary" onclick="saveGoldHoldings()">💾 保存</button>'
+    +   '</div>'
+    + '</div>';
 }
 
 function addGoldRecord() {
-  const date = $('#grDate').value;
-  const type = $('#grType').value;
-  const direction = $('#grDir').value;
-  const grams = parseFloat($('#grGrams').value);
-  const amount = parseFloat($('#grAmount').value);
-  const note = $('#grNote').value.trim();
-
+  var date = $('#grDate').value;
+  var type = $('#grType').value;
+  var direction = $('#grDir').value;
+  var grams = parseFloat($('#grGrams').value);
+  var amount = parseFloat($('#grAmount').value);
+  var note = $('#grNote').value.trim();
   if (!date || isNaN(grams) || grams <= 0 || isNaN(amount) || amount <= 0) {
     showToast('请填写完整的日期、克数和金额');
     return;
   }
-
   if (!data.goldRecords) data.goldRecords = [];
-  data.goldRecords.push({ id: uid(), date, type, direction, grams, amount, note });
+  data.goldRecords.push({ id: uid(), date: date, type: type, direction: direction, grams: grams, amount: amount, note: note });
   saveData();
   renderGold();
   showToast('交易记录成功！');
 }
 
 function deleteGoldRecord(id) {
-  data.goldRecords = (data.goldRecords || []).filter(r => r.id !== id);
+  data.goldRecords = (data.goldRecords || []).filter(function(r) { return r.id !== id; });
   saveData();
   renderGold();
   showToast('已删除');
 }
 
 function saveGoldHoldings() {
-  const h = data.goldHoldings || {};
-  h.accumulateGold = parseFloat($('#accumulateGold').value) || 0;
-  h.ruyiGold = parseFloat($('#ruyiGold').value) || 0;
+  var h = data.goldHoldings || {};
   h.goldPrice = parseFloat($('#goldPrice').value) || 0;
   h.silverPrice = parseFloat($('#silverPrice').value) || 0;
+  h.goldPriceSource = 'manual';
   data.goldHoldings = h;
   saveData();
   renderGold();
-  showToast('价格设置已更新！');
+  showToast('价格已更新！');
 }
 
 // ============ PAGE 6: ENGLISH LEARNING ============
