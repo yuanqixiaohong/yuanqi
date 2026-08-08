@@ -1721,7 +1721,7 @@ function updateBadges() {
   const now = todayStr();
   $('#expenseBadge').textContent = data.expenses.filter(e => e.date >= now.substring(0,7)+'-01').length || '0';
   $('#giftBadge').textContent = data.giftRecords.filter(g => g.date >= now.substring(0,4)+'-01-01').length || '0';
-  $('#petBadge').textContent = data.petExpenses.filter(p => p.date >= now.substring(0,7)+'-01').length || '0';
+  $('#petBadge').textContent = data.petExpenses.length || '0';
   $('#readingBadge').textContent = (data.books||[]).filter(b => b.status === 'reading').length || '0';
 }
 
@@ -2697,14 +2697,16 @@ function renderPet() {
   const now = todayStr(), monthStart = now.substring(0,7)+'-01';
   const monthExpenses = data.petExpenses.filter(e => e.date >= monthStart).sort((a,b) => b.date.localeCompare(a.date));
   const totalMonth = monthExpenses.reduce((s,e) => s+e.amount, 0);
+  const allExpenses = [...data.petExpenses].sort((a,b) => b.date.localeCompare(a.date));
+  const totalAll = allExpenses.reduce((s,e) => s+e.amount, 0);
   const catColors = { '食品':'#ff6b6b','医疗':'#4d96ff','玩具':'#6bcb77','美容':'#9b59b6','用品':'#ff8c42','疫苗':'#ff78ae','其他':'#a0a0a0' };
 
   $('#page-pet').innerHTML = `
     <div class="stats-row">
-      <div class="stat-card"><div class="stat-icon" style="background:#fff0f0">🐱</div><div class="stat-info"><div class="stat-value">¥${totalMonth.toFixed(0)}</div><div class="stat-label">本月小锤支出</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#f0f4ff">📊</div><div class="stat-info"><div class="stat-value">${monthExpenses.length}</div><div class="stat-label">本月记录</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#f0fff0">📅</div><div class="stat-info"><div class="stat-value">¥${monthExpenses.length>0?(totalMonth/new Date().getDate()).toFixed(0):0}</div><div class="stat-label">日均支出</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#fff8f0">🏷️</div><div class="stat-info"><div class="stat-value">${Object.keys(catColors).filter(c=>monthExpenses.some(e=>e.category===c)).length||0}</div><div class="stat-label">消费类别</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#fff0f0">🐱</div><div class="stat-info"><div class="stat-value">¥${totalAll.toFixed(0)}</div><div class="stat-label">累计小锤支出</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#f0f4ff">📊</div><div class="stat-info"><div class="stat-value">${allExpenses.length}</div><div class="stat-label">总记录数</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#f0fff0">📅</div><div class="stat-info"><div class="stat-value">¥${monthExpenses.length>0?(totalMonth/new Date().getDate()).toFixed(0):0}</div><div class="stat-label">本月日均</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:#fff8f0">🏷️</div><div class="stat-info"><div class="stat-value">${Object.keys(catColors).filter(c=>allExpenses.some(e=>e.category===c)).length||0}</div><div class="stat-label">消费类别</div></div></div>
     </div>
     <div class="card">
       <div class="card-header"><span class="card-icon">✏️</span><h2>记录小锤花销</h2></div>
@@ -2723,8 +2725,8 @@ function renderPet() {
       <div id="batchImportStatus" style="margin-top:10px;font-size:12px;text-align:center"></div>
     </div>
     <div class="card">
-      <div class="card-header"><span class="card-icon">📋</span><h2>小锤本月明细</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">共 ${monthExpenses.length} 条</span></div>
-      ${monthExpenses.length===0?'<div class="empty-state"><div class="empty-icon">🐱</div><p>这个月还没给小锤花钱呢~</p></div>':`<div class="table-wrapper"><table><thead><tr><th>日期</th><th>类别</th><th>金额</th><th>备注</th><th>操作</th></tr></thead><tbody>${monthExpenses.map(e=>`<tr><td>${e.date}</td><td><span class="cat-tag" style="background:${catColors[e.category]||'#ccc'}">${e.category}</span></td><td style="font-weight:600;color:var(--primary)">¥${e.amount.toFixed(2)}</td><td>${e.note||'-'}</td><td><button class="btn btn-danger" onclick="deletePetExpense('${e.id}')">🗑</button></td></tr>`).join('')}</tbody></table></div>`}
+      <div class="card-header"><span class="card-icon">📋</span><h2>小锤全部明细</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">共 ${allExpenses.length} 条</span></div>
+      ${allExpenses.length===0?'<div class="empty-state"><div class="empty-icon">🐱</div><p>还没有给小锤花钱呢~</p></div>':`<div class="table-wrapper"><table><thead><tr><th>日期</th><th>类别</th><th>金额</th><th>备注</th><th>操作</th></tr></thead><tbody>${allExpenses.map(e=>`<tr><td>${e.date}</td><td><span class="cat-tag" style="background:${catColors[e.category]||'#ccc'}">${e.category}</span></td><td style="font-weight:600;color:var(--primary)">¥${e.amount.toFixed(2)}</td><td>${e.note||'-'}</td><td><button class="btn btn-danger" onclick="deletePetExpense('${e.id}')">🗑</button></td></tr>`).join('')}</tbody></table></div>`}
     </div>`;
 }
 
