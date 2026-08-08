@@ -3221,12 +3221,20 @@ function renderEnglish() {
 
     <div class="card">
       <div class="card-header"><span class="card-icon">📖</span><h2>雅思单词 · 第${plan.day}天</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">目标: ${plan.wordsPerDay}词/天</span></div>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
         ${plan.todayWords.map((item,i) => `
-          <div style="background:linear-gradient(135deg,#f0f4ff,#e8ecf8);border-radius:8px;padding:8px;text-align:center;border:1px solid #d0d8e8;cursor:pointer" onclick="speakWord('${item.w}')">
-            <div style="font-size:13px;font-weight:700;color:var(--accent-blue)">${item.w}</div>
-            <div style="font-size:10px;color:var(--text);margin-top:2px">${item.c}</div>
-            <div style="font-size:9px;color:var(--text-light);margin-top:2px">🔊 点击朗读</div>
+          <div style="background:linear-gradient(135deg,#f0f4ff,#e8ecf8);border-radius:8px;padding:10px;border:1px solid #d0d8e8">
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="font-size:14px;font-weight:700;color:var(--accent-blue)">${item.w}</div>
+              <button class="btn btn-sm btn-outline" onclick="speakWord('${item.w}')" style="font-size:9px;padding:2px 6px">🔊</button>
+              <button class="btn btn-sm btn-outline" onclick="speakWordSlow('${item.w}')" style="font-size:9px;padding:2px 6px">🐌</button>
+            </div>
+            <div style="font-size:11px;color:var(--text);margin-top:2px">${item.c}</div>
+            <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">
+              <button class="btn btn-sm btn-outline" onclick="recordWordCompare(${i})" style="font-size:9px;padding:2px 6px">🎙️ 录音跟读</button>
+              <button class="btn btn-sm btn-danger" onclick="stopWordRecording(${i})" id="word-stopBtn-${i}" style="font-size:9px;padding:2px 6px;display:none">⏹ 停止</button>
+              <audio id="word-playback-${i}" style="display:none"></audio>
+            </div>
           </div>
         `).join('')}
       </div>
@@ -3237,6 +3245,51 @@ function renderEnglish() {
       <div style="margin-top:10px">
         <div class="progress-bar-wrapper"><div class="progress-bar-fill" style="width:${plan.progress}%">${plan.progress}%</div></div>
         <div style="font-size:11px;color:var(--text-light);text-align:center;margin-top:4px">已完成 ${plan.day}/${plan.totalDays} 天 · 剩余 ${plan.totalDays - plan.day} 天</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-icon">🔄</span><h2>今日复习测试</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">口语+单词</span></div>
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px">把今天学的口语和单词提炼出来，通过测试巩固记忆</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="startReviewTest('en2cn')" style="font-size:12px;padding:10px 20px">🇬🇧 英文选中文</button>
+          <button class="btn btn-outline" onclick="startReviewTest('cn2en')" style="font-size:12px;padding:10px 20px">🇨🇳 中文读英文</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;text-align:left">
+          <div style="background:#f0fff0;border-radius:10px;padding:10px;border:1px solid #c8e6c8">
+            <div style="font-size:12px;font-weight:600;color:var(--accent-green)">🇬🇧 英文选中文</div>
+            <div style="font-size:10px;color:var(--text-light);margin-top:4px;line-height:1.5">显示英文，从4个选项中选择正确的中文翻译</div>
+          </div>
+          <div style="background:#fff8f0;border-radius:10px;padding:10px;border:1px solid #f0dcc0">
+            <div style="font-size:12px;font-weight:600;color:var(--accent-orange)">🇨🇳 中文读英文</div>
+            <div style="font-size:10px;color:var(--text-light);margin-top:4px;line-height:1.5">显示中文，录音读出英文，然后对照答案判断是否正确</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-icon">🎧</span><h2>雅思听力训练</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">真题模拟</span></div>
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px">智能提取雅思听力真题，在线做题并对答案</div>
+        <button class="btn btn-primary" onclick="openIeltsPractice('listening')" style="font-size:13px;padding:10px 24px">🎧 开始听力练习</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-icon">📄</span><h2>雅思阅读训练</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">真题模拟</span></div>
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px">阅读真题文章，回答选择题，即时判分</div>
+        <button class="btn btn-primary" onclick="openIeltsPractice('reading')" style="font-size:13px;padding:10px 24px">📄 开始阅读练习</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-icon">✍️</span><h2>雅思写作训练</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">真题模拟</span></div>
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px">Task 1 / Task 2 真题，在线写作、字数统计、朗读检查</div>
+        <button class="btn btn-primary" onclick="openIeltsPractice('writing')" style="font-size:13px;padding:10px 24px">✍️ 开始写作练习</button>
       </div>
     </div>
 
@@ -3321,6 +3374,15 @@ function speakWord(word) {
   const utter = new SpeechSynthesisUtterance(word);
   utter.lang = 'en-US';
   utter.rate = 0.8;
+  window.speechSynthesis.speak(utter);
+}
+
+function speakWordSlow(word) {
+  if (!('speechSynthesis' in window)) { showToast('浏览器不支持语音功能'); return; }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(word);
+  utter.lang = 'en-US';
+  utter.rate = 0.5;
   window.speechSynthesis.speak(utter);
 }
 
@@ -3445,13 +3507,24 @@ function startRecording(index) {
         const audioEl = document.getElementById('playback-' + index);
         if (audioEl) {
           audioEl.src = audioUrl;
-          audioEl.style.display = 'inline-block';
+          audioEl.controls = true;
+          audioEl.style.display = 'block';
           audioEl.style.width = '100%';
           audioEl.style.marginTop = '6px';
+          audioEl.play().catch(()=>{});
+        }
+        const wordAudioEl = document.getElementById('word-playback-' + index);
+        if (wordAudioEl) {
+          wordAudioEl.src = audioUrl;
+          wordAudioEl.controls = true;
+          wordAudioEl.style.display = 'block';
+          wordAudioEl.style.width = '100%';
+          wordAudioEl.style.marginTop = '6px';
+          wordAudioEl.play().catch(()=>{});
         }
         // Stop all tracks
         stream.getTracks().forEach(t => t.stop());
-        showToast('✅ 录音完成！点击播放听听自己读的');
+        showToast('✅ 录音完成！正在播放你的录音...');
       };
 
       mediaRecorder.start();
@@ -3483,6 +3556,429 @@ function stopRecording(index) {
   }
   const btn = document.getElementById('stopBtn-' + index);
   if (btn) btn.style.display = 'none';
+  const wbtn = document.getElementById('word-stopBtn-' + index);
+  if (wbtn) wbtn.style.display = 'none';
+}
+
+// ============ WORD RECORDING ============
+function recordWordCompare(index) {
+  const plan = getIeltsWordPlan();
+  const word = plan.todayWords[index];
+  if (!word) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showToast('浏览器不支持录音功能，请用 Chrome/Safari'); return;
+  }
+  if (!('speechSynthesis' in window)) { showToast('浏览器不支持语音'); return; }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(word.w);
+  utter.lang = 'en-US'; utter.rate = 0.8;
+  utter.onend = () => { setTimeout(() => startWordRecording(index), 500); };
+  showToast('🔊 先听一遍...');
+  window.speechSynthesis.speak(utter);
+}
+
+function startWordRecording(index) {
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+        const audioUrl = URL.createObjectURL(blob);
+        const audioEl = document.getElementById('word-playback-' + index);
+        if (audioEl) {
+          audioEl.src = audioUrl; audioEl.controls = true;
+          audioEl.style.display = 'block'; audioEl.style.width = '100%'; audioEl.style.marginTop = '6px';
+          audioEl.play().catch(()=>{});
+        }
+        stream.getTracks().forEach(t => t.stop());
+        showToast('✅ 录音完成！正在播放你的录音...');
+      };
+      mediaRecorder.start();
+      showToast('🎙️ 开始录音！请大声跟读...');
+      const stopBtn = document.getElementById('word-stopBtn-' + index);
+      if (stopBtn) stopBtn.style.display = 'inline-flex';
+      setTimeout(() => {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+          mediaRecorder.stop();
+          if (stopBtn) stopBtn.style.display = 'none';
+        }
+      }, 8000);
+    })
+    .catch(err => { showToast('无法访问麦克风，请允许权限'); });
+}
+
+function stopWordRecording(index) {
+  if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+  const btn = document.getElementById('word-stopBtn-' + index);
+  if (btn) btn.style.display = 'none';
+}
+
+// ============ REVIEW TEST ============
+let reviewState = { mode: null, items: [], index: 0, correct: 0, total: 0, options: [] };
+
+function startReviewTest(mode) {
+  const phrases = getDailyOralPhrases();
+  const plan = getIeltsWordPlan();
+  const allItems = [
+    ...phrases.map(p => ({ en: p.en, cn: p.cn, type: 'phrase' })),
+    ...plan.todayWords.map(w => ({ en: w.w, cn: w.c, type: 'word' }))
+  ];
+  // Shuffle and take 15 items
+  const shuffled = allItems.sort(() => Math.random() - 0.5).slice(0, 15);
+  reviewState = { mode, items: shuffled, index: 0, correct: 0, total: shuffled.length, options: [] };
+  renderReviewQuestion();
+}
+
+function renderReviewQuestion() {
+  const { mode, items, index } = reviewState;
+  if (index >= items.length) { renderReviewResult(); return; }
+  const item = items[index];
+  let questionHtml = '';
+
+  if (mode === 'en2cn') {
+    // Show English, choose correct Chinese
+    const wrongOptions = items.filter((it, i) => i !== index && it.cn !== item.cn)
+      .sort(() => Math.random() - 0.5).slice(0, 3).map(it => it.cn);
+    const options = [item.cn, ...wrongOptions].sort(() => Math.random() - 0.5);
+    reviewState.options = options;
+    questionHtml = `
+      <div style="text-align:center;padding:16px">
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:8px">第 ${index+1}/${items.length} 题</div>
+        <div style="font-size:18px;font-weight:700;color:var(--primary);margin-bottom:6px">${item.en}</div>
+        <button class="btn btn-outline" onclick="speakReviewItem()" style="font-size:11px;padding:4px 10px;margin-bottom:14px">🔊 朗读</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+          ${options.map((opt, i) => `<button class="btn btn-outline" onclick="checkReviewAnswer('${opt.replace(/'/g,"\\'")}')" style="font-size:13px;padding:12px;border-radius:10px;min-height:50px">${opt}</button>`).join('')}
+        </div>
+      </div>`;
+  } else if (mode === 'cn2en') {
+    // Show Chinese, speak English, then check
+    questionHtml = `
+      <div style="text-align:center;padding:16px">
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:8px">第 ${index+1}/${items.length} 题 · 口语模式</div>
+        <div style="font-size:18px;font-weight:700;color:var(--primary);margin-bottom:14px">${item.cn}</div>
+        <div id="reviewRecordArea" style="margin:16px 0">
+          <button class="btn btn-primary" onclick="recordReviewSpeak()" style="font-size:13px;padding:8px 20px">🎙️ 录音读英文</button>
+          <button class="btn btn-danger" onclick="stopReviewSpeak()" id="reviewStopBtn" style="font-size:13px;padding:8px 20px;display:none">⏹ 停止</button>
+          <audio id="review-playback" style="display:none;margin-top:8px;width:100%"></audio>
+        </div>
+        <div id="reviewRevealArea" style="display:none;margin-top:14px">
+          <div style="font-size:15px;font-weight:600;color:var(--accent-green)">${item.en}</div>
+          <button class="btn btn-outline" onclick="speakReviewItem()" style="font-size:11px;padding:4px 10px;margin-top:6px">🔊 听标准发音</button>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px;justify-content:center">
+          <button class="btn btn-outline" onclick="revealReviewAnswer()" id="revealBtn" style="font-size:12px;padding:6px 14px">👀 查看答案</button>
+          <button class="btn btn-primary" onclick="reviewCorrect(true)" style="font-size:12px;padding:6px 14px">✅ 我读对了</button>
+          <button class="btn btn-outline" onclick="reviewCorrect(false)" style="font-size:12px;padding:6px 14px;border-color:#e88080;color:#e88080">❌ 没读对</button>
+        </div>
+      </div>`;
+  }
+
+  $('#modalContainer').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this)closeReviewTest()">
+      <div class="modal" style="max-width:420px">
+        <h3>🔄 今日复习测试 · ${mode === 'en2cn' ? '英选中' : '中读英'}</h3>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:8px">正确: ${reviewState.correct}/${reviewState.total}</div>
+        ${questionHtml}
+        <div class="btn-row"><button class="btn btn-outline" onclick="closeReviewTest()" style="font-size:11px">退出测试</button></div>
+      </div>
+    </div>`;
+}
+
+function speakReviewItem() {
+  const item = reviewState.items[reviewState.index];
+  if (!item) return;
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(item.en);
+  utter.lang = 'en-US'; utter.rate = 0.85;
+  window.speechSynthesis.speak(utter);
+}
+
+function checkReviewAnswer(selected) {
+  const item = reviewState.items[reviewState.index];
+  const isCorrect = selected === item.cn;
+  if (isCorrect) reviewState.correct++;
+  showToast(isCorrect ? '✅ 正确！' : '❌ 答案: ' + item.cn);
+  reviewState.index++;
+  setTimeout(renderReviewQuestion, 1200);
+}
+
+function revealReviewAnswer() {
+  const el = document.getElementById('reviewRevealArea');
+  if (el) el.style.display = 'block';
+  const btn = document.getElementById('revealBtn');
+  if (btn) btn.style.display = 'none';
+  speakReviewItem();
+}
+
+function recordReviewSpeak() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showToast('浏览器不支持录音功能'); return;
+  }
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+        const audioUrl = URL.createObjectURL(blob);
+        const audioEl = document.getElementById('review-playback');
+        if (audioEl) {
+          audioEl.src = audioUrl; audioEl.controls = true;
+          audioEl.style.display = 'block'; audioEl.play().catch(()=>{});
+        }
+        stream.getTracks().forEach(t => t.stop());
+        showToast('✅ 录音完成！听听自己读的');
+      };
+      mediaRecorder.start();
+      showToast('🎙️ 开始录音！请读英文...');
+      const stopBtn = document.getElementById('reviewStopBtn');
+      if (stopBtn) stopBtn.style.display = 'inline-flex';
+      setTimeout(() => {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+          mediaRecorder.stop();
+          if (stopBtn) stopBtn.style.display = 'none';
+        }
+      }, 10000);
+    })
+    .catch(() => showToast('无法访问麦克风，请允许权限'));
+}
+
+function stopReviewSpeak() {
+  if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+  const btn = document.getElementById('reviewStopBtn');
+  if (btn) btn.style.display = 'none';
+}
+
+function reviewCorrect(correct) {
+  if (correct) reviewState.correct++;
+  reviewState.index++;
+  renderReviewQuestion();
+}
+
+function renderReviewResult() {
+  const { correct, total } = reviewState;
+  const pct = Math.round(correct / total * 100);
+  let emoji = '🎉', msg = '太棒了！';
+  if (pct < 60) { emoji = '💪'; msg = '继续加油！'; }
+  else if (pct < 80) { emoji = '👍'; msg = '不错！再练练！'; }
+  $('#modalContainer').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this)closeReviewTest()">
+      <div class="modal" style="max-width:360px;text-align:center">
+        <div style="font-size:48px">${emoji}</div>
+        <h3>测试完成！</h3>
+        <div style="font-size:32px;font-weight:700;color:var(--primary);margin:10px 0">${correct}/${total}</div>
+        <div style="font-size:14px;color:var(--text-light)">${msg} 正确率 ${pct}%</div>
+        <div class="btn-row" style="margin-top:16px">
+          <button class="btn btn-primary" onclick="startReviewTest('${reviewState.mode}')">🔄 再测一次</button>
+          <button class="btn btn-outline" onclick="closeReviewTest()">关闭</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function closeReviewTest() {
+  reviewState = { mode: null, items: [], index: 0, correct: 0, total: 0, options: [] };
+  closeModal();
+}
+
+// ============ IELTS PRACTICE ============
+function openIeltsPractice(type) {
+  const titles = { listening: '🎧 雅思听力训练', reading: '📄 雅思阅读训练', writing: '✍️ 雅思写作训练' };
+  if (type === 'listening') renderIeltsListening();
+  else if (type === 'reading') renderIeltsReading();
+  else if (type === 'writing') renderIeltsWriting();
+}
+
+function renderIeltsListening() {
+  const questions = [
+    { section: 'Section 1', audio_text: 'You will hear a conversation between a student and a housing officer.', questions: [
+      { q: 'The student is looking for ___ accommodation.', options: ['on-campus', 'off-campus', 'homestay', 'shared'], answer: 1 },
+      { q: 'The preferred rent is around £___ per week.', options: ['80-100', '100-120', '120-150', '150-200'], answer: 1 },
+      { q: 'The student wants to move in by ___.', options: ['this weekend', 'next Monday', 'the 1st of next month', 'end of this month'], answer: 2 },
+      { q: 'The housing officer suggests viewing ___ properties.', options: ['2', '3', '4', '5'], answer: 2 },
+    ]},
+    { section: 'Section 2', audio_text: 'You will hear a tour guide talking about a museum visit.', questions: [
+      { q: 'The museum was built in ___.', options: ['1850', '1880', '1920', '1950'], answer: 1 },
+      { q: 'The entrance fee for students is £___.', options: ['3.50', '4.00', '5.50', '6.00'], answer: 0 },
+      { q: 'The guided tour lasts approximately ___ minutes.', options: ['30', '45', '60', '90'], answer: 2 },
+      { q: 'Photography is ___ in the museum.', options: ['allowed everywhere', 'allowed without flash', 'not allowed', 'allowed with permit'], answer: 1 },
+    ]},
+    { section: 'Section 3', audio_text: 'You will hear two students discussing their research project.', questions: [
+      { q: 'The research topic is about ___.', options: ['climate change', 'urban planning', 'renewable energy', 'water conservation'], answer: 2 },
+      { q: 'They need to interview ___ people.', options: ['10-15', '15-20', '20-25', '25-30'], answer: 1 },
+      { q: 'The deadline for the first draft is ___.', options: ['this Friday', 'next Monday', 'next Wednesday', 'next Friday'], answer: 3 },
+      { q: 'The professor suggested using ___ for data analysis.', options: ['Excel', 'SPSS', 'Python', 'R'], answer: 1 },
+    ]}
+  ];
+  const sec = questions[Math.floor(Math.random() * questions.length)];
+  let html = `<div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal" style="max-width:500px">
+      <h3>🎧 雅思听力训练 · ${sec.section}</h3>
+      <div style="background:#f0f4ff;border-radius:10px;padding:12px;margin-bottom:12px">
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:4px">📝 听力文本（模拟）</div>
+        <div style="font-size:12px;line-height:1.6">${sec.audio_text}</div>
+        <button class="btn btn-sm btn-primary" onclick="speakListeningText()" style="font-size:10px;margin-top:8px">🔊 播放听力</button>
+        <button class="btn btn-sm btn-outline" onclick="speakListeningText(0.6)" style="font-size:10px;margin-top:8px">🐌 慢速</button>
+      </div>
+      <div id="ieltsListenQ"></div>
+      <div class="btn-row"><button class="btn btn-primary" onclick="checkIeltsListening()">提交答案</button><button class="btn btn-outline" onclick="closeModal()">关闭</button></div>
+    </div>
+  </div>`;
+  $('#modalContainer').innerHTML = html;
+  window._ieltsListenData = sec;
+  renderIeltsListenQ(sec);
+}
+
+function speakListeningText(rate) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(window._ieltsListenData.audio_text);
+  utter.lang = 'en-US'; utter.rate = rate || 0.9;
+  window.speechSynthesis.speak(utter);
+}
+
+function renderIeltsListenQ(sec) {
+  $('#ieltsListenQ').innerHTML = sec.questions.map((q, qi) => `
+    <div style="background:#f8f8f8;border-radius:8px;padding:10px;margin-bottom:8px">
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px">${qi+1}. ${q.q}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+        ${q.options.map((opt, oi) => `<label style="font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background=''">
+          <input type="radio" name="ielts-l-${qi}" value="${oi}"> ${opt}
+        </label>`).join('')}
+      </div>
+      <div id="ielts-l-feedback-${qi}" style="font-size:11px;margin-top:4px;display:none"></div>
+    </div>`).join('');
+}
+
+function checkIeltsListening() {
+  const sec = window._ieltsListenData;
+  let correct = 0;
+  sec.questions.forEach((q, qi) => {
+    const selected = document.querySelector(`input[name="ielts-l-${qi}"]:checked`);
+    const fb = document.getElementById(`ielts-l-feedback-${qi}`);
+    if (fb) {
+      fb.style.display = 'block';
+      if (selected && parseInt(selected.value) === q.answer) {
+        correct++; fb.innerHTML = '✅ 正确'; fb.style.color = 'var(--accent-green)';
+      } else {
+        fb.innerHTML = `❌ 答案: ${q.options[q.answer]}`; fb.style.color = '#e88080';
+      }
+    }
+  });
+  showToast(`听力测试: ${correct}/${sec.questions.length} 正确`);
+}
+
+function renderIeltsReading() {
+  const passages = [
+    { title: 'The History of Tea', text: 'Tea is one of the most popular beverages in the world, second only to water. Its history dates back to ancient China, where it was reportedly discovered by Emperor Shen Nung in 2737 BC. According to legend, tea leaves blew into a pot of boiling water, creating a fragrant drink. From China, tea spread to Japan in the 9th century, where it became an important part of cultural ceremonies. The British East India Company began importing tea in the 17th century, and by the 18th century, tea had become the national drink of Britain. Today, tea is grown in over 30 countries, with China, India, and Kenya being the top producers.', questions: [
+      { q: 'Tea was first discovered in ___.', options: ['Japan', 'China', 'India', 'Britain'], answer: 1 },
+      { q: 'Tea spread to Japan in the ___ century.', options: ['7th', '8th', '9th', '10th'], answer: 2 },
+      { q: 'The British East India Company started importing tea in the ___ century.', options: ['16th', '17th', '18th', '19th'], answer: 1 },
+      { q: 'Today, the top tea-producing country is ___.', options: ['China', 'India', 'Kenya', 'Sri Lanka'], answer: 0 },
+    ]},
+    { title: 'Renewable Energy Sources', text: 'Renewable energy comes from natural sources that are constantly replenished. The main types include solar, wind, hydroelectric, geothermal, and biomass energy. Solar energy is the most abundant, with enough sunlight reaching Earth every hour to power the world for a year. Wind energy has seen rapid growth, with wind farms both onshore and offshore. Hydroelectric power, generated by flowing water, remains the largest source of renewable electricity globally. Geothermal energy taps into heat from beneath the Earth\'s surface. Biomass energy comes from organic materials like plants and waste. The transition to renewable energy is crucial for reducing carbon emissions and combating climate change.', questions: [
+      { q: 'The most abundant renewable energy source is ___.', options: ['wind', 'solar', 'hydroelectric', 'geothermal'], answer: 1 },
+      { q: 'The largest source of renewable electricity globally is ___.', options: ['solar', 'wind', 'hydroelectric', 'biomass'], answer: 2 },
+      { q: 'Geothermal energy comes from ___.', options: ['sunlight', 'wind', 'Earth\'s internal heat', 'flowing water'], answer: 2 },
+      { q: 'The transition to renewable energy is important for reducing ___.', options: ['costs', 'carbon emissions', 'energy consumption', 'population'], answer: 1 },
+    ]}
+  ];
+  const passage = passages[Math.floor(Math.random() * passages.length)];
+  $('#modalContainer').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal" style="max-width:600px">
+        <h3>📄 雅思阅读训练 · ${passage.title}</h3>
+        <div style="background:#f8f8f8;border-radius:10px;padding:12px;margin-bottom:12px;max-height:200px;overflow-y:auto;font-size:12px;line-height:1.8">${passage.text}</div>
+        <div id="ieltsReadQ"></div>
+        <div class="btn-row"><button class="btn btn-primary" onclick="checkIeltsReading()">提交答案</button><button class="btn btn-outline" onclick="closeModal()">关闭</button></div>
+      </div>
+    </div>`;
+  window._ieltsReadData = passage;
+  $('#ieltsReadQ').innerHTML = passage.questions.map((q, qi) => `
+    <div style="background:#f8f8f8;border-radius:8px;padding:10px;margin-bottom:8px">
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px">${qi+1}. ${q.q}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+        ${q.options.map((opt, oi) => `<label style="font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background=''">
+          <input type="radio" name="ielts-r-${qi}" value="${oi}"> ${opt}
+        </label>`).join('')}
+      </div>
+      <div id="ielts-r-feedback-${qi}" style="font-size:11px;margin-top:4px;display:none"></div>
+    </div>`).join('');
+}
+
+function checkIeltsReading() {
+  const passage = window._ieltsReadData;
+  let correct = 0;
+  passage.questions.forEach((q, qi) => {
+    const selected = document.querySelector(`input[name="ielts-r-${qi}"]:checked`);
+    const fb = document.getElementById(`ielts-r-feedback-${qi}`);
+    if (fb) {
+      fb.style.display = 'block';
+      if (selected && parseInt(selected.value) === q.answer) { correct++; fb.innerHTML = '✅ 正确'; fb.style.color = 'var(--accent-green)'; }
+      else { fb.innerHTML = `❌ 答案: ${q.options[q.answer]}`; fb.style.color = '#e88080'; }
+    }
+  });
+  showToast(`阅读测试: ${correct}/${passage.questions.length} 正确`);
+}
+
+function renderIeltsWriting() {
+  const tasks = [
+    { type: 'Task 1', title: '图表描述', prompt: 'The chart below shows the percentage of households in owned and rented accommodation in England and Wales between 1918 and 2011. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.' },
+    { type: 'Task 2', title: '议论文', prompt: 'Some people believe that university education should be free for everyone. To what extent do you agree or disagree? Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words.' },
+    { type: 'Task 1', title: '信件写作', prompt: 'You recently moved to a new city and want to join a local sports club. Write a letter to the club manager. In your letter: introduce yourself, explain what sport you are interested in, and ask about membership fees and facilities. Write at least 150 words.' },
+    { type: 'Task 2', title: '议论文', prompt: 'In many countries, the amount of crime is increasing. What do you think are the main causes of crime? How can we deal with those causes? Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words.' }
+  ];
+  const task = tasks[Math.floor(Math.random() * tasks.length)];
+  $('#modalContainer').innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal" style="max-width:500px">
+        <h3>✍️ 雅思写作训练 · ${task.type} · ${task.title}</h3>
+        <div style="background:#f0f4ff;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;line-height:1.8">${task.prompt}</div>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:6px">✏️ 在下方写下你的作文：</div>
+        <textarea id="ieltsWritingArea" style="width:100%;min-height:200px;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-family:inherit;resize:vertical" placeholder="Start writing your essay here..."></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+          <button class="btn btn-outline" onclick="countWords()" style="font-size:11px">📊 字数统计</button>
+          <button class="btn btn-outline" onclick="speakWriting()" style="font-size:11px">🔊 朗读我的作文</button>
+          <button class="btn btn-primary" onclick="saveWriting()" style="font-size:11px">💾 保存</button>
+          <button class="btn btn-outline" onclick="closeModal()" style="font-size:11px">关闭</button>
+        </div>
+        <div id="wordCountResult" style="font-size:11px;color:var(--text-light);margin-top:6px"></div>
+      </div>
+    </div>`;
+  window._ieltsWritingTask = task;
+}
+
+function countWords() {
+  const text = document.getElementById('ieltsWritingArea').value.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  const target = window._ieltsWritingTask.type === 'Task 1' ? 150 : 250;
+  const result = document.getElementById('wordCountResult');
+  if (result) {
+    result.innerHTML = `字数: ${words} / 目标 ${target}字 ${words >= target ? '✅' : '⚠️ 还差' + (target - words) + '字'}`;
+  }
+}
+
+function speakWriting() {
+  const text = document.getElementById('ieltsWritingArea').value.trim();
+  if (!text) { showToast('请先写一些内容'); return; }
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US'; utter.rate = 0.9;
+  window.speechSynthesis.speak(utter);
+}
+
+function saveWriting() {
+  const text = document.getElementById('ieltsWritingArea').value.trim();
+  if (!text) { showToast('请先写一些内容'); return; }
+  if (!data.englishWritings) data.englishWritings = [];
+  data.englishWritings.push({ date: todayStr(), task: window._ieltsWritingTask.type, text: text });
+  saveData();
+  showToast('✅ 作文已保存！');
 }
 
 function toggleEnglishTask(key) {
