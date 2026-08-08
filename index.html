@@ -1462,16 +1462,16 @@ input[type="date"] { width: 125px; }
         <span style="margin-left:auto;font-size:11px;color:var(--text-light)">未获取</span>
         <button class="btn btn-primary" style="margin-left:8px;padding:6px 14px;font-size:12px" onclick="fetchMetalPrices()">🔄 刷新</button>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
-        <div style="background:#fff8f0;border-radius:12px;padding:16px;text-align:center;border:1px solid #f0e0c0">
-          <div style="font-size:13px;font-weight:600;color:#b8860b">🥇 黄金大盘价</div>
-          <div style="font-size:28px;font-weight:800;color:#d4a017;margin:6px 0">¥0.00<span style="font-size:13px;font-weight:400">/g</span></div>
-          <div style="font-size:11px;color:var(--text-light)">点击刷新获取实时价格</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
+        <div style="background:#fff8f0;border-radius:10px;padding:8px 10px;text-align:center;border:1px solid #f0e0c0">
+          <div style="font-size:12px;font-weight:600;color:#b8860b">🥇 黄金大盘价</div>
+          <div style="font-size:20px;font-weight:800;color:#d4a017;margin:2px 0">¥0.00<span style="font-size:12px;font-weight:400">/g</span></div>
+          <div style="font-size:10px;color:var(--text-light)">点击刷新获取实时价格</div>
         </div>
-        <div style="background:#f0f4ff;border-radius:12px;padding:16px;text-align:center;border:1px solid #d0d8f0">
-          <div style="font-size:13px;font-weight:600;color:#4682b4">🥈 白银大盘价</div>
-          <div style="font-size:28px;font-weight:800;color:#5a8ac4;margin:6px 0">¥0.00<span style="font-size:13px;font-weight:400">/g</span></div>
-          <div style="font-size:11px;color:var(--text-light)">点击刷新获取实时价格</div>
+        <div style="background:#f0f4ff;border-radius:10px;padding:8px 10px;text-align:center;border:1px solid #d0d8f0">
+          <div style="font-size:12px;font-weight:600;color:#4682b4">🥈 白银大盘价</div>
+          <div style="font-size:20px;font-weight:800;color:#5a8ac4;margin:2px 0">¥0.00<span style="font-size:12px;font-weight:400">/g</span></div>
+          <div style="font-size:10px;color:var(--text-light)">点击刷新获取实时价格</div>
         </div>
       </div>
     </div>
@@ -2967,20 +2967,20 @@ function renderGold() {
     +     '<span style="margin-left:auto;font-size:11px;color:var(--text-light)">' + priceSourceLabel + ' · ' + updateTimeStr + '</span>'
     +     '<button class="btn btn-primary" style="margin-left:8px;padding:6px 14px;font-size:12px" onclick="fetchMetalPrices()">🔄 刷新</button>'
     +   '</div>'
-    +   '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">'
+    +   '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">'
     // 黄金大盘
-    +     '<div style="background:#fff8f0;border-radius:12px;padding:16px;text-align:center;border:1px solid #f0e0c0">'
-    +       '<div style="font-size:13px;font-weight:600;color:#b8860b">🥇 黄金大盘价</div>'
-    +       '<div style="font-size:28px;font-weight:800;color:#d4a017;margin:6px 0">¥' + (h.goldPrice || 0).toFixed(2) + '<span style="font-size:13px;font-weight:400">/g</span></div>'
-    +       '<div style="font-size:11px;color:var(--text-light)">国际 $' + (h.goldUsdPrice || 0).toFixed(2) + '/oz · 汇率 ' + (h.usdCnyRate || 0).toFixed(2) + '</div>'
-    +       (goldChange !== 0 ? '<div style="font-size:13px;font-weight:600;color:' + (goldChange > 0 ? 'var(--primary)' : 'var(--accent-green)') + ';margin-top:4px">' + (goldChange > 0 ? '↑' : '↓') + ' ' + Math.abs(goldChange).toFixed(2) + ' (' + (goldChangePct > 0 ? '+' : '') + goldChangePct.toFixed(2) + '%)</div>' : '<div style="font-size:13px;color:var(--text-light);margin-top:4px">—</div>')
+    +     '<div style="background:#fff8f0;border-radius:10px;padding:8px 10px;text-align:center;border:1px solid #f0e0c0">'
+    +       '<div style="font-size:12px;font-weight:600;color:#b8860b">🥇 黄金大盘价</div>'
+    +       '<div style="font-size:20px;font-weight:800;color:#d4a017;margin:2px 0">¥' + (h.goldPrice || 0).toFixed(2) + '<span style="font-size:12px;font-weight:400">/g</span></div>'
+    +       '<div style="font-size:10px;color:var(--text-light)">$' + (h.goldUsdPrice || 0).toFixed(2) + '/oz · ' + (h.usdCnyRate || 0).toFixed(2) + '</div>'
+    +       (goldChange !== 0 ? '<div style="font-size:11px;font-weight:600;color:' + (goldChange > 0 ? 'var(--primary)' : 'var(--accent-green)') + ';margin-top:2px">' + (goldChange > 0 ? '↑' : '↓') + ' ' + Math.abs(goldChange).toFixed(2) + ' (' + (goldChangePct > 0 ? '+' : '') + goldChangePct.toFixed(2) + '%)</div>' : '<div style="font-size:11px;color:var(--text-light);margin-top:2px">—</div>')
     +     '</div>'
     // 白银大盘
-    +     '<div style="background:#f0f4ff;border-radius:12px;padding:16px;text-align:center;border:1px solid #d0d8f0">'
-    +       '<div style="font-size:13px;font-weight:600;color:#4682b4">🥈 白银大盘价</div>'
-    +       '<div style="font-size:28px;font-weight:800;color:#5a8ac4;margin:6px 0">¥' + (h.silverPrice || 0).toFixed(2) + '<span style="font-size:13px;font-weight:400">/g</span></div>'
-    +       '<div style="font-size:11px;color:var(--text-light)">国际 $' + (h.silverUsdPrice || 0).toFixed(2) + '/oz · 汇率 ' + (h.usdCnyRate || 0).toFixed(2) + '</div>'
-    +       (silverChange !== 0 ? '<div style="font-size:13px;font-weight:600;color:' + (silverChange > 0 ? 'var(--primary)' : 'var(--accent-green)') + ';margin-top:4px">' + (silverChange > 0 ? '↑' : '↓') + ' ' + Math.abs(silverChange).toFixed(2) + ' (' + (silverChangePct > 0 ? '+' : '') + silverChangePct.toFixed(2) + '%)</div>' : '<div style="font-size:13px;color:var(--text-light);margin-top:4px">—</div>')
+    +     '<div style="background:#f0f4ff;border-radius:10px;padding:8px 10px;text-align:center;border:1px solid #d0d8f0">'
+    +       '<div style="font-size:12px;font-weight:600;color:#4682b4">🥈 白银大盘价</div>'
+    +       '<div style="font-size:20px;font-weight:800;color:#5a8ac4;margin:2px 0">¥' + (h.silverPrice || 0).toFixed(2) + '<span style="font-size:12px;font-weight:400">/g</span></div>'
+    +       '<div style="font-size:10px;color:var(--text-light)">$' + (h.silverUsdPrice || 0).toFixed(2) + '/oz · ' + (h.usdCnyRate || 0).toFixed(2) + '</div>'
+    +       (silverChange !== 0 ? '<div style="font-size:11px;font-weight:600;color:' + (silverChange > 0 ? 'var(--primary)' : 'var(--accent-green)') + ';margin-top:2px">' + (silverChange > 0 ? '↑' : '↓') + ' ' + Math.abs(silverChange).toFixed(2) + ' (' + (silverChangePct > 0 ? '+' : '') + silverChangePct.toFixed(2) + '%)</div>' : '<div style="font-size:11px;color:var(--text-light);margin-top:2px">—</div>')
     +     '</div>'
     +   '</div>'
     + '</div>'
