@@ -3272,7 +3272,7 @@ function renderEnglish() {
     <div class="card">
       <div class="card-header"><span class="card-icon">🎧</span><h2>雅思听力训练</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">真题模拟</span></div>
       <div style="text-align:center;padding:10px 0">
-        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px">智能提取雅思听力真题，在线做题并对答案</div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:12px">5套模拟真题 · 4个Part · 选择题+填空题 · 在线做题并对答案</div>
         <button class="btn btn-primary" onclick="openIeltsPractice('listening')" style="font-size:13px;padding:10px 24px">🎧 开始听力练习</button>
       </div>
     </div>
@@ -3793,83 +3793,436 @@ function openIeltsPractice(type) {
   else if (type === 'writing') renderIeltsWriting();
 }
 
+let listenState = { testIdx: -1, sectionIdx: 0, checked: false, timer: null, seconds: 0 };
+
+const IELTS_LISTENING_TESTS = [
+  { title: '模拟测试 1', sections: [
+    { name: 'Part 1', topic: 'Hotel Booking Enquiry', transcript: 'RECEPTIONIST: Good afternoon, Grandview Hotel. How may I help you?\nWOMAN: Hi, I\'d like to book a room for next weekend, please.\nRECEPTIONIST: Certainly. Which dates are you looking at?\nWOMAN: From Friday the 15th to Sunday the 17th, so two nights.\nRECEPTIONIST: Let me check... Yes, we have availability. Would you prefer a single or a double room?\nWOMAN: A double room, please. Does the price include breakfast?\nRECEPTIONIST: Yes, breakfast is included. The rate is 95 pounds per night.\nWOMAN: Perfect. Is there parking available at the hotel?\nRECEPTIONIST: Yes, we have free parking for all hotel guests. I\'ll also note that our fitness centre and swimming pool are open from 6 am to 10 pm.\nWOMAN: That\'s great. Could I book under the name Wilson? My number is 07788 452193.\nRECEPTIONIST: Thank you, Ms Wilson. Your booking reference is GV8837. We look forward to seeing you.',
+      questions: [
+        { type: 'fill', q: 'The guest wants to stay from Friday 15th to Sunday ______.', answer: '17th', accept: ['17th','17','the 17th'] },
+        { type: 'mc', q: 'The guest books a ___ room.', options: ['single','double','twin','family'], answer: 1 },
+        { type: 'mc', q: 'Breakfast is ___ in the room rate.', options: ['included','£5 extra','£10 extra','not available'], answer: 0 },
+        { type: 'fill', q: 'Room rate: £______ per night', answer: '95', accept: ['95','£95','95 pounds'] },
+        { type: 'mc', q: 'Which facility is NOT mentioned?', options: ['Fitness centre','Swimming pool','Free parking','Restaurant'], answer: 3 },
+        { type: 'fill', q: 'Booking reference: ______', answer: 'GV8837', accept: ['GV8837','gv8837'] }
+      ]
+    },
+    { name: 'Part 2', topic: 'Museum Tour Guide', transcript: 'GUIDE: Welcome everyone to the Riverside Museum. I\'m your guide today. The museum was originally built in 1892 as a warehouse and was converted into a museum in 1965. We have three main galleries. The first gallery, on your left, features local history exhibits dating back to the 1800s. The second gallery, straight ahead, houses our natural history collection, including dinosaur fossils found in the region. The third gallery, on the right, is our temporary exhibition space, which currently displays contemporary art by local artists. The museum cafe is located on the second floor, serving hot meals and refreshments from 10 am to 4 pm. Please note that photography is not permitted in the natural history gallery. Our gift shop is near the exit. The guided tour takes approximately 45 minutes, and you\'re welcome to explore on your own afterwards.',
+      questions: [
+        { type: 'fill', q: 'The building was originally built in ______.', answer: '1892', accept: ['1892'] },
+        { type: 'mc', q: 'The building was converted into a museum in ___.', options: ['1920','1945','1965','1980'], answer: 2 },
+        { type: 'mc', q: 'The second gallery houses the ___ collection.', options: ['local history','natural history','contemporary art','ancient artefacts'], answer: 1 },
+        { type: 'mc', q: 'The museum cafe is open from 10 am to ___ pm.', options: ['3','4','5','6'], answer: 1 },
+        { type: 'fill', q: 'Photography is not permitted in the ______ gallery.', answer: 'natural history', accept: ['natural history','natural','the natural history'] },
+        { type: 'mc', q: 'The guided tour lasts about ___ minutes.', options: ['30','45','60','90'], answer: 1 }
+      ]
+    },
+    { name: 'Part 3', topic: 'Student Project Discussion', transcript: 'TOM: Hey Sarah, have you started on the marketing research project yet?\nSARAH: Yeah, I\'ve been looking at the requirements. We need to survey at least 200 people, right?\nTOM: Actually, the professor said 150 to 200. I think we should aim for the higher end to get better data.\nSARAH: Good idea. What about the methodology? Should we do online surveys or face-to-face interviews?\nTOM: I think a mix of both would be ideal. Online surveys for quantity, and then 20 face-to-face interviews for deeper insights.\nSARAH: That makes sense. When is the first draft due?\nTOM: The professor mentioned next Friday. But we should have the data collected by Wednesday so we have time to analyse it.\nSARAH: Okay. What software should we use for analysis? I was thinking SPSS.\nTOM: Actually, the professor recommended using R for this project. She said it\'s more suitable for the type of analysis we need.\nSARAH: Alright, I\'ll look into that. Should we meet on Tuesday to plan the survey questions?\nTOM: Tuesday works. Let\'s meet at the library at 2 pm.',
+      questions: [
+        { type: 'mc', q: 'The professor requires ___ survey responses.', options: ['100-150','150-200','200-250','250-300'], answer: 1 },
+        { type: 'mc', q: 'Tom suggests doing ___ face-to-face interviews.', options: ['10','15','20','25'], answer: 2 },
+        { type: 'mc', q: 'The first draft is due ___.', options: ['next Wednesday','next Thursday','next Friday','next Monday'], answer: 2 },
+        { type: 'mc', q: 'The professor recommended using ___ for data analysis.', options: ['Excel','SPSS','R','Python'], answer: 2 },
+        { type: 'fill', q: 'They plan to meet at the ______ on Tuesday at 2 pm.', answer: 'library', accept: ['library','the library'] },
+        { type: 'mc', q: 'Data should be collected by ___.', options: ['Monday','Tuesday','Wednesday','Thursday'], answer: 2 }
+      ]
+    },
+    { name: 'Part 4', topic: 'Lecture on Bee Conservation', transcript: 'LECTURER: Good morning. Today\'s lecture focuses on the decline of bee populations and why this matters. Bees are essential pollinators, responsible for pollinating approximately 75 percent of the world\'s flowering plants. However, bee populations have been declining rapidly since the late 1990s. There are several factors contributing to this decline. First, habitat loss due to urban expansion and intensive farming has reduced the available foraging areas. Second, the widespread use of pesticides, particularly neonicotinoids, has been linked to bee mortality. Third, climate change has disrupted the synchronisation between bee emergence and flower blooming. Fourth, parasites and diseases, such as the Varroa mite, have devastated honeybee colonies. Conservation efforts include planting wildflowers in urban areas, reducing pesticide use, and supporting local beekeepers. Some universities have even installed beehives on campus rooftops. The economic value of bee pollination is estimated at over 235 billion dollars globally. Without bees, our food supply would be severely threatened.',
+      questions: [
+        { type: 'fill', q: 'Bees pollinate approximately ______ percent of flowering plants.', answer: '75', accept: ['75','75%','seventy-five'] },
+        { type: 'mc', q: 'Bee populations have been declining since the ___.', options: ['early 1980s','late 1990s','early 2000s','late 2000s'], answer: 1 },
+        { type: 'mc', q: 'Which pesticide is specifically mentioned?', options: ['DDT','Glyphosate','Neonicotinoids','Organophosphates'], answer: 2 },
+        { type: 'mc', q: 'The Varroa mite is a type of ___.', options: ['bacterium','fungus','parasite','virus'], answer: 2 },
+        { type: 'fill', q: 'The economic value of bee pollination is over $______ billion globally.', answer: '235', accept: ['235','235 billion'] },
+        { type: 'mc', q: 'Which conservation effort is NOT mentioned?', options: ['Planting wildflowers','Reducing pesticides','Supporting beekeepers','Genetic modification'], answer: 3 }
+      ]
+    }
+  ]},
+  { title: '模拟测试 2', sections: [
+    { name: 'Part 1', topic: 'Library Registration', transcript: 'LIBRARIAN: Good morning. How can I help you?\nMAN: Hi, I\'d like to register for a library card.\nLIBRARIAN: Of course. Are you a resident of this city?\nMAN: Yes, I just moved here last month. I\'m living on King Street.\nLIBRARIAN: Great. I\'ll need to see some proof of address. A utility bill or a bank statement would work.\nMAN: I have a bank statement here. Is that okay?\nLIBRARIAN: Perfect. Now, there\'s a one-time registration fee of 12 pounds. The card is valid for three years.\nMAN: That\'s reasonable. How many items can I borrow at once?\nLIBRARIAN: You can borrow up to 8 items at a time, for a period of 3 weeks each. You can renew online up to two times.\nMAN: What about overdue fines?\nLIBRARIAN: It\'s 30 pence per day per item. But we\'ll send you email reminders three days before the due date.\nMAN: That\'s helpful. Do you have e-books and audiobooks as well?\nLIBRARIAN: Yes, we have a large digital collection accessible through our website or mobile app.\nMAN: Excellent. My email is john.smith@email.com.\nLIBRARIAN: Thank you. Your card will be ready in about 5 minutes. Here\'s your temporary number: LB4471.',
+      questions: [
+        { type: 'fill', q: 'Registration fee: £______', answer: '12', accept: ['12','£12','12 pounds'] },
+        { type: 'mc', q: 'The library card is valid for ___ years.', options: ['1','2','3','5'], answer: 2 },
+        { type: 'mc', q: 'You can borrow up to ___ items at a time.', options: ['5','6','8','10'], answer: 2 },
+        { type: 'fill', q: 'Loan period: ______ weeks', answer: '3', accept: ['3','three'] },
+        { type: 'mc', q: 'Overdue fine: ___ per day per item.', options: ['10p','20p','30p','50p'], answer: 2 },
+        { type: 'fill', q: 'Temporary card number: ______', answer: 'LB4471', accept: ['LB4471','lb4471'] }
+      ]
+    },
+    { name: 'Part 2', topic: 'Park Renovation Announcement', transcript: 'SPEAKER: Good evening, residents. I\'m pleased to announce that the city council has approved the renovation of Central Park. The project will begin on March 1st and is expected to take approximately six months to complete. The renovation includes several exciting improvements. First, a new children\'s playground will be built in the northwest corner, replacing the old equipment. Second, the existing pond will be expanded and cleaned, with new fish and water plants introduced. Third, a 2-kilometre running track will be installed around the perimeter of the park. Fourth, we\'ll be adding 50 new benches and 30 new trees throughout the park. During the renovation, the park will remain open, but certain sections may be temporarily closed. The total budget for the project is 2.3 million pounds, funded by the council and a local charity. If you have any questions, please visit our website at www.centralpark-renovation.org or call our office at 0800 555 218.',
+      questions: [
+        { type: 'fill', q: 'Project start date: March ______', answer: '1st', accept: ['1st','1','the 1st'] },
+        { type: 'mc', q: 'The renovation is expected to take ___ months.', options: ['4','5','6','8'], answer: 2 },
+        { type: 'mc', q: 'The new playground will be in the ___ corner.', options: ['northeast','northwest','southeast','southwest'], answer: 1 },
+        { type: 'fill', q: 'Running track length: ______ km', answer: '2', accept: ['2','two','2-km'] },
+        { type: 'mc', q: 'How many new trees will be planted?', options: ['20','30','40','50'], answer: 3 },
+        { type: 'fill', q: 'Total budget: £______ million', answer: '2.3', accept: ['2.3','2.3 million'] }
+      ]
+    },
+    { name: 'Part 3', topic: 'Course Selection Discussion', transcript: 'ADVISOR: So, James, let\'s discuss your course selections for next semester.\nJAMES: I\'m planning to take four modules. I definitely want to take Advanced Statistics.\nADVISOR: That\'s a good choice, but it has a prerequisite. Have you completed Introduction to Statistics?\nJAMES: Yes, I took that last year and got a B plus.\nADVISOR: Great. What else are you considering?\nJAMES: I\'m thinking about Research Methods and Cognitive Psychology.\nADVISOR: Both are excellent. However, Research Methods involves a lot of coursework. Are you sure you can handle four modules?\nJAMES: I think so. What would you suggest as my fourth option?\nADVISOR: Given your interest in clinical work, I\'d recommend Abnormal Psychology. It\'s taught by Dr. Harrison, who is very engaging.\nJAMES: That sounds perfect. When does registration open?\nADVISOR: Online registration opens next Monday at 9 am. I\'d suggest registering early as popular modules fill up quickly.\nJAMES: Will do. What if a module is full?\nADVISOR: You can join the waiting list, and I can also help you find an alternative. Just email me if that happens.\nJAMES: Thank you, Professor. I\'ll register first thing Monday.',
+      questions: [
+        { type: 'mc', q: 'James got a ___ in Introduction to Statistics.', options: ['B minus','B','B plus','A minus'], answer: 2 },
+        { type: 'mc', q: 'James is considering all EXCEPT ___.', options: ['Advanced Statistics','Research Methods','Cognitive Psychology','Abnormal Psychology'], answer: 3 },
+        { type: 'mc', q: 'The advisor recommends ___ as the fourth module.', options: ['Abnormal Psychology','Social Psychology','Neuroscience','Developmental Psychology'], answer: 0 },
+        { type: 'mc', q: 'Who teaches Abnormal Psychology?', options: ['Dr. Smith','Dr. Harrison','Dr. Brown','Dr. Lee'], answer: 1 },
+        { type: 'fill', q: 'Registration opens next ______ at 9 am.', answer: 'Monday', accept: ['Monday','monday'] },
+        { type: 'mc', q: 'What should James do if a module is full?', options: ['Drop the module','Join the waiting list','Change his major','Contact the dean'], answer: 1 }
+      ]
+    },
+    { name: 'Part 4', topic: 'Lecture on Sleep Science', transcript: 'LECTURER: Today we\'ll be exploring the science of sleep. Humans spend approximately one third of their lives sleeping. Sleep occurs in cycles, each lasting about 90 minutes, and consists of two main types: REM sleep and non-REM sleep. Non-REM sleep has three stages, progressing from light sleep to deep sleep. During deep sleep, the body repairs tissues, strengthens the immune system, and builds bone and muscle. REM sleep, which stands for Rapid Eye Movement, is when most dreaming occurs. It\'s crucial for memory consolidation and learning. Studies show that adults need 7 to 9 hours of sleep per night. However, a 2020 survey found that 35 percent of adults regularly get less than 7 hours. Chronic sleep deprivation has been linked to numerous health issues, including obesity, heart disease, and depression. To improve sleep quality, experts recommend maintaining a consistent sleep schedule, avoiding screens for at least an hour before bed, and keeping the bedroom temperature between 16 and 19 degrees Celsius.',
+      questions: [
+        { type: 'mc', q: 'Each sleep cycle lasts approximately ___ minutes.', options: ['60','75','90','120'], answer: 2 },
+        { type: 'mc', q: 'Non-REM sleep has ___ stages.', options: ['2','3','4','5'], answer: 1 },
+        { type: 'fill', q: 'REM stands for Rapid ______ Movement.', answer: 'Eye', accept: ['Eye','eye'] },
+        { type: 'mc', q: 'Adults need ___ hours of sleep per night.', options: ['5-7','6-8','7-9','8-10'], answer: 2 },
+        { type: 'fill', q: '______ percent of adults get less than 7 hours of sleep.', answer: '35', accept: ['35','35%'] },
+        { type: 'mc', q: 'Recommended bedroom temperature: ___ degrees Celsius.', options: ['14-16','16-19','19-22','22-25'], answer: 1 }
+      ]
+    }
+  ]},
+  { title: '模拟测试 3', sections: [
+    { name: 'Part 1', topic: 'Restaurant Reservation', transcript: 'HOST: Green Garden Restaurant, how can I help you?\nWOMAN: I\'d like to make a reservation for this Saturday evening.\nHOST: Of course. For how many people?\nWOMAN: Six adults and two children. We\'ll need a table that can accommodate a high chair.\nHOST: Let me check... Yes, we have a table available at 7:30 pm. Would that work?\nWOMAN: Could we possibly get 7:00 instead? We have young kids, so earlier is better.\nHOST: I\'m afraid 7:00 is fully booked. We do have 6:30 available.\nWOMAN: 6:30 would be perfect. Can we sit in the garden area?\nHOST: The garden area is available, but it\'s outdoors. Would you like me to note that?\nWOMAN: Yes, please. Also, one of our party has a nut allergy. Can the kitchen be informed?\nHOST: Absolutely, I\'ll add that to the reservation. Can I take your name and phone number?\nWOMAN: It\'s under Chen, and my number is 07912 884502.\nHOST: Thank you. Your reservation is confirmed for 6:30 pm this Saturday, party of 8, garden seating, nut allergy noted.',
+      questions: [
+        { type: 'mc', q: 'The reservation is for ___ adults.', options: ['4','5','6','8'], answer: 2 },
+        { type: 'fill', q: 'The reservation time is ______ pm.', answer: '6:30', accept: ['6:30','6.30','half past 6'] },
+        { type: 'mc', q: 'The 7:00 slot is ___.', options: ['available','fully booked','only for 4 people','outside only'], answer: 1 },
+        { type: 'mc', q: 'The party requests seating in the ___.', options: ['main dining room','bar area','garden','private room'], answer: 2 },
+        { type: 'mc', q: 'One guest has a ___ allergy.', options: ['gluten','nut','dairy','seafood'], answer: 1 },
+        { type: 'fill', q: 'Reservation name: ______', answer: 'Chen', accept: ['Chen','chen'] }
+      ]
+    },
+    { name: 'Part 2', topic: 'University Open Day', transcript: 'SPEAKER: Welcome to Westfield University\'s open day. My name is Rebecca. Westfield University was founded in 1923 and currently has approximately 12,000 students enrolled across six faculties. Our library, which you can see on your right, is open 24 hours a day during exam periods and houses over 300,000 books. To your left is the Student Union building, which hosts over 80 student societies and clubs. The sports centre, located at the north end of campus, features a 25-metre swimming pool, four tennis courts, and a climbing wall. Membership is free for all enrolled students. Our newest building, the Innovation Centre, was completed last year and houses our engineering and computer science departments. It features state-of-the-art laboratories and a 3D printing studio. Accommodation is guaranteed for all first-year students, with 14 halls of residence on campus. Now, let\'s walk towards the science block.',
+      questions: [
+        { type: 'fill', q: 'The university was founded in ______.', answer: '1923', accept: ['1923'] },
+        { type: 'mc', q: 'The university has approximately ___ students.', options: ['8,000','10,000','12,000','15,000'], answer: 2 },
+        { type: 'mc', q: 'The library houses over ___ books.', options: ['200,000','250,000','300,000','500,000'], answer: 2 },
+        { type: 'mc', q: 'The sports centre has a ___ metre pool.', options: ['20','25','30','50'], answer: 1 },
+        { type: 'mc', q: 'Which facility is in the Innovation Centre?', options: ['Library','3D printing studio','Swimming pool','Student Union'], answer: 1 },
+        { type: 'fill', q: 'Accommodation is guaranteed for ______ students.', answer: 'first-year', accept: ['first-year','first year','first'] }
+      ]
+    },
+    { name: 'Part 3', topic: 'Field Trip Planning', transcript: 'PROFESSOR: Alright, let\'s plan the geology field trip. Where are we thinking of going?\nLISA: I was thinking the coastal area near Portland. It has excellent rock formations.\nPROFESSOR: Good suggestion. When are you planning to go?\nMARK: The second week of March, if that works. That\'s before the exam period.\nPROFESSOR: Let me check the calendar. March 12th to 14th - how does that sound?\nLISA: That\'s perfect. We\'ll need transportation for 18 students.\nPROFESSOR: I can arrange a coach. The geology department has a budget of 400 pounds for the trip.\nMARK: What about accommodation? Should we camp or stay in a hostel?\nLISA: A hostel would be better, especially if the weather is unpredictable.\nPROFESSOR: I agree. There\'s a youth hostel near Portland that charges 22 pounds per person per night.\nMARK: So for two nights, that\'s 44 pounds per student. The coach will be about 300 pounds total.\nLISA: That leaves 100 pounds for food. Should each student bring their own packed lunch?\nPROFESSOR: Yes, I think that\'s best. The hostel provides breakfast and evening meals for an additional 15 pounds per person per day.\nMARK: That\'s over budget. The professor will request additional funding from the faculty.',
+      questions: [
+        { type: 'mc', q: 'The field trip destination is near ___.', options: ['Dorset','Portland','Brighton','Cornwall'], answer: 1 },
+        { type: 'fill', q: 'Trip dates: March ______ to 14th', answer: '12th', accept: ['12th','12','the 12th'] },
+        { type: 'mc', q: '___ students are going on the trip.', options: ['15','16','18','20'], answer: 2 },
+        { type: 'fill', q: 'Department budget: £______', answer: '400', accept: ['400','£400','400 pounds'] },
+        { type: 'mc', q: 'Hostel cost: £___ per person per night.', options: ['18','20','22','25'], answer: 2 },
+        { type: 'mc', q: 'The professor will request ___ from the faculty.', options: ['a coach','additional funding','more students','better weather'], answer: 1 }
+      ]
+    },
+    { name: 'Part 4', topic: 'Lecture on Urban Planning', transcript: 'LECTURER: Today\'s lecture examines the evolution of urban planning in the 20th century. The concept of modern urban planning emerged in the late 1800s as a response to overcrowding and poor sanitation in industrial cities. One of the most influential figures was Ebenezer Howard, who proposed the "Garden City" concept in 1898. His idea was to combine the benefits of city and country living by creating self-contained communities surrounded by green belts. The first garden city, Letchworth, was built in 1903 in England. In the 1920s, Le Corbusier proposed a radically different vision: the "Radiant City," featuring tall skyscrapers set in large park-like spaces, with separation of pedestrian and vehicle traffic. After World War II, many cities embraced modernist planning, but by the 1970s, critics like Jane Jacobs argued that these approaches destroyed community life. Today, urban planning emphasises sustainability, mixed-use development, and public transportation. The concept of the "15-minute city," where all essential services are within a 15-minute walk or cycle, has gained significant traction since 2020.',
+      questions: [
+        { type: 'mc', q: 'Modern urban planning emerged in the ___.', options: ['early 1800s','mid-1800s','late 1800s','early 1900s'], answer: 2 },
+        { type: 'mc', q: 'The "Garden City" concept was proposed in ___.', options: ['1888','1898','1903','1920'], answer: 1 },
+        { type: 'fill', q: 'The first garden city was ______, built in 1903.', answer: 'Letchworth', accept: ['Letchworth','letchworth'] },
+        { type: 'mc', q: 'Le Corbusier proposed the "______ City."', options: ['Garden','Radiant','Smart','Green'], answer: 1 },
+        { type: 'mc', q: 'Jane Jacobs criticised modernist planning in the ___.', options: ['1950s','1960s','1970s','1980s'], answer: 2 },
+        { type: 'fill', q: 'The "______-minute city" concept gained traction since 2020.', answer: '15', accept: ['15','fifteen'] }
+      ]
+    }
+  ]},
+  { title: '模拟测试 4', sections: [
+    { name: 'Part 1', topic: 'Job Interview Arrangements', transcript: 'HR: Good morning, this is Sarah from TechCorp HR department. Am I speaking with David?\nDAVID: Yes, this is David speaking.\nHR: We\'d like to invite you for an interview for the software developer position.\nDAVID: That\'s great news! When would you like me to come in?\nHR: We have slots on Wednesday morning at 10 am or Thursday afternoon at 2 pm.\nDAVID: Wednesday at 10 would be ideal.\nHR: Perfect. The interview will be in our central London office, on the 7th floor. Please arrive 15 minutes early to complete some paperwork.\nDAVID: Of course. How long will the interview take?\nHR: Approximately 45 minutes. You\'ll be meeting with the technical lead, Mr. Patel, and the department head, Ms. Wang.\nDAVID: Should I bring anything?\nHR: Please bring two copies of your CV and a form of ID. Also, be prepared for a short coding exercise of about 15 minutes.\nDAVID: Is there parking available?\nHR: Unfortunately, we don\'t have visitor parking. The nearest tube station is Bank Station, about a 5-minute walk. If you need to drive, there\'s a public car park on Threadneedle Street.\nDAVID: I\'ll take the tube then. Thank you.',
+      questions: [
+        { type: 'mc', q: 'The interview is scheduled for ___.', options: ['Tuesday morning','Wednesday morning','Thursday morning','Friday morning'], answer: 1 },
+        { type: 'fill', q: 'The interview is on the ______ floor.', answer: '7th', accept: ['7th','7','seventh'] },
+        { type: 'mc', q: 'David should arrive ___ minutes early.', options: ['10','15','20','30'], answer: 1 },
+        { type: 'mc', q: 'The interview will last about ___ minutes.', options: ['30','45','60','90'], answer: 1 },
+        { type: 'mc', q: 'David should bring ___ copies of his CV.', options: ['1','2','3','4'], answer: 1 },
+        { type: 'fill', q: 'Nearest tube station: ______ Station', answer: 'Bank', accept: ['Bank','bank'] }
+      ]
+    },
+    { name: 'Part 2', topic: 'Fitness Centre Orientation', transcript: 'INSTRUCTOR: Welcome to PeakFit Fitness Centre! I\'m Marcus, your membership advisor. We have three main workout areas. The cardio zone, on the ground floor, features 40 machines including treadmills, ellipticals, and rowing machines. Each machine has a personal TV screen. The free weights area is upstairs, with equipment ranging from 2 to 50 kilograms. Our group exercise studio hosts over 50 classes per week, including yoga, spinning, and HIIT. Classes are included in all membership tiers. We also have a dedicated stretching area near the changing rooms. Our personal training team consists of 12 certified trainers. A single PT session costs 35 pounds, while a block of 10 costs 300 pounds. The centre is open from 5:30 am to 11 pm on weekdays, and 7 am to 9 pm on weekends. Members can access all facilities using their membership card or the mobile app\'s QR code. Lockers are free - just bring your own padlock. New members get a free health assessment within the first month.',
+      questions: [
+        { type: 'fill', q: 'The cardio zone has ______ machines.', answer: '40', accept: ['40','forty'] },
+        { type: 'mc', q: 'Free weights range from 2 to ___ kg.', options: ['30','40','50','60'], answer: 2 },
+        { type: 'mc', q: 'The centre offers over ___ group classes per week.', options: ['30','40','50','60'], answer: 2 },
+        { type: 'fill', q: 'A single PT session costs £______', answer: '35', accept: ['35','£35','35 pounds'] },
+        { type: 'mc', q: 'Weekday hours: 5:30 am to ___ pm.', options: ['9','10','11','12'], answer: 2 },
+        { type: 'mc', q: 'New members get a free ___ within the first month.', options: ['PT session','health assessment','nutrition plan','massage'], answer: 1 }
+      ]
+    },
+    { name: 'Part 3', topic: 'Thesis Feedback Session', transcript: 'SUPERVISOR: Let\'s discuss your thesis draft, Emma. Overall, the literature review is solid.\nEMMA: Thank you. I spent a lot of time on it.\nSUPERVISOR: However, I have concerns about your methodology. You mentioned questionnaires but haven\'t specified the sample size.\nEMMA: I was planning to survey around 300 participants. Is that sufficient?\nSUPERVISOR: For a mixed-methods study, yes, but you should also include 15 to 20 semi-structured interviews for the qualitative part.\nEMMA: Good point. What about the data analysis?\nSUPERVISOR: You\'ve mentioned thematic analysis for qualitative data, which is appropriate. For quantitative side, I notice you\'re planning t-tests. Have you considered ANOVA?\nEMMA: I thought about it, but my variables are only comparing two groups.\nSUPERVISOR: In that case, t-tests are fine. But make sure you check the normality of your data first.\nEMMA: I\'ll use the Shapiro-Wilk test for that. When would you like the revised draft?\nSUPERVISOR: Let\'s say the 28th of this month. That gives us time for one more round of feedback.\nEMMA: The final submission is April 15th, right?\nSUPERVISOR: Yes. But I\'d like your final draft by March 20th so we have a buffer.',
+      questions: [
+        { type: 'mc', q: 'The supervisor praises the ___ section.', options: ['methodology','literature review','data analysis','conclusion'], answer: 1 },
+        { type: 'fill', q: 'Planned sample size: ______ participants', answer: '300', accept: ['300','three hundred'] },
+        { type: 'mc', q: 'The supervisor suggests ___ semi-structured interviews.', options: ['10-15','15-20','20-25','25-30'], answer: 1 },
+        { type: 'mc', q: 'For checking normality, Emma will use the ___ test.', options: ['t-test','ANOVA','Shapiro-Wilk','Chi-square'], answer: 2 },
+        { type: 'fill', q: 'Revised draft due: the ______ of this month', answer: '28th', accept: ['28th','28','the 28th'] },
+        { type: 'mc', q: 'Final submission deadline: April ___.', options: ['10th','15th','20th','30th'], answer: 1 }
+      ]
+    },
+    { name: 'Part 4', topic: 'Lecture on Renewable Energy', transcript: 'LECTURER: Today we\'ll examine the global transition to renewable energy. As of 2023, renewable energy accounted for approximately 30 percent of global electricity generation. The three largest sources are hydropower, wind, and solar. Hydropower remains the leader, generating about 1,350 gigawatts globally. However, wind and solar are growing much faster. Solar capacity has doubled in the last five years, thanks to a 90 percent reduction in solar panel costs since 2010. China is the world\'s largest producer of renewable energy, followed by the United States and Brazil. Interestingly, Iceland generates nearly 100 percent of its electricity from renewable sources, primarily geothermal and hydropower. Despite this progress, challenges remain. Energy storage is critical, as solar and wind are intermittent. Battery technology has improved, with lithium-ion battery costs dropping by 89 percent since 2010. However, grid-scale storage solutions are still in development. The IEA estimates achieving net-zero by 2050 will require annual investment of 4.5 trillion dollars in clean energy.',
+      questions: [
+        { type: 'fill', q: 'Renewable energy accounts for about ______% of global electricity.', answer: '30', accept: ['30','30%'] },
+        { type: 'mc', q: 'The largest renewable source by capacity is ___.', options: ['wind','solar','hydropower','geothermal'], answer: 2 },
+        { type: 'mc', q: 'Solar panel costs have decreased by ___ since 2010.', options: ['50%','70%','80%','90%'], answer: 3 },
+        { type: 'mc', q: '___ generates nearly 100% of electricity from renewables.', options: ['China','Iceland','Brazil','Norway'], answer: 1 },
+        { type: 'fill', q: 'Battery costs have dropped by ______% since 2010.', answer: '89', accept: ['89','89%'] },
+        { type: 'mc', q: 'Annual investment needed for net-zero: $___ trillion.', options: ['2.5','3.5','4.5','5.5'], answer: 2 }
+      ]
+    }
+  ]},
+  { title: '模拟测试 5', sections: [
+    { name: 'Part 1', topic: 'Travel Agency Enquiry', transcript: 'AGENT: Sunshine Travel, this is Mike speaking. How can I help?\nWOMAN: Hi, I\'m interested in booking a holiday to Greece for my family of four.\nAGENT: Wonderful destination! When are you looking to travel?\nWOMAN: Ideally the second week of July, for 10 days.\nAGENT: We have a great package to Crete - flights and 4-star hotel for 780 pounds per person. Children under 12 get a 40 percent discount.\nWOMAN: That sounds promising. My children are 8 and 10, so they\'d qualify.\nAGENT: Yes. So the total would be 1,560 for two adults, and 468 for two children. That\'s 2,028 pounds total.\nWOMAN: Does that include airport transfers?\nAGENT: Yes, return transfers are included. The hotel is all-inclusive, so meals and drinks are covered.\nWOMAN: Excellent. What about excursions?\nAGENT: The package includes one free boat trip. Additional excursions cost between 25 and 60 pounds per person.\nWOMAN: That\'s reasonable. How much is the deposit?\nAGENT: The deposit is 200 pounds per booking, and the balance is due 6 weeks before departure.\nWOMAN: Can I hold this price for 24 hours?\nAGENT: Unfortunately, prices can change daily. But if you book today, I can lock in this rate.',
+      questions: [
+        { type: 'fill', q: 'Destination: ______', answer: 'Crete', accept: ['Crete','crete','Greece','greece'] },
+        { type: 'mc', q: 'Duration of holiday: ___ days.', options: ['7','10','14','21'], answer: 1 },
+        { type: 'mc', q: 'Adult price: £___ per person.', options: ['680','780','880','980'], answer: 1 },
+        { type: 'mc', q: 'Children get a ___ discount.', options: ['20%','30%','40%','50%'], answer: 2 },
+        { type: 'fill', q: 'Deposit: £______', answer: '200', accept: ['200','£200','200 pounds'] },
+        { type: 'mc', q: 'The package includes ___ free excursion(s).', options: ['0','1','2','3'], answer: 1 }
+      ]
+    },
+    { name: 'Part 2', topic: 'Community Event Announcement', transcript: 'SPEAKER: Hello everyone. I\'m here to tell you about our upcoming Summer Festival on Saturday July 20th in Victoria Park. The festival runs from 10 in the morning until 8 in the evening. We have an exciting programme. The morning starts with a farmers\' market at 10 am, featuring over 40 local vendors. At noon, there will be a cooking demonstration by celebrity chef Antonio Rossi in the main tent. From 2 pm, we have live music on the main stage, with performances from three local bands and our headliner, The Midnight Owls. For families, there\'s a dedicated children\'s zone with face painting, bouncy castles, and games, open from 11 am to 5 pm. Food trucks will be stationed around the park. Entry is free, but some activities require tokens at 1 pound each or 10 pounds for a strip of 12. All proceeds go to the local children\'s hospital. We encourage public transport as parking is limited. The nearest station is Victoria Park East, a 3-minute walk.',
+      questions: [
+        { type: 'fill', q: 'Festival date: Saturday July ______', answer: '20th', accept: ['20th','20','the 20th'] },
+        { type: 'mc', q: 'The festival runs from 10 am to ___ pm.', options: ['6','7','8','9'], answer: 2 },
+        { type: 'mc', q: 'The cooking demonstration is at ___.', options: ['10 am','11 am','noon','2 pm'], answer: 2 },
+        { type: 'mc', q: 'The children\'s zone is open from 11 am to ___ pm.', options: ['4','5','6','7'], answer: 1 },
+        { type: 'fill', q: 'A strip of ______ tokens costs £10.', answer: '12', accept: ['12','twelve'] },
+        { type: 'mc', q: 'Nearest station: Victoria Park ___', options: ['North','South','East','West'], answer: 2 }
+      ]
+    },
+    { name: 'Part 3', topic: 'Research Grant Discussion', transcript: 'PROFESSOR CHEN: Rachel, I\'ve reviewed your grant proposal for the biodiversity study. It\'s well-written, but I have suggestions.\nRACHEL: Thank you, Professor. I appreciate the feedback.\nPROFESSOR CHEN: First, the budget seems underestimated. You\'ve allocated 5,000 pounds for equipment, but field cameras alone will cost at least 3,500.\nRACHEL: Should I increase the equipment budget?\nPROFESSOR CHEN: Yes, I\'d suggest 7,000. Also, you haven\'t included travel costs. The study sites are in remote areas.\nRACHEL: You\'re right. I\'ll add approximately 3,000 for transport.\nPROFESSOR CHEN: Good. Now, the timeline - you\'ve proposed 12 months. Given the scope, I think 18 months would be more realistic.\nRACHEL: The funding body allows up to 24 months, so 18 would be fine.\nPROFESSOR CHEN: Excellent. Who else is on the research team?\nRACHEL: Two PhD students and a field assistant. I was hoping to collaborate with Dr. Foster from the biology department.\nPROFESSOR CHEN: Dr. Foster would be excellent. Her expertise in statistical modelling would strengthen the proposal.\nRACHEL: When is the submission deadline?\nPROFESSOR CHEN: The internal deadline is October 5th, and the external deadline is October 20th. I\'d like to review the final version by October 1st.',
+      questions: [
+        { type: 'fill', q: 'Original equipment budget: £______', answer: '5,000', accept: ['5,000','5000'] },
+        { type: 'mc', q: 'Suggested equipment budget: £___', options: ['6,000','7,000','8,000','10,000'], answer: 1 },
+        { type: 'mc', q: 'Transport costs: approximately £___', options: ['2,000','3,000','4,000','5,000'], answer: 1 },
+        { type: 'mc', q: 'Suggested timeline: ___ months.', options: ['12','15','18','24'], answer: 2 },
+        { type: 'mc', q: 'Rachel wants to collaborate with Dr. ___', options: ['Chen','Foster','Wang','Patel'], answer: 1 },
+        { type: 'fill', q: 'Internal deadline: October ______', answer: '5th', accept: ['5th','5','the 5th'] }
+      ]
+    },
+    { name: 'Part 4', topic: 'Lecture on Artificial Intelligence', transcript: 'LECTURER: Today\'s lecture provides an overview of artificial intelligence. The term "artificial intelligence" was first coined in 1956 at a conference at Dartmouth College. However, progress was slow until the 2010s, when three factors converged: massive datasets, improved algorithms, and powerful graphics processing units. Deep learning, a subset of machine learning, has been the driving force behind recent breakthroughs. In 2012, a neural network called AlexNet achieved a 15 percent improvement in image recognition accuracy, marking a turning point. Natural language processing saw a revolution in 2017 with the introduction of the transformer architecture. This led to large language models that can generate human-like text. AI has applications across numerous fields. In healthcare, AI systems can detect certain cancers with accuracy comparable to specialist doctors. However, AI raises ethical concerns, including algorithmic bias, job displacement, and privacy issues. A 2023 survey found that 52 percent of experts believe AI will have a mostly positive impact, while 37 percent expressed concerns. The EU\'s AI Act is the first comprehensive legal framework. Looking ahead, the development of artificial general intelligence remains a topic of intense debate.',
+      questions: [
+        { type: 'fill', q: 'The term "AI" was coined in ______.', answer: '1956', accept: ['1956'] },
+        { type: 'mc', q: 'AlexNet improved image recognition by ___ in 2012.', options: ['10%','15%','20%','25%'], answer: 1 },
+        { type: 'mc', q: 'The transformer architecture was introduced in ___.', options: ['2015','2016','2017','2018'], answer: 2 },
+        { type: 'mc', q: 'In healthcare, AI can detect certain ___ accurately.', options: ['heart disease','cancers','diabetes','flu'], answer: 1 },
+        { type: 'fill', q: '______% of experts believe AI will have a mostly positive impact.', answer: '52', accept: ['52','52%'] },
+        { type: 'mc', q: 'The EU\'s ___ is the first comprehensive AI legal framework.', options: ['AI Act','AI Law','Digital Act','Tech Act'], answer: 0 }
+      ]
+    }
+  ]}
+];
+
 function renderIeltsListening() {
-  const questions = [
-    { section: 'Section 1', audio_text: 'You will hear a conversation between a student and a housing officer.', questions: [
-      { q: 'The student is looking for ___ accommodation.', options: ['on-campus', 'off-campus', 'homestay', 'shared'], answer: 1 },
-      { q: 'The preferred rent is around £___ per week.', options: ['80-100', '100-120', '120-150', '150-200'], answer: 1 },
-      { q: 'The student wants to move in by ___.', options: ['this weekend', 'next Monday', 'the 1st of next month', 'end of this month'], answer: 2 },
-      { q: 'The housing officer suggests viewing ___ properties.', options: ['2', '3', '4', '5'], answer: 2 },
-    ]},
-    { section: 'Section 2', audio_text: 'You will hear a tour guide talking about a museum visit.', questions: [
-      { q: 'The museum was built in ___.', options: ['1850', '1880', '1920', '1950'], answer: 1 },
-      { q: 'The entrance fee for students is £___.', options: ['3.50', '4.00', '5.50', '6.00'], answer: 0 },
-      { q: 'The guided tour lasts approximately ___ minutes.', options: ['30', '45', '60', '90'], answer: 2 },
-      { q: 'Photography is ___ in the museum.', options: ['allowed everywhere', 'allowed without flash', 'not allowed', 'allowed with permit'], answer: 1 },
-    ]},
-    { section: 'Section 3', audio_text: 'You will hear two students discussing their research project.', questions: [
-      { q: 'The research topic is about ___.', options: ['climate change', 'urban planning', 'renewable energy', 'water conservation'], answer: 2 },
-      { q: 'They need to interview ___ people.', options: ['10-15', '15-20', '20-25', '25-30'], answer: 1 },
-      { q: 'The deadline for the first draft is ___.', options: ['this Friday', 'next Monday', 'next Wednesday', 'next Friday'], answer: 3 },
-      { q: 'The professor suggested using ___ for data analysis.', options: ['Excel', 'SPSS', 'Python', 'R'], answer: 1 },
-    ]}
-  ];
-  const sec = questions[Math.floor(Math.random() * questions.length)];
+  if (!data.ieltsListenProgress) data.ieltsListenProgress = {};
   let html = `<div class="modal-overlay" onclick="if(event.target===this)closeModal()">
-    <div class="modal" style="max-width:500px">
-      <h3>🎧 雅思听力训练 · ${sec.section}</h3>
-      <div style="background:#f0f4ff;border-radius:10px;padding:12px;margin-bottom:12px">
-        <div style="font-size:11px;color:var(--text-light);margin-bottom:4px">📝 听力文本（模拟）</div>
-        <div style="font-size:12px;line-height:1.6">${sec.audio_text}</div>
-        <button class="btn btn-sm btn-primary" onclick="speakListeningText()" style="font-size:10px;margin-top:8px">🔊 播放听力</button>
-        <button class="btn btn-sm btn-outline" onclick="speakListeningText(0.6)" style="font-size:10px;margin-top:8px">🐌 慢速</button>
+    <div class="modal" style="max-width:500px;max-height:85vh;overflow-y:auto">
+      <h3>🎧 雅思听力训练</h3>
+      <div style="font-size:12px;color:var(--text-light);margin-bottom:12px">5套模拟真题 · 每套4个Part · 选择题+填空题 · 听力原文可查看</div>`;
+  IELTS_LISTENING_TESTS.forEach((test, ti) => {
+    const prog = data.ieltsListenProgress[ti] || {};
+    const completedSections = test.sections.filter((_, si) => prog[si] !== undefined).length;
+    const totalQs = test.sections.reduce((s, sec) => s + sec.questions.length, 0);
+    let totalCorrect = 0;
+    test.sections.forEach((_, si) => { if (prog[si]) totalCorrect += prog[si].correct; });
+    html += `<div style="background:#f8f8f8;border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer" onclick="startListenTest(${ti})">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:13px;font-weight:600">${test.title}</div>
+          <div style="font-size:11px;color:var(--text-light);margin-top:2px">4个Part · 共${totalQs}题</div>
+        </div>
+        <div style="text-align:right">
+          ${completedSections > 0 ? `<div style="font-size:11px;color:var(--accent-green)">✅ 已做${completedSections}/4 · ${totalCorrect}/${totalQs}</div>` : '<div style="font-size:11px;color:var(--text-light)">未开始</div>'}
+        </div>
       </div>
-      <div id="ieltsListenQ"></div>
-      <div class="btn-row"><button class="btn btn-primary" onclick="checkIeltsListening()">提交答案</button><button class="btn btn-outline" onclick="closeModal()">关闭</button></div>
+    </div>`;
+  });
+  html += `<div class="btn-row"><button class="btn btn-outline" onclick="closeModal()">关闭</button></div>
     </div>
   </div>`;
   $('#modalContainer').innerHTML = html;
-  window._ieltsListenData = sec;
+}
+
+function startListenTest(idx) {
+  listenState = { testIdx: idx, sectionIdx: 0, checked: false, timer: null, seconds: 0 };
+  renderListenSection();
+}
+
+function renderListenSection() {
+  const test = IELTS_LISTENING_TESTS[listenState.testIdx];
+  const sec = test.sections[listenState.sectionIdx];
+  if (listenState.timer) clearInterval(listenState.timer);
+  listenState.seconds = 0; listenState.checked = false;
+  listenState.timer = setInterval(() => {
+    listenState.seconds++;
+    const el = document.getElementById('listenTimer');
+    if (el) {
+      const m = Math.floor(listenState.seconds / 60), s = listenState.seconds % 60;
+      el.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+  }, 1000);
+  let html = `<div class="modal-overlay" onclick="if(event.target===this)closeListenTest()">
+    <div class="modal" style="max-width:520px;max-height:88vh;overflow-y:auto">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <h3 style="margin:0">🎧 ${test.title} · ${sec.name}</h3>
+        <div style="font-size:12px;color:var(--text-light)">⏱️ <span id="listenTimer">00:00</span></div>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:12px">`;
+  test.sections.forEach((_, si) => {
+    const cls = si === listenState.sectionIdx ? 'background:var(--accent);color:#fff' : (si < listenState.sectionIdx ? 'background:var(--accent-green);color:#fff' : 'background:#e0e0e0;color:var(--text-light)');
+    html += `<div style="${cls};width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600">${si + 1}</div>`;
+  });
+  html += `</div>
+      <div style="font-size:12px;color:var(--text-light);margin-bottom:8px">📝 主题: ${sec.topic}</div>
+      <div style="background:#f0f4ff;border-radius:10px;padding:12px;margin-bottom:12px">
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:6px">🔊 点击播放听力音频（仅音频，请仔细听）</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="speakListeningText(0.9)" style="font-size:11px;padding:6px 12px">▶️ 正常语速</button>
+          <button class="btn btn-outline" onclick="speakListeningText(0.6)" style="font-size:11px;padding:6px 12px">🐌 慢速播放</button>
+          <button class="btn btn-outline" onclick="stopListeningText()" style="font-size:11px;padding:6px 12px">⏹️ 停止</button>
+        </div>
+      </div>
+      <div id="ieltsListenQ"></div>
+      <div class="btn-row" style="flex-wrap:wrap">`;
+  if (listenState.sectionIdx > 0) html += `<button class="btn btn-outline" onclick="prevListenSection()" style="font-size:11px">⬅️ 上一Part</button>`;
+  html += `<button class="btn btn-primary" onclick="checkIeltsListening()" style="font-size:11px">✅ 提交答案</button>`;
+  if (listenState.sectionIdx < test.sections.length - 1) {
+    html += `<button class="btn btn-outline" onclick="nextListenSection()" style="font-size:11px">下一Part ➡️</button>`;
+  } else {
+    html += `<button class="btn btn-primary" onclick="finishListenTest()" style="font-size:11px">🏁 完成测试</button>`;
+  }
+  html += `<button class="btn btn-outline" onclick="closeListenTest()" style="font-size:11px">退出</button>
+      </div>
+    </div>
+  </div>`;
+  $('#modalContainer').innerHTML = html;
   renderIeltsListenQ(sec);
 }
 
 function speakListeningText(rate) {
-  if (!('speechSynthesis' in window)) return;
+  if (!('speechSynthesis' in window)) { showToast('您的设备不支持语音播放'); return; }
   window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(window._ieltsListenData.audio_text);
+  const sec = IELTS_LISTENING_TESTS[listenState.testIdx].sections[listenState.sectionIdx];
+  const text = sec.transcript.replace(/^[A-Z ]+:/gm, '').trim();
+  const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'en-US'; utter.rate = rate || 0.9;
   window.speechSynthesis.speak(utter);
+  showToast('🔊 正在播放听力...');
+}
+
+function stopListeningText() {
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
 
 function renderIeltsListenQ(sec) {
-  $('#ieltsListenQ').innerHTML = sec.questions.map((q, qi) => `
-    <div style="background:#f8f8f8;border-radius:8px;padding:10px;margin-bottom:8px">
-      <div style="font-size:12px;font-weight:600;margin-bottom:6px">${qi+1}. ${q.q}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
-        ${q.options.map((opt, oi) => `<label style="font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background=''">
-          <input type="radio" name="ielts-l-${qi}" value="${oi}"> ${opt}
-        </label>`).join('')}
-      </div>
-      <div id="ielts-l-feedback-${qi}" style="font-size:11px;margin-top:4px;display:none"></div>
-    </div>`).join('');
+  $('#ieltsListenQ').innerHTML = sec.questions.map((q, qi) => {
+    let html = `<div style="background:#f8f8f8;border-radius:8px;padding:10px;margin-bottom:8px">
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px">${qi + 1}. ${q.q}</div>`;
+    if (q.type === 'mc') {
+      html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">${q.options.map((opt, oi) => `<label style="font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer;padding:4px;border-radius:6px" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background=''"><input type="radio" name="ielts-l-${qi}" value="${oi}"> ${opt}</label>`).join('')}</div>`;
+    } else {
+      html += `<input type="text" id="ielts-l-fill-${qi}" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px" placeholder="输入你的答案">`;
+    }
+    html += `<div id="ielts-l-feedback-${qi}" style="font-size:11px;margin-top:4px;display:none"></div></div>`;
+    return html;
+  }).join('');
 }
 
 function checkIeltsListening() {
-  const sec = window._ieltsListenData;
+  const test = IELTS_LISTENING_TESTS[listenState.testIdx];
+  const sec = test.sections[listenState.sectionIdx];
   let correct = 0;
   sec.questions.forEach((q, qi) => {
-    const selected = document.querySelector(`input[name="ielts-l-${qi}"]:checked`);
     const fb = document.getElementById(`ielts-l-feedback-${qi}`);
-    if (fb) {
-      fb.style.display = 'block';
+    if (!fb) return;
+    fb.style.display = 'block';
+    if (q.type === 'mc') {
+      const selected = document.querySelector(`input[name="ielts-l-${qi}"]:checked`);
       if (selected && parseInt(selected.value) === q.answer) {
         correct++; fb.innerHTML = '✅ 正确'; fb.style.color = 'var(--accent-green)';
       } else {
-        fb.innerHTML = `❌ 答案: ${q.options[q.answer]}`; fb.style.color = '#e88080';
+        fb.innerHTML = `❌ 正确答案: ${q.options[q.answer]}`; fb.style.color = '#e88080';
+      }
+    } else {
+      const input = document.getElementById(`ielts-l-fill-${qi}`);
+      const val = (input ? input.value.trim().toLowerCase() : '');
+      const accepts = (q.accept || [q.answer]).map(a => a.toLowerCase());
+      if (val && accepts.includes(val)) {
+        correct++; fb.innerHTML = '✅ 正确'; fb.style.color = 'var(--accent-green)';
+      } else {
+        fb.innerHTML = `❌ 正确答案: ${q.answer}`; fb.style.color = '#e88080';
       }
     }
   });
-  showToast(`听力测试: ${correct}/${sec.questions.length} 正确`);
+  listenState.checked = true;
+  if (!data.ieltsListenProgress) data.ieltsListenProgress = {};
+  if (!data.ieltsListenProgress[listenState.testIdx]) data.ieltsListenProgress[listenState.testIdx] = {};
+  data.ieltsListenProgress[listenState.testIdx][listenState.sectionIdx] = { correct, total: sec.questions.length };
+  saveData();
+  showToast(`听力 ${sec.name}: ${correct}/${sec.questions.length} 正确`);
+  const btnRow = document.querySelector('.btn-row');
+  if (btnRow && !document.getElementById('transcriptBtn')) {
+    const btn = document.createElement('button');
+    btn.id = 'transcriptBtn'; btn.className = 'btn btn-outline'; btn.style.fontSize = '11px';
+    btn.innerHTML = '📋 查看听力原文'; btn.onclick = toggleListenTranscript;
+    btnRow.insertBefore(btn, btnRow.firstChild);
+  }
+  if (!document.getElementById('listenTranscript')) {
+    const modal = document.querySelector('.modal');
+    const div = document.createElement('div');
+    div.id = 'listenTranscript';
+    div.style.cssText = 'display:none;background:#fff8e1;border-radius:10px;padding:12px;margin-top:12px;font-size:11px;line-height:1.8;white-space:pre-line;max-height:200px;overflow-y:auto';
+    div.textContent = sec.transcript;
+    modal.insertBefore(div, btnRow);
+  }
+}
+
+function toggleListenTranscript() {
+  const el = document.getElementById('listenTranscript');
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function nextListenSection() {
+  if (listenState.timer) clearInterval(listenState.timer);
+  stopListeningText();
+  listenState.sectionIdx++;
+  renderListenSection();
+}
+
+function prevListenSection() {
+  if (listenState.timer) clearInterval(listenState.timer);
+  stopListeningText();
+  listenState.sectionIdx--;
+  renderListenSection();
+}
+
+function finishListenTest() {
+  if (listenState.timer) clearInterval(listenState.timer);
+  stopListeningText();
+  const test = IELTS_LISTENING_TESTS[listenState.testIdx];
+  const prog = (data.ieltsListenProgress || {})[listenState.testIdx] || {};
+  let totalCorrect = 0, totalQs = 0;
+  test.sections.forEach((sec, si) => {
+    totalQs += sec.questions.length;
+    if (prog[si]) totalCorrect += prog[si].correct;
+  });
+  let html = `<div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal" style="max-width:400px;text-align:center">
+      <h3>🏁 ${test.title} 完成！</h3>
+      <div style="font-size:48px;font-weight:700;color:var(--accent);margin:16px 0">${totalCorrect}/${totalQs}</div>
+      <div style="font-size:13px;color:var(--text-light);margin-bottom:16px">正确率: ${Math.round(totalCorrect / totalQs * 100)}%</div>
+      <div style="text-align:left;margin-bottom:16px">`;
+  test.sections.forEach((sec, si) => {
+    const p = prog[si];
+    html += `<div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid #eee">
+      <span>${sec.name} · ${sec.topic}</span><span>${p ? p.correct + '/' + p.total : '—'}</span></div>`;
+  });
+  html += `</div>
+      <div class="btn-row"><button class="btn btn-primary" onclick="renderIeltsListening()" style="font-size:11px">返回测试列表</button><button class="btn btn-outline" onclick="closeModal()" style="font-size:11px">关闭</button></div>
+    </div>
+  </div>`;
+  $('#modalContainer').innerHTML = html;
+}
+
+function closeListenTest() {
+  if (listenState.timer) clearInterval(listenState.timer);
+  stopListeningText();
+  closeModal();
 }
 
 function renderIeltsReading() {
