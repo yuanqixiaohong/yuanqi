@@ -3685,7 +3685,7 @@ function showQuizQuestion() {
     const allOptions = quizState.items.map(it => it.cn).filter(c => c !== correct);
     const shuffled = shuffleArray([correct, ...allOptions.slice(0, 3)]);
     document.getElementById('quiz-options').innerHTML = shuffled.map(opt =>
-      '<button class=\"btn btn-outline\" onclick=\"checkQuizAnswer(\\'' + escHtml(opt) + '\\')\" style=\"font-size:14px;padding:12px;text-align:center\">' + opt + '</button>'
+      '<button class=\"btn btn-outline\" onclick=\"checkQuizAnswer(\'' + escHtml(opt) + '\')\" style=\"font-size:14px;padding:12px;text-align:center\">' + opt + '</button>'
     ).join('');
     document.getElementById('quiz-recording').style.display = 'none';
   } else if (mode === 'cn2en') {
@@ -3701,7 +3701,7 @@ function showQuizQuestion() {
     const allOptions = quizState.items.map(it => it.cn).filter(c => c !== correct);
     const shuffled = shuffleArray([correct, ...allOptions.slice(0, 3)]);
     document.getElementById('quiz-options').innerHTML = shuffled.map(opt =>
-      '<button class=\"btn btn-outline\" onclick=\"checkQuizAnswer(\\'' + escHtml(opt) + '\\')\" style=\"font-size:14px;padding:12px;text-align:center\">' + opt + '</button>'
+      '<button class=\"btn btn-outline\" onclick=\"checkQuizAnswer(\'' + escHtml(opt) + '\')\" style=\"font-size:14px;padding:12px;text-align:center\">' + opt + '</button>'
     ).join('');
     document.getElementById('quiz-recording').style.display = 'none';
     setTimeout(() => {
@@ -3725,7 +3725,7 @@ function checkQuizAnswer(userAnswer) {
 
 function revealQuizAnswer() {
   const item = quizState.items[quizState.currentIndex];
-  document.getElementById('quiz-speech-result').innerHTML = '<div style=\"background:#fff8f0;padding:10px;border-radius:8px;text-align:center\"><div style=\"font-size:12px;color:var(--text-light)\">\u6B63\u786E\u7B54\u6848</div><div style=\"font-size:16px;font-weight:700;color:var(--accent-blue);margin-top:4px\">' + item.en + '</div><div style=\"font-size:12px;color:var(--text);margin-top:2px\">' + item.cn + '</div><div style=\"margin-top:6px;display:flex;gap:8px;justify-content:center\"><button class=\"btn btn-sm btn-primary\" onclick=\"speakWord(\\'' + escHtml(item.en) + '\\')\">\U0001F50A \u542C\u53D1\u97F3</button><button class=\"btn btn-sm btn-outline\" onclick=\"quizNextAfterReveal(true)\">\u2705 \u6211\u8BFB\u5BF9\u4E86</button><button class=\"btn btn-sm btn-outline\" onclick=\"quizNextAfterReveal(false)\">\u274C \u8FD8\u9700\u7EC3\u4E60</button></div></div>';
+  document.getElementById('quiz-speech-result').innerHTML = '<div style=\"background:#fff8f0;padding:10px;border-radius:8px;text-align:center\"><div style=\"font-size:12px;color:var(--text-light)\">\u6B63\u786E\u7B54\u6848</div><div style=\"font-size:16px;font-weight:700;color:var(--accent-blue);margin-top:4px\">' + item.en + '</div><div style=\"font-size:12px;color:var(--text);margin-top:2px\">' + item.cn + '</div><div style=\"margin-top:6px;display:flex;gap:8px;justify-content:center\"><button class=\"btn btn-sm btn-primary\" onclick=\"speakWord(\'' + escHtml(item.en) + '\')\">\U0001F50A \u542C\u53D1\u97F3</button><button class=\"btn btn-sm btn-outline\" onclick=\"quizNextAfterReveal(true)\">\u2705 \u6211\u8BFB\u5BF9\u4E86</button><button class=\"btn btn-sm btn-outline\" onclick=\"quizNextAfterReveal(false)\">\u274C \u8FD8\u9700\u7EC3\u4E60</button></div></div>';
 }
 
 function quizNextAfterReveal(correct) {
