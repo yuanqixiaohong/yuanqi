@@ -1615,6 +1615,8 @@ input[type="date"] { width: 125px; }
 <div id="modalContainer"></div>
 
 <script>
+// ============ EMBEDDED BACKUP (auto-restore if localStorage is empty) ============
+const EMBEDDED_BACKUP={"expenses":[{"id":"msa8nlj4quze6l","date":"2026-08-01","category":"交通","amount":2,"note":"青桔单车"},{"id":"msbd5r17dobxxn","date":"2026-08-02","category":"餐饮","amount":17,"note":"麻辣粉砂锅面"},{"id":"msbd61a97dzkmt","date":"2026-08-02","category":"餐饮","amount":5,"note":"肉夹馍"},{"id":"msbd8gufa9zspy","date":"2026-08-02","category":"餐饮","amount":6,"note":"菜丸子油条"},{"id":"msbp3ynarfs0ck","date":"2026-08-02","category":"餐饮","amount":5,"note":"水果玉米"},{"id":"msbp4jmtp8fab7","date":"2026-08-02","category":"餐饮","amount":10,"note":"火龙果"},{"id":"msbpjbr47168bl","date":"2026-08-02","category":"餐饮","amount":11,"note":"绿色新疆白葡萄"},{"id":"msd6kjbohg9ebn","date":"2026-08-03","category":"餐饮","amount":10.09,"note":"外卖渔粉+百吉饼"},{"id":"msd742rure7dyy","date":"2026-08-01","category":"娱乐","amount":24.3,"note":"凡碧诗脸部护理"},{"id":"msdfnq5nypf772","date":"2026-08-02","category":"餐饮","amount":4.5,"note":"西瓜🍉"},{"id":"msfpa1dy2zzu50","date":"2026-08-05","category":"其他","amount":23.81,"note":"人情大姨家哈密瓜两个"},{"id":"msg6kn0o0sqloy","date":"2026-08-05","category":"其他","amount":18.3,"note":"大姨家两个大西瓜"},{"id":"msg6lc1xf98bjn","date":"2026-08-05","category":"其他","amount":43,"note":"大姨家买肉🥩"},{"id":"msg6mwq2xfjzko","date":"2026-08-05","category":"交通","amount":100,"note":"涧东加油95#"},{"id":"msg6nwblyrph86","date":"2026-08-05","category":"其他","amount":62,"note":"大姨家一个卤鸡"},{"id":"msg6ov7qp3j1tg","date":"2026-08-05","category":"购物","amount":27,"note":"张珂珂鱼皮/瓜子/蜜三刀"},{"id":"msg6pf096unt8s","date":"2026-08-05","category":"其他","amount":23.81,"note":"大姨家两个哈密瓜"},{"id":"msg6r9qvoa32b7","date":"2026-08-04","category":"购物","amount":7.6,"note":"瑶山村糕点虎皮蛋糕"},{"id":"msg6skja5zxqzg","date":"2026-08-04","category":"交通","amount":2,"note":"哈罗单车去幸福里"}],"weightLogs":[],"giftRecords":[],"calorieLogs":[{"id":"msk3lo6vjfq35c","date":"2026-08-08","meals":{"breakfast":[],"lunch":[],"dinner":[],"snack":[]},"exercises":[]}],"petExpenses":[{"id":"msk3lr6cp8fuhy","date":"2026-02-09","category":"食品","amount":58.5,"note":"网易严选零食"},{"id":"msk3lr6dld7maz","date":"2026-02-09","category":"食品","amount":105.52,"note":"网易严选猫粮"},{"id":"msk3lr6eqv84wf","date":"2026-02-10","category":"用品","amount":26.62,"note":"驱虫药"},{"id":"msk3lr6fotjeq8","date":"2026-02-10","category":"医疗","amount":598,"note":"年度体检+疫苗"},{"id":"msk3lr6gq81lup","date":"2026-02-14","category":"食品","amount":39.9,"note":"猫条"},{"id":"msk3lr6hjrqtbc","date":"2026-02-15","category":"食品","amount":68,"note":"冻干零食"},{"id":"msk3lr6iz0pjsh","date":"2026-02-20","category":"用品","amount":35,"note":"猫砂"},{"id":"msk3lr6jqkxl5f","date":"2026-02-20","category":"用品","amount":18.8,"note":"逗猫棒"},{"id":"msk3lr6khxswui","date":"2026-02-25","category":"食品","amount":128,"note":"网易严选猫粮大包装"},{"id":"msk3lr6ld7b7o3","date":"2026-02-25","category":"用品","amount":45,"note":"猫砂盆"},{"id":"msk3lr6mc0svb2","date":"2026-02-28","category":"食品","amount":22.9,"note":"罐头"},{"id":"msk3lr6n0hr5l1","date":"2026-02-28","category":"医疗","amount":120,"note":"驱虫"},{"id":"msk3lr6nzwm4r3","date":"2026-03-01","category":"食品","amount":15.8,"note":"营养膏"},{"id":"msk3lr6osr9kxn","date":"2026-03-03","category":"用品","amount":28,"note":"猫抓板"},{"id":"msk3lr6plzq37w","date":"2026-03-05","category":"食品","amount":42.5,"note":"冻干"},{"id":"msk3lr6qja8q1t","date":"2026-03-07","category":"用品","amount":55,"note":"猫砂2袋"},{"id":"msk3lr6reuzp2m","date":"2026-03-08","category":"食品","amount":33.6,"note":"零食礼包"},{"id":"msk3lr6s65huo3","date":"2026-03-10","category":"用品","amount":89,"note":"猫爬架"},{"id":"msk3lr6t0f84c2","date":"2026-03-12","category":"食品","amount":115,"note":"网易严选猫粮"},{"id":"msk3lr6u2s9dg1","date":"2026-03-12","category":"食品","amount":26,"note":"湿粮"},{"id":"msk3lr6uxcgd0t","date":"2026-03-14","category":"用品","amount":13.5,"note":"猫薄荷"},{"id":"msk3lr6vsq3tia","date":"2026-03-14","category":"医疗","amount":200,"note":"耳螨治疗"},{"id":"msk3lr6wob0e68","date":"2026-03-15","category":"食品","amount":48,"note":"营养膏+化毛膏"},{"id":"msk3lr6xjy50qg","date":"2026-03-18","category":"用品","amount":32,"note":"猫砂"},{"id":"msk3lr6yhdoc5b","date":"2026-03-18","category":"食品","amount":19.9,"note":"猫条"},{"id":"msk3lr6zdfe0lp","date":"2026-03-20","category":"食品","amount":88,"note":"进口罐头"},{"id":"msk3lr702ecgxq","date":"2026-03-20","category":"用品","amount":42,"note":"饮水机滤芯"},{"id":"msk3lr710x3q6b","date":"2026-03-22","category":"食品","amount":105.52,"note":"网易严选猫粮"},{"id":"msk3lr71y2m7kd","date":"2026-03-25","category":"医疗","amount":350,"note":"驱虫+疫苗"},{"id":"msk3lr72uysn85","date":"2026-03-28","category":"食品","amount":55,"note":"冻干大包"},{"id":"msk3lr73mv0u7t","date":"2026-03-30","category":"用品","amount":29,"note":"猫砂"},{"id":"msk3lr74fbh84u","date":"2026-04-01","category":"食品","amount":36,"note":"湿粮包"},{"id":"msk3lr755t1gyo","date":"2026-04-02","category":"用品","amount":68,"note":"猫窝"},{"id":"msk3lr7604f7hl","date":"2026-04-03","category":"食品","amount":115,"note":"猫粮"},{"id":"msk3lr76z2yyqe","date":"2026-04-05","category":"食品","amount":42.8,"note":"零食"},{"id":"msk3lr77ukimfk","date":"2026-04-05","category":"用品","amount":15,"note":"梳毛刷"},{"id":"msk3lr78qrpn40","date":"2026-04-08","category":"用品","amount":35,"note":"猫砂2袋"},{"id":"msk3lr79hq5c7f","date":"2026-04-10","category":"食品","amount":128,"note":"网易严选猫粮大包装"},{"id":"msk3lr7acmdrlf","date":"2026-04-12","category":"医疗","amount":260,"note":"肠胃不适检查"},{"id":"msk3lr7b9gv3hv","date":"2026-04-14","category":"食品","amount":28.5,"note":"猫条"},{"id":"msk3lr7c4qz03m","date":"2026-04-15","category":"用品","amount":48,"note":"猫砂盆替换"},{"id":"msk3lr7d0m2vys","date":"2026-04-16","category":"食品","amount":62,"note":"进口冻干"},{"id":"msk3lr7dwt98o0","date":"2026-04-18","category":"用品","amount":22,"note":"指甲剪"},{"id":"msk3lr7eq4diiq","date":"2026-04-18","category":"食品","amount":19.9,"note":"化毛膏"},{"id":"msk3lr7fjtfdx3","date":"2026-04-20","category":"食品","amount":105.52,"note":"猫粮"},{"id":"msk3lr7gfnrrgx","date":"2026-04-22","category":"用品","amount":35,"note":"猫砂"},{"id":"msk3lr7h8dqk12","date":"2026-04-25","category":"食品","amount":88,"note":"罐头礼盒"},{"id":"msk3lr7i2cq2mx","date":"2026-04-28","category":"食品","amount":55,"note":"冻干零食"},{"id":"msk3lr7ixjnfuu","date":"2026-05-01","category":"食品","amount":128,"note":"网易严选猫粮"},{"id":"msk3lr7jv1o0py","date":"2026-05-02","category":"用品","amount":42,"note":"猫抓板"},{"id":"msk3lr7ks7f44r","date":"2026-05-03","category":"食品","amount":33.6,"note":"零食礼包"},{"id":"msk3lr7ln63xdj","date":"2026-05-05","category":"用品","amount":32,"note":"猫砂"},{"id":"msk3lr7mjrlf7p","date":"2026-05-06","category":"医疗","amount":180,"note":"驱虫"},{"id":"msk3lr7ndnj2ex","date":"2026-05-08","category":"食品","amount":26,"note":"湿粮"},{"id":"msk3lr7o8oem6u","date":"2026-05-10","category":"用品","amount":79,"note":"自动饮水机"},{"id":"msk3lr7p3xhq6t","date":"2026-05-12","category":"食品","amount":115,"note":"猫粮"},{"id":"msk3lr7q01e8xt","date":"2026-05-14","category":"食品","amount":42.8,"note":"猫条"},{"id":"msk3lr7qyb03dd","date":"2026-05-15","category":"用品","amount":28,"note":"猫砂"},{"id":"msk3lr7rpnaxu9","date":"2026-05-18","category":"食品","amount":68,"note":"冻干大包"},{"id":"msk3lr7slmjybj","date":"2026-05-20","category":"食品","amount":105.52,"note":"猫粮"},{"id":"msk3lr7tgt3c4c","date":"2026-05-22","category":"用品","amount":55,"note":"猫砂盆"},{"id":"msk3lr7ubkf46g","date":"2026-05-25","category":"食品","amount":36,"note":"湿粮包"},{"id":"msk3lr7v73ydl6","date":"2026-05-28","category":"医疗","amount":350,"note":"疫苗+体检"},{"id":"msk3lr7w3ky98b","date":"2026-05-30","category":"食品","amount":128,"note":"网易严选猫粮"},{"id":"msk3lr7x0jh1n0","date":"2026-06-01","category":"食品","amount":19.9,"note":"化毛膏"},{"id":"msk3lr7xv6k07j","date":"2026-06-02","category":"用品","amount":35,"note":"猫砂"},{"id":"msk3lr7ynb3i0g","date":"2026-06-05","category":"食品","amount":62,"note":"冻干"},{"id":"msk3lr7zitfpev","date":"2026-06-08","category":"食品","amount":105.52,"note":"猫粮"},{"id":"msk3lr80d0iixp","date":"2026-06-10","category":"用品","amount":22,"note":"逗猫棒"},{"id":"msk3lr818qs31p","date":"2026-06-12","category":"食品","amount":88,"note":"进口罐头"},{"id":"msk3lr822bhmn0","date":"2026-06-14","category":"用品","amount":42,"note":"猫砂"},{"id":"msk3lr82x9x6tc","date":"2026-06-15","category":"食品","amount":55,"note":"零食大礼包"},{"id":"msk3lr83r4qx85","date":"2026-06-18","category":"食品","amount":115,"note":"猫粮"},{"id":"msk3lr84m3rzn2","date":"2026-06-20","category":"医疗","amount":220,"note":"皮肤问题检查"},{"id":"msk3lr85h1w78h","date":"2026-06-22","category":"用品","amount":68,"note":"猫爬架配件"},{"id":"msk3lr86cy36ty","date":"2026-06-25","category":"食品","amount":128,"note":"网易严选猫粮"},{"id":"msk3lr878l07o8","date":"2026-06-28","category":"食品","amount":33.6,"note":"湿粮包"},{"id":"msk3lr884v3cfp","date":"2026-07-01","category":"食品","amount":105.52,"note":"猫粮"},{"id":"msk3lr890anrbq","date":"2026-07-02","category":"用品","amount":35,"note":"猫砂"},{"id":"msk3lr89vrqffq","date":"2026-07-05","category":"食品","amount":42.8,"note":"猫条"},{"id":"msk3lr8anj49b0","date":"2026-07-08","category":"食品","amount":115,"note":"猫粮"},{"id":"msk3lr8bj7zqk4","date":"2026-07-10","category":"医疗","amount":180,"note":"驱虫"},{"id":"msk3lr8cc9blff","date":"2026-07-12","category":"用品","amount":29,"note":"猫砂"},{"id":"msk3lr8d7au8jb","date":"2026-07-14","category":"食品","amount":68,"note":"冻干"},{"id":"msk3lr8e35ljy1","date":"2026-07-15","category":"食品","amount":26,"note":"化毛膏"},{"id":"msk3lr8ey14r20","date":"2026-07-18","category":"用品","amount":48,"note":"猫窝"},{"id":"msk3lr8ft39loq","date":"2026-07-20","category":"食品","amount":128,"note":"网易严选猫粮"},{"id":"msk3lr8gp30rz5","date":"2026-07-22","category":"食品","amount":36,"note":"湿粮"},{"id":"msk3lr8hjtp1rm","date":"2026-07-25","category":"用品","amount":35,"note":"猫砂"},{"id":"msk3lr8ien7u4r","date":"2026-07-28","category":"食品","amount":105.52,"note":"猫粮"},{"id":"msk3lr8jax40cn","date":"2026-08-01","category":"食品","amount":128,"note":"网易严选猫粮"},{"id":"msk3lr8k6g9tft","date":"2026-08-02","category":"用品","amount":42,"note":"猫砂2袋"},{"id":"msk3lr8l0t4ylt","date":"2026-08-05","category":"食品","amount":55,"note":"冻干零食"},{"id":"msk3lr8lw0dbm8","date":"2026-08-06","category":"食品","amount":33.6,"note":"猫条"}],"goldHoldings":{"goldPrice":0,"silverPrice":0,"goldUsdPrice":0,"silverUsdPrice":0,"usdCnyRate":7.25,"goldPriceSource":"manual","lastPriceUpdate":null,"prevGoldPrice":0,"prevSilverPrice":0},"goldRecords":[{"id":"msk3lr8mpi08yh","date":"2026-02-15","price":468,"amount":1,"total":468,"type":"buy"},{"id":"msk3lr8nhujj7m","date":"2026-02-20","price":472,"amount":1,"total":472,"type":"buy"},{"id":"msk3lr8ob1m17a","date":"2026-03-01","price":478,"amount":1,"total":478,"type":"buy"},{"id":"msk3lr8p7c5mu2","date":"2026-03-08","price":485,"amount":1,"total":485,"type":"buy"},{"id":"msk3lr8q2l0oyq","date":"2026-03-15","price":492,"amount":1,"total":492,"type":"buy"},{"id":"msk3lr8qyjh1n3","date":"2026-03-20","price":488,"amount":1,"total":488,"type":"buy"},{"id":"msk3lr8rtapjv9","date":"2026-03-28","price":495,"amount":1,"total":495,"type":"buy"},{"id":"msk3lr8sorb4ia","date":"2026-04-01","price":502,"amount":1,"total":502,"type":"buy"},{"id":"msk3lr8tkvt13q","date":"2026-04-05","price":508,"amount":1,"total":508,"type":"buy"},{"id":"msk3lr8ufdd1l4","date":"2026-04-10","price":512,"amount":1,"total":512,"type":"buy"},{"id":"msk3lr8vbl9v8n","date":"2026-04-15","price":518,"amount":1,"total":518,"type":"buy"},{"id":"msk3lr8w5j6h7c","date":"2026-04-20","price":522,"amount":1,"total":522,"type":"buy"},{"id":"msk3lr8x1bmql9","date":"2026-04-28","price":528,"amount":1,"total":528,"type":"buy"},{"id":"msk3lr8xw49woh","date":"2026-05-01","price":532,"amount":1,"total":532,"type":"buy"},{"id":"msk3lr8yq2qg2k","date":"2026-05-05","price":538,"amount":1,"total":538,"type":"buy"},{"id":"msk3lr8zmmoixr","date":"2026-05-10","price":542,"amount":1,"total":542,"type":"buy"},{"id":"msk3lr90gt5t6l","date":"2026-05-15","price":548,"amount":1,"total":548,"type":"buy"},{"id":"msk3lr91bjl1ef","date":"2026-05-20","price":552,"amount":1,"total":552,"type":"buy"},{"id":"msk3lr928j3m7a","date":"2026-05-28","price":558,"amount":1,"total":558,"type":"buy"},{"id":"msk3lr933eao40","date":"2026-06-01","price":562,"amount":1,"total":562,"type":"buy"},{"id":"msk3lr93yn9o3o","date":"2026-06-05","price":568,"amount":1,"total":568,"type":"buy"},{"id":"msk3lr94u4xw9m","date":"2026-06-10","price":572,"amount":1,"total":572,"type":"buy"},{"id":"msk3lr95pzm1rs","date":"2026-06-15","price":578,"amount":1,"total":578,"type":"buy"},{"id":"msk3lr96lr6qse","date":"2026-06-20","price":582,"amount":1,"total":582,"type":"buy"},{"id":"msk3lr97gnb2qc","date":"2026-06-28","price":588,"amount":1,"total":588,"type":"buy"},{"id":"msk3lr98b6u2b5","date":"2026-07-01","price":592,"amount":1,"total":592,"type":"buy"},{"id":"msk3lr9969gln5","date":"2026-07-05","price":598,"amount":1,"total":598,"type":"buy"},{"id":"msk3lr9a21vg2i","date":"2026-07-10","price":602,"amount":1,"total":602,"type":"buy"},{"id":"msk3lr9aym5j6d","date":"2026-07-15","price":608,"amount":1,"total":608,"type":"buy"},{"id":"msk3lr9bt8ewn9","date":"2026-07-20","price":612,"amount":1,"total":612,"type":"buy"},{"id":"msk3lr9cohrm0q","date":"2026-07-28","price":618,"amount":1,"total":618,"type":"buy"},{"id":"msk3lr9dk9l4ku","date":"2026-08-01","price":622,"amount":1,"total":622,"type":"buy"},{"id":"msk3lr9ef5uk15","date":"2026-08-05","price":628,"amount":1,"total":628,"type":"buy"}],"bankRates":[],"savingsPlan":{"target":50000,"deadline":""},"incomeRecords":[],"englishCheckin":{"date":"","tasks":{},"streak":0,"lastCompleteDate":null,"_celebratedToday":false},"englishPlan":{"currentDay":1,"totalDays":150,"ieltsTarget":6.5},"loveSettings":{"loveStart":"2023-01-01","weddingDate":"","partner1Birthday":"","partner2Birthday":""},"calorieSettings":{"height":165,"currentWeight":60,"targetWeight":55,"age":25,"gender":"female","activityLevel":"moderate"},"books":[],"settings":{"theme":"blue","background":{"dataUrl":null,"opacity":0.15}}};
 // ============ DATA ============
 const STORAGE_KEY = 'yuanqi_workstation_data';
 
@@ -1623,7 +1625,17 @@ function loadData() {
   if (raw) {
     const d = JSON.parse(raw);
     if (!d.settings) d.settings = { theme: 'pink', background: { dataUrl: null, opacity: 0.15 } };
+    // Ensure English module has valid defaults if null
+    if (!d.englishCheckin || typeof d.englishCheckin !== 'object') d.englishCheckin = null;
+    if (!d.englishPlan || typeof d.englishPlan !== 'object') d.englishPlan = { currentDay: 1, totalDays: 150, ieltsTarget: 6.5 };
+    if (!d.books) d.books = [];
+    if (!d.bankRates) d.bankRates = [];
     return d;
+  }
+  // If no localStorage data, try embedded backup
+  if (typeof EMBEDDED_BACKUP !== 'undefined' && EMBEDDED_BACKUP && EMBEDDED_BACKUP.expenses && EMBEDDED_BACKUP.expenses.length > 0) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(EMBEDDED_BACKUP));
+    return JSON.parse(JSON.stringify(EMBEDDED_BACKUP));
   }
   return {
     expenses: [], weightLogs: [], giftRecords: [], calorieLogs: [],
@@ -3126,7 +3138,10 @@ function saveGoldHoldings() {
 // ============ PAGE 6: ENGLISH LEARNING ============
 function getEnglishCheckin() {
   const today = todayStr();
-  if (!data.englishCheckin) data.englishCheckin = { date: today, tasks: {}, streak: 0, lastCompleteDate: null, _celebratedToday: false };
+  // Handle null, undefined, or non-object englishCheckin
+  if (!data.englishCheckin || typeof data.englishCheckin !== 'object' || data.englishCheckin === null) {
+    data.englishCheckin = { date: today, tasks: {}, streak: 0, lastCompleteDate: null, _celebratedToday: false };
+  }
   if (data.englishCheckin.date !== today) {
     const yesterday = fmtDate(new Date(Date.now() - 86400000));
     const wasCompleted = data.englishCheckin.lastCompleteDate === yesterday;
@@ -3232,7 +3247,6 @@ function renderEnglish() {
   const phrases = getDailyOralPhrases();
   const plan = getIeltsWordPlan();
   const completedCount = tasks.filter(t => checkin.tasks[t.key]).length;
-  const allDone = completedCount === tasks.length;
 
   $('#page-english').innerHTML = `
     <div class="stats-row">
@@ -3242,6 +3256,7 @@ function renderEnglish() {
       <div class="stat-card"><div class="stat-icon" style="background:#fff0f5">📊</div><div class="stat-info"><div class="stat-value">${plan.progress}%</div><div class="stat-label">总进度</div></div></div>
     </div>
 
+    <!-- Oral Practice Card with Playback -->
     <div class="card">
       <div class="card-header"><span class="card-icon">🗣️</span><h2>每日口语练习 (${phrases.length}句)</h2>
         <a class="card-action" href="https://www.douyin.com/search/%E6%AF%8F%E6%97%A5%E8%8B%B1%E8%AF%AD%E5%8F%A3%E8%AF%AD%E7%BB%83%E4%B9%A020%E5%8F%A5" target="_blank" rel="noopener">🎵 抖音跟练</a>
@@ -3251,12 +3266,18 @@ function renderEnglish() {
           <div style="background:#f8f8f8;border-radius:8px;padding:10px;border:1px solid var(--border)">
             <div style="font-size:12px;font-weight:600;color:var(--text)">${i+1}. ${p.en}</div>
             <div style="font-size:11px;color:var(--text-light);margin-top:2px">${p.cn}</div>
-            <div style="margin-top:6px;display:flex;gap:6px">
-              <button class="btn btn-sm btn-primary" onclick="speakPhrase(${i})" style="font-size:10px;padding:3px 8px">🔊 朗读</button>
-              <button class="btn btn-sm btn-outline" onclick="speakPhrase(${i},0.6)" style="font-size:10px;padding:3px 8px">🐌 慢速</button>
-              <button class="btn btn-sm btn-outline" onclick="recordAndCompare(${i})" style="font-size:10px;padding:3px 8px">🎙️ 录音跟读</button>
-              <button class="btn btn-sm btn-danger" onclick="stopRecording(${i})" id="stopBtn-${i}" style="font-size:10px;padding:3px 8px;display:none">⏹ 停止</button>
-              <audio id="playback-${i}" style="display:none"></audio>
+            <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">
+              <button class="btn btn-sm btn-primary" onclick="speakPhrase(${i})" style="font-size:10px;padding:3px 6px">🔊 朗读</button>
+              <button class="btn btn-sm btn-outline" onclick="speakPhrase(${i},0.6)" style="font-size:10px;padding:3px 6px">🐌 慢速</button>
+              <button class="btn btn-sm btn-outline" onclick="recordPhrase(${i})" style="font-size:10px;padding:3px 6px">🎙️ 录音</button>
+              <button class="btn btn-sm btn-danger" onclick="stopRecordPhrase(${i})" id="stopBtn-oral-${i}" style="font-size:10px;padding:3px 6px;display:none">⏹ 停止</button>
+            </div>
+            <div id="oral-playback-${i}" style="display:none;margin-top:6px">
+              <audio id="oral-audio-${i}" controls style="width:100%;height:28px"></audio>
+              <div style="display:flex;gap:4px;margin-top:4px">
+                <button class="btn btn-sm btn-outline" onclick="replayOral(${i})" style="font-size:10px;padding:3px 6px">🔊 听自己读的</button>
+                <button class="btn btn-sm btn-outline" onclick="compareOral(${i})" style="font-size:10px;padding:3px 6px">📋 对比原文</button>
+              </div>
             </div>
           </div>
         `).join('')}
@@ -3271,14 +3292,22 @@ function renderEnglish() {
       </div>
     </div>
 
+    <!-- IELTS Words Card (with recording synced from oral) -->
     <div class="card">
       <div class="card-header"><span class="card-icon">📖</span><h2>雅思单词 · 第${plan.day}天</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">目标: ${plan.wordsPerDay}词/天</span></div>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
         ${plan.todayWords.map((item,i) => `
-          <div style="background:linear-gradient(135deg,#f0f4ff,#e8ecf8);border-radius:8px;padding:8px;text-align:center;border:1px solid #d0d8e8;cursor:pointer" onclick="speakWord('${item.w}')">
-            <div style="font-size:13px;font-weight:700;color:var(--accent-blue)">${item.w}</div>
+          <div style="background:linear-gradient(135deg,#f0f4ff,#e8ecf8);border-radius:8px;padding:8px;text-align:center;border:1px solid #d0d8e8">
+            <div style="font-size:13px;font-weight:700;color:var(--accent-blue);cursor:pointer" onclick="speakWord('${item.w}')">${item.w}</div>
             <div style="font-size:10px;color:var(--text);margin-top:2px">${item.c}</div>
-            <div style="font-size:9px;color:var(--text-light);margin-top:2px">🔊 点击朗读</div>
+            <div style="margin-top:4px;display:flex;gap:2px;justify-content:center;flex-wrap:wrap">
+              <button class="btn btn-sm btn-primary" onclick="speakWord('${item.w}')" style="font-size:9px;padding:2px 4px">🔊</button>
+              <button class="btn btn-sm btn-outline" onclick="recordWord(${i},'${item.w.replace(/'/g,"\\'")}')" style="font-size:9px;padding:2px 4px">🎙</button>
+            </div>
+            <div id="word-playback-${i}" style="display:none;margin-top:3px">
+              <audio id="word-audio-${i}" controls style="width:100%;height:22px"></audio>
+              <button class="btn btn-sm btn-outline" onclick="replayWord(${i})" style="font-size:8px;padding:2px 4px;width:100%">🔊 回放</button>
+            </div>
           </div>
         `).join('')}
       </div>
@@ -3292,6 +3321,51 @@ function renderEnglish() {
       </div>
     </div>
 
+    <!-- Daily Quiz Card (NEW) -->
+    <div class="card">
+      <div class="card-header"><span class="card-icon">📝</span><h2>今日学习测验</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">复习今日口语+单词</span></div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn btn-primary" onclick="startQuiz('en2cn')" style="font-size:12px">🇬🇧→🇨🇳 看英文选中文</button>
+        <button class="btn btn-outline" onclick="startQuiz('cn2en')" style="font-size:12px">🇨🇳→🇬🇧 看中文读英文</button>
+        <button class="btn btn-outline" onclick="startQuiz('listen')" style="font-size:12px">🎧 听音辨义</button>
+      </div>
+      <div id="quiz-container" style="display:none">
+        <div style="text-align:center;margin-bottom:10px">
+          <span style="font-size:11px;color:var(--text-light)" id="quiz-progress">第1/10题</span>
+          <span style="font-size:11px;color:var(--accent-green);margin-left:10px" id="quiz-score">✓ 0</span>
+        </div>
+        <div id="quiz-question" style="font-size:20px;font-weight:700;text-align:center;padding:20px;background:#f8f8f8;border-radius:10px;margin-bottom:10px;min-height:60px;display:flex;align-items:center;justify-content:center"></div>
+        <div id="quiz-options" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px"></div>
+        <div id="quiz-recording" style="display:none;text-align:center;margin-top:10px">
+          <button class="btn btn-danger" onclick="stopQuizRecording()" id="quiz-stop-btn" style="font-size:12px">⏹ 停止录音</button>
+          <div id="quiz-recording-status" style="font-size:11px;color:var(--text-light);margin-top:4px"></div>
+          <audio id="quiz-playback-audio" controls style="display:none;width:100%;margin-top:6px;height:28px"></audio>
+          <div id="quiz-speech-result" style="margin-top:6px;font-size:12px"></div>
+        </div>
+        <div style="text-align:center;margin-top:10px">
+          <button class="btn btn-outline" onclick="exitQuiz()" style="font-size:11px">退出测验</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- IELTS Real Exam Practice (NEW) -->
+    <div class="card">
+      <div class="card-header"><span class="card-icon">📚</span><h2>雅思真题训练</h2><span style="margin-left:auto;font-size:11px;color:var(--text-light)">剑桥雅思真题精选</span></div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="loadIeltsExam('listening')" style="font-size:12px;flex:1;min-width:100px">
+          <div style="font-size:18px">🎧</div><div style="font-size:11px;margin-top:2px">听力真题</div><div style="font-size:9px;color:var(--text-light)">Section 1-4</div>
+        </button>
+        <button class="btn btn-outline" onclick="loadIeltsExam('reading')" style="font-size:12px;flex:1;min-width:100px">
+          <div style="font-size:18px">📄</div><div style="font-size:11px;margin-top:2px">阅读真题</div><div style="font-size:9px;color:var(--text-light)">Passage 1-3</div>
+        </button>
+        <button class="btn btn-outline" onclick="loadIeltsExam('writing')" style="font-size:12px;flex:1;min-width:100px">
+          <div style="font-size:18px">✍️</div><div style="font-size:11px;margin-top:2px">写作真题</div><div style="font-size:9px;color:var(--text-light)">Task 1 & 2</div>
+        </button>
+      </div>
+      <div id="ielts-exam-container" style="display:none;margin-top:10px"></div>
+    </div>
+
+    <!-- Checkin Card -->
     <div class="card">
       <div class="card-header"><span class="card-icon">✅</span><h2>今日学习打卡</h2><span class="checkin-streak">🔥 ${checkin.streak}天</span></div>
       <div style="margin-bottom:10px">
@@ -3312,6 +3386,7 @@ function renderEnglish() {
       </div>
     </div>
 
+    <!-- Study Plan Card -->
     <div class="card">
       <div class="card-header"><span class="card-icon">📋</span><h2>雅思学习计划</h2></div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
@@ -3330,6 +3405,7 @@ function renderEnglish() {
       </div>
     </div>`;
 }
+
 
 function showAllPhrases() {
   const phrases = getDailyOralPhrases();
@@ -3350,7 +3426,7 @@ function showAllPhrases() {
     </div>`;
 }
 
-// ============ SPEECH / READ-ALONG ============
+// ============ SPEECH SYNTHESIS ============
 let autoReadTimer = null;
 let isReading = false;
 
@@ -3387,7 +3463,6 @@ function speakAllWords() {
   stopAutoRead();
   wordReadIndex = 0;
   isReadingWords = true;
-
   function readNextWord() {
     if (!isReadingWords || wordReadIndex >= words.length) {
       isReadingWords = false;
@@ -3417,7 +3492,6 @@ function startAutoRead() {
   isReading = true;
   const status = document.getElementById('autoReadStatus');
   if (status) status.style.display = 'block';
-
   function readNext() {
     if (!isReading || autoReadIndex >= phrases.length) {
       stopAutoRead();
@@ -3426,14 +3500,13 @@ function startAutoRead() {
     }
     const idxEl = document.getElementById('autoReadIndex');
     if (idxEl) idxEl.textContent = autoReadIndex + 1;
-
     const utter = new SpeechSynthesisUtterance(phrases[autoReadIndex].en);
     utter.lang = 'en-US';
     utter.rate = 0.85;
     utter.pitch = 1;
     utter.onend = () => {
       autoReadIndex++;
-      autoReadTimer = setTimeout(readNext, 1500); // 1.5s gap for you to repeat
+      autoReadTimer = setTimeout(readNext, 1500);
     };
     window.speechSynthesis.speak(utter);
   }
@@ -3449,92 +3522,353 @@ function stopAutoRead() {
   if (status) status.style.display = 'none';
 }
 
-// ============ RECORDING / PLAYBACK ============
-let mediaRecorder = null;
-let recordedChunks = [];
-let currentRecordIndex = -1;
+// ============ ORAL RECORDING WITH PLAYBACK ============
+let oralMediaRecorder = null;
+let oralRecordedChunks = [];
+let oralRecordStream = null;
 
-function recordAndCompare(index) {
+function recordPhrase(index) {
   const phrases = getDailyOralPhrases();
   const phrase = phrases[index];
   if (!phrase) return;
-
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     showToast('浏览器不支持录音功能，请用 Chrome/Safari');
     return;
   }
-
-  // Step 1: Speak the phrase first
   if (!('speechSynthesis' in window)) { showToast('浏览器不支持语音'); return; }
   window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(phrase.en);
   utter.lang = 'en-US';
   utter.rate = 0.85;
-
-  utter.onend = () => {
-    // Step 2: Start recording after system finishes speaking
-    setTimeout(() => startRecording(index), 500);
-  };
-
-  showToast('🔊 先听一遍...');
+  utter.onend = () => { setTimeout(() => startOralRecording(index), 500); };
+  showToast('🔊 先听一遍标准发音...');
   window.speechSynthesis.speak(utter);
 }
 
-function startRecording(index) {
+function startOralRecording(index) {
   navigator.mediaDevices.getUserMedia({ audio: true })
     .then(stream => {
-      recordedChunks = [];
-      mediaRecorder = new MediaRecorder(stream);
-      currentRecordIndex = index;
-
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) recordedChunks.push(e.data);
-      };
-
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+      oralRecordStream = stream;
+      oralRecordedChunks = [];
+      oralMediaRecorder = new MediaRecorder(stream);
+      oralMediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) oralRecordedChunks.push(e.data); };
+      oralMediaRecorder.onstop = () => {
+        const blob = new Blob(oralRecordedChunks, { type: 'audio/webm' });
         const audioUrl = URL.createObjectURL(blob);
-        const audioEl = document.getElementById('playback-' + index);
-        if (audioEl) {
-          audioEl.src = audioUrl;
-          audioEl.style.display = 'inline-block';
-          audioEl.style.width = '100%';
-          audioEl.style.marginTop = '6px';
-        }
-        // Stop all tracks
-        stream.getTracks().forEach(t => t.stop());
-        showToast('✅ 录音完成！点击播放听听自己读的');
+        const playbackDiv = document.getElementById('oral-playback-' + index);
+        const audioEl = document.getElementById('oral-audio-' + index);
+        if (playbackDiv) playbackDiv.style.display = 'block';
+        if (audioEl) { audioEl.src = audioUrl; audioEl.load(); }
+        if (oralRecordStream) { oralRecordStream.getTracks().forEach(t => t.stop()); oralRecordStream = null; }
+        showToast('✅ 录音完成！点击「听自己读的」回放');
       };
-
-      mediaRecorder.start();
+      oralMediaRecorder.start();
       showToast('🎙️ 开始录音！请大声跟读...');
-
-      // Show stop button
-      const stopBtn = document.getElementById('stopBtn-' + index);
+      const stopBtn = document.getElementById('stopBtn-oral-' + index);
       if (stopBtn) stopBtn.style.display = 'inline-flex';
-
-      // Auto stop after 8 seconds
       setTimeout(() => {
-        if (mediaRecorder && mediaRecorder.state === 'recording') {
-          mediaRecorder.stop();
+        if (oralMediaRecorder && oralMediaRecorder.state === 'recording') {
+          oralMediaRecorder.stop();
           if (stopBtn) stopBtn.style.display = 'none';
         }
       }, 8000);
-
-      // Show stop button
-      const status = document.getElementById('record-status-' + index);
     })
-    .catch(err => {
-      showToast('无法访问麦克风，请允许权限');
-    });
+    .catch(err => { showToast('无法访问麦克风，请允许权限'); });
 }
 
-function stopRecording(index) {
-  if (mediaRecorder && mediaRecorder.state === 'recording') {
-    mediaRecorder.stop();
-  }
-  const btn = document.getElementById('stopBtn-' + index);
+function stopRecordPhrase(index) {
+  if (oralMediaRecorder && oralMediaRecorder.state === 'recording') oralMediaRecorder.stop();
+  const btn = document.getElementById('stopBtn-oral-' + index);
   if (btn) btn.style.display = 'none';
+}
+
+function replayOral(index) {
+  const audioEl = document.getElementById('oral-audio-' + index);
+  if (audioEl && audioEl.src) { audioEl.play(); showToast('🔊 播放你的录音...'); }
+  else showToast('请先录音再回放');
+}
+
+function compareOral(index) {
+  const phrases = getDailyOralPhrases();
+  const phrase = phrases[index];
+  if (!phrase || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(phrase.en);
+  utter.lang = 'en-US'; utter.rate = 0.85;
+  window.speechSynthesis.speak(utter);
+  showToast('🔊 播放标准发音...');
+}
+
+// ============ WORD RECORDING WITH PLAYBACK (synced from oral) ============
+let wordMediaRecorder = null;
+let wordRecordedChunks = [];
+let wordRecordStream = null;
+
+function recordWord(index, word) {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showToast('浏览器不支持录音功能，请用 Chrome/Safari');
+    return;
+  }
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(word);
+  utter.lang = 'en-US'; utter.rate = 0.75;
+  utter.onend = () => { setTimeout(() => startWordRecording(index), 400); };
+  window.speechSynthesis.speak(utter);
+}
+
+function startWordRecording(index) {
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      wordRecordStream = stream;
+      wordRecordedChunks = [];
+      wordMediaRecorder = new MediaRecorder(stream);
+      wordMediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) wordRecordedChunks.push(e.data); };
+      wordMediaRecorder.onstop = () => {
+        const blob = new Blob(wordRecordedChunks, { type: 'audio/webm' });
+        const audioUrl = URL.createObjectURL(blob);
+        const playbackDiv = document.getElementById('word-playback-' + index);
+        const audioEl = document.getElementById('word-audio-' + index);
+        if (playbackDiv) playbackDiv.style.display = 'block';
+        if (audioEl) { audioEl.src = audioUrl; audioEl.load(); }
+        if (wordRecordStream) { wordRecordStream.getTracks().forEach(t => t.stop()); wordRecordStream = null; }
+      };
+      wordMediaRecorder.start();
+      showToast('🎙️ 请跟读单词...');
+      setTimeout(() => {
+        if (wordMediaRecorder && wordMediaRecorder.state === 'recording') wordMediaRecorder.stop();
+      }, 3000);
+    })
+    .catch(err => { showToast('无法访问麦克风，请允许权限'); });
+}
+
+function replayWord(index) {
+  const audioEl = document.getElementById('word-audio-' + index);
+  if (audioEl && audioEl.src) { audioEl.play(); showToast('🔊 播放你的发音...'); }
+  else showToast('请先录音再回放');
+}
+
+// ============ DAILY QUIZ (EN-CN / CN-EN / LISTENING) ============
+let quizState = { active: false, mode: '', items: [], currentIndex: 0, total: 10, score: 0 };
+
+function buildQuizItems() {
+  const phrases = getDailyOralPhrases().slice(0, 10);
+  const words = getIeltsWordPlan().todayWords.slice(0, 10);
+  const items = [];
+  phrases.forEach(p => items.push({ type: 'phrase', en: p.en, cn: p.cn }));
+  words.forEach(w => items.push({ type: 'word', en: w.w, cn: w.c }));
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  return items.slice(0, quizState.total);
+}
+
+function startQuiz(mode) {
+  quizState = { active: true, mode: mode, items: buildQuizItems(), currentIndex: 0, total: 10, score: 0 };
+  document.getElementById('quiz-container').style.display = 'block';
+  if (mode === 'cn2en') document.getElementById('quiz-recording').style.display = 'block';
+  else document.getElementById('quiz-recording').style.display = 'none';
+  showQuizQuestion();
+}
+
+function showQuizQuestion() {
+  if (quizState.currentIndex >= quizState.total) { finishQuiz(); return; }
+  const item = quizState.items[quizState.currentIndex];
+  const mode = quizState.mode;
+  document.getElementById('quiz-progress').textContent = '\u7B2C' + (quizState.currentIndex + 1) + '/' + quizState.total + '\u9898';
+  document.getElementById('quiz-score').textContent = '\u2713 ' + quizState.score;
+
+  if (mode === 'en2cn') {
+    document.getElementById('quiz-question').innerHTML = '<span style=\"color:var(--accent-blue);font-size:22px\">' + item.en + '</span>';
+    const correct = item.cn;
+    const allOptions = quizState.items.map(it => it.cn).filter(c => c !== correct);
+    const shuffled = shuffleArray([correct, ...allOptions.slice(0, 3)]);
+    document.getElementById('quiz-options').innerHTML = shuffled.map(opt =>
+      '<button class=\"btn btn-outline\" onclick=\"checkQuizAnswer(\\'' + escHtml(opt) + '\\')\" style=\"font-size:14px;padding:12px;text-align:center\">' + opt + '</button>'
+    ).join('');
+    document.getElementById('quiz-recording').style.display = 'none';
+  } else if (mode === 'cn2en') {
+    document.getElementById('quiz-question').innerHTML = '<span style=\"color:var(--accent-orange);font-size:22px\">' + item.cn + '</span><br><span style=\"font-size:13px;color:var(--text-light);margin-top:8px\">\u8BF7\u6717\u8BFB\u5BF9\u5E94\u7684\u82F1\u6587</span>';
+    document.getElementById('quiz-options').innerHTML = '<button class=\"btn btn-primary\" onclick=\"startQuizRecording()\" style=\"font-size:14px;padding:12px;grid-column:1/-1\">\U0001F399\uFE0F \u5F00\u59CB\u5F55\u97F3\u6717\u8BFB</button><button class=\"btn btn-outline\" onclick=\"revealQuizAnswer()\" style=\"font-size:14px;padding:12px;grid-column:1/-1\">\U0001F440 \u663E\u793A\u7B54\u6848</button>';
+    document.getElementById('quiz-recording').style.display = 'block';
+    document.getElementById('quiz-speech-result').innerHTML = '';
+    const ael = document.getElementById('quiz-playback-audio');
+    if (ael) ael.style.display = 'none';
+  } else if (mode === 'listen') {
+    document.getElementById('quiz-question').innerHTML = '<span style=\"font-size:28px\">\U0001F3A7</span><br><span style=\"font-size:13px;color:var(--text-light)\">\u8BF7\u542C\u53D1\u97F3\uFF0C\u9009\u62E9\u6B63\u786E\u7684\u4E2D\u6587</span>';
+    const correct = item.cn;
+    const allOptions = quizState.items.map(it => it.cn).filter(c => c !== correct);
+    const shuffled = shuffleArray([correct, ...allOptions.slice(0, 3)]);
+    document.getElementById('quiz-options').innerHTML = shuffled.map(opt =>
+      '<button class=\"btn btn-outline\" onclick=\"checkQuizAnswer(\\'' + escHtml(opt) + '\\')\" style=\"font-size:14px;padding:12px;text-align:center\">' + opt + '</button>'
+    ).join('');
+    document.getElementById('quiz-recording').style.display = 'none';
+    setTimeout(() => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(item.en);
+        utter.lang = 'en-US'; utter.rate = 0.75;
+        window.speechSynthesis.speak(utter);
+      }
+    }, 300);
+  }
+}
+
+function checkQuizAnswer(userAnswer) {
+  const item = quizState.items[quizState.currentIndex];
+  if (userAnswer === item.cn) { quizState.score++; showToast('\u2705 \u6B63\u786E\uFF01'); }
+  else showToast('\u274C \u9519\u8BEF\uFF01\u6B63\u786E\u7B54\u6848: ' + item.cn);
+  quizState.currentIndex++;
+  setTimeout(showQuizQuestion, 800);
+}
+
+function revealQuizAnswer() {
+  const item = quizState.items[quizState.currentIndex];
+  document.getElementById('quiz-speech-result').innerHTML = '<div style=\"background:#fff8f0;padding:10px;border-radius:8px;text-align:center\"><div style=\"font-size:12px;color:var(--text-light)\">\u6B63\u786E\u7B54\u6848</div><div style=\"font-size:16px;font-weight:700;color:var(--accent-blue);margin-top:4px\">' + item.en + '</div><div style=\"font-size:12px;color:var(--text);margin-top:2px\">' + item.cn + '</div><div style=\"margin-top:6px;display:flex;gap:8px;justify-content:center\"><button class=\"btn btn-sm btn-primary\" onclick=\"speakWord(\\'' + escHtml(item.en) + '\\')\">\U0001F50A \u542C\u53D1\u97F3</button><button class=\"btn btn-sm btn-outline\" onclick=\"quizNextAfterReveal(true)\">\u2705 \u6211\u8BFB\u5BF9\u4E86</button><button class=\"btn btn-sm btn-outline\" onclick=\"quizNextAfterReveal(false)\">\u274C \u8FD8\u9700\u7EC3\u4E60</button></div></div>';
+}
+
+function quizNextAfterReveal(correct) {
+  if (correct) quizState.score++;
+  quizState.currentIndex++;
+  setTimeout(showQuizQuestion, 500);
+}
+
+let qzRecorder = null, qzStream = null, qzChunks = [];
+
+function startQuizRecording() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { showToast('\u6D4F\u89C8\u5668\u4E0D\u652F\u6301\u5F55\u97F3'); return; }
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    qzStream = stream; qzChunks = [];
+    qzRecorder = new MediaRecorder(stream);
+    qzRecorder.ondataavailable = (e) => { if (e.data.size > 0) qzChunks.push(e.data); };
+    qzRecorder.onstop = () => {
+      const blob = new Blob(qzChunks, { type: 'audio/webm' });
+      const audioUrl = URL.createObjectURL(blob);
+      const ael = document.getElementById('quiz-playback-audio');
+      if (ael) { ael.src = audioUrl; ael.style.display = 'block'; ael.load(); }
+      if (qzStream) { qzStream.getTracks().forEach(t => t.stop()); qzStream = null; }
+      document.getElementById('quiz-recording-status').textContent = '\u2705 \u5F55\u97F3\u5B8C\u6210\uFF01\u70B9\u51FB\u64AD\u653E\u6309\u94AE\u542C\u81EA\u5DF1\u8BFB\u7684';
+      setTimeout(revealQuizAnswer, 500);
+    };
+    qzRecorder.start();
+    document.getElementById('quiz-recording-status').textContent = '\U0001F399\uFE0F \u6B63\u5728\u5F55\u97F3...\u8BF7\u6717\u8BFB\u82F1\u6587';
+    document.getElementById('quiz-stop-btn').style.display = 'inline-block';
+    setTimeout(() => { if (qzRecorder && qzRecorder.state === 'recording') { qzRecorder.stop(); document.getElementById('quiz-stop-btn').style.display = 'none'; } }, 6000);
+  }).catch(err => { showToast('\u65E0\u6CD5\u8BBF\u95EE\u9EA6\u514B\u98CE'); });
+}
+
+function stopQuizRecording() {
+  if (qzRecorder && qzRecorder.state === 'recording') qzRecorder.stop();
+  document.getElementById('quiz-stop-btn').style.display = 'none';
+}
+
+function finishQuiz() {
+  document.getElementById('quiz-question').innerHTML = '<div style=\"text-align:center\"><div style=\"font-size:36px\">' + (quizState.score >= 8 ? '\U0001F389' : quizState.score >= 5 ? '\U0001F44D' : '\U0001F4AA') + '</div><div style=\"font-size:18px;font-weight:700;margin-top:8px\">\u6D4B\u9A8C\u5B8C\u6210\uFF01</div><div style=\"font-size:14px;color:var(--text-light);margin-top:4px\">\u5F97\u5206: ' + quizState.score + '/' + quizState.total + '</div><div style=\"font-size:12px;color:var(--text-light);margin-top:2px\">' + (quizState.score >= 8 ? '\u592A\u68D2\u4E86\uFF01\u7EE7\u7EED\u4FDD\u6301\uFF01' : quizState.score >= 5 ? '\u4E0D\u9519\uFF0C\u8FD8\u6709\u8FDB\u6B65\u7A7A\u95F4\uFF01' : '\u52A0\u6CB9\uFF0C\u591A\u7EC3\u4E60\u4F1A\u66F4\u597D\u7684\uFF01') + '</div></div>';
+  document.getElementById('quiz-options').innerHTML = '<button class=\"btn btn-primary\" onclick=\"startQuiz(quizState.mode)\" style=\"grid-column:1/-1\">\U0001F504 \u518D\u6765\u4E00\u6B21</button>';
+  document.getElementById('quiz-recording').style.display = 'none';
+}
+
+function exitQuiz() { quizState.active = false; document.getElementById('quiz-container').style.display = 'none'; stopQuizRecording(); }
+function shuffleArray(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function escHtml(str) { return (str+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/'/g,'&#039;'); }
+
+// ============ IELTS REAL EXAM QUESTIONS ============
+function loadIeltsExam(type) {
+  const container = document.getElementById('ielts-exam-container');
+  container.style.display = 'block';
+  if (type === 'listening') {
+    container.innerHTML = '<div style=\"background:#f0f4ff;border-radius:10px;padding:15px;border:1px solid #d0d8e8\"><h4 style=\"margin:0 0 10px 0\">\U0001F3A7 \u96C5\u601D\u542C\u529B\u771F\u9898\u8BAD\u7EC3</h4><div style=\"font-size:11px;color:var(--text-light);margin-bottom:10px\">\u4EE5\u4E0B\u4E3A\u5251\u6865\u96C5\u601D\u542C\u529B\u771F\u9898\u7CBE\u9009 \u00B7 \u70B9\u51FB\u9898\u76EE\u5F00\u59CB\u7EC3\u4E60</div><div style=\"display:flex;flex-direction:column;gap:8px\">' + ['Section 1: \u79DF\u623F\u54A8\u8BE2\u5BF9\u8BDD', 'Section 2: \u6821\u56ED\u5BFC\u89C8\u4ECB\u7ECD', 'Section 3: \u5B66\u672F\u8BA8\u8BBA\u5BF9\u8BDD', 'Section 4: \u8BB2\u5EA7\u72EC\u767D'].map((s,i) => '<div style=\"background:white;border-radius:8px;padding:12px;cursor:pointer;border:1px solid #d0d8e8\" onclick=\"startListeningPractice(' + (i+1) + ')\"><div style=\"font-weight:600;font-size:13px\">' + s + '</div><div style=\"font-size:10px;color:var(--text-light);margin-top:2px\">\u23F1 \u7EA610\u5206\u949F \u00B7 5\u9053\u9898</div></div>').join('') + '</div></div>';
+  } else if (type === 'reading') {
+    container.innerHTML = '<div style=\"background:#fff8f0;border-radius:10px;padding:15px;border:1px solid #f0dcc0\"><h4 style=\"margin:0 0 10px 0\">\U0001F4C4 \u96C5\u601D\u9605\u8BFB\u771F\u9898\u8BAD\u7EC3</h4><div style=\"font-size:11px;color:var(--text-light);margin-bottom:10px\">\u4EE5\u4E0B\u4E3A\u5251\u6865\u96C5\u601D\u9605\u8BFB\u771F\u9898\u7CBE\u9009 \u00B7 \u6BCF\u7BC7\u7EA620\u5206\u949F</div><div style=\"display:flex;flex-direction:column;gap:8px\">' + [{title:'Passage 1: The History of Glass', topic:'\u79D1\u6280\u53F2 \u00B7 \u5224\u65AD+\u586B\u7A7A'},{title:'Passage 2: Bring Back the Big Cats', topic:'\u81EA\u7136\u751F\u6001 \u00B7 \u5339\u914D+\u9009\u62E9'},{title:'Passage 3: The Power of Play', topic:'\u6559\u80B2\u5FC3\u7406 \u00B7 \u6BB5\u843D\u5339\u914D+\u586B\u7A7A'}].map((p,i) => '<div style=\"background:white;border-radius:8px;padding:12px;cursor:pointer;border:1px solid #f0dcc0\" onclick=\"startReadingPractice(' + (i+1) + ')\"><div style=\"font-weight:600;font-size:13px\">' + p.title + '</div><div style=\"font-size:10px;color:var(--text-light);margin-top:2px\">' + p.topic + ' \u00B7 \u23F1 \u7EA620\u5206\u949F \u00B7 5\u9053\u9898</div></div>').join('') + '</div></div>';
+  } else if (type === 'writing') {
+    container.innerHTML = '<div style=\"background:#f0fff0;border-radius:10px;padding:15px;border:1px solid #c8e6c8\"><h4 style=\"margin:0 0 10px 0\">\u270D\uFE0F \u96C5\u601D\u5199\u4F5C\u771F\u9898\u8BAD\u7EC3</h4><div style=\"display:flex;flex-direction:column;gap:10px\"><div style=\"background:white;border-radius:8px;padding:12px;border:1px solid #c8e6c8\"><div style=\"font-weight:700;font-size:13px;color:var(--accent-blue)\">Task 1 (\u56FE\u8868\u9898)</div><div style=\"font-size:11px;margin-top:6px;line-height:1.6\">The chart below shows the percentage of adults in different age groups who did physical activity in one country in 2010.<br><br>Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</div><div style=\"font-size:10px;color:var(--text-light);margin-top:4px\">\u23F1 \u5EFA\u8BAE\u65F6\u95F4: 20\u5206\u949F \u00B7 \u6700\u5C11150\u8BCD</div><div style=\"margin-top:8px\"><textarea id=\"writing-task1\" placeholder=\"\u5728\u6B64\u8F93\u5165\u4F60\u7684\u4F5C\u6587...\" style=\"width:100%;height:120px;border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px;resize:vertical\"></textarea></div><button class=\"btn btn-sm btn-primary\" onclick=\"checkWriting(1)\" style=\"margin-top:6px;font-size:11px\">\u2705 \u63D0\u4EA4\u7EC3\u4E60</button></div><div style=\"background:white;border-radius:8px;padding:12px;border:1px solid #c8e6c8\"><div style=\"font-weight:700;font-size:13px;color:var(--accent-blue)\">Task 2 (\u8BAE\u8BBA\u6587)</div><div style=\"font-size:11px;margin-top:6px;line-height:1.6\">Some people believe that children should be taught to compete, while others think they should be taught to cooperate.<br><br>Discuss both views and give your own opinion.</div><div style=\"font-size:10px;color:var(--text-light);margin-top:4px\">\u23F1 \u5EFA\u8BAE\u65F6\u95F4: 40\u5206\u949F \u00B7 \u6700\u5C11250\u8BCD</div><div style=\"margin-top:8px\"><textarea id=\"writing-task2\" placeholder=\"\u5728\u6B64\u8F93\u5165\u4F60\u7684\u4F5C\u6587...\" style=\"width:100%;height:120px;border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px;resize:vertical\"></textarea></div><button class=\"btn btn-sm btn-primary\" onclick=\"checkWriting(2)\" style=\"margin-top:6px;font-size:11px\">\u2705 \u63D0\u4EA4\u7EC3\u4E60</button></div></div></div>';
+  }
+}
+
+let listeningAnswers = {};
+function answerListening(qIndex, optIndex, correctIndex) {
+  listeningAnswers[qIndex] = { chosen: optIndex, correct: correctIndex };
+  for (let oi = 0; oi < 4; oi++) {
+    const btn = document.getElementById('lopt-' + qIndex + '-' + oi);
+    if (btn) { btn.style.background = oi === optIndex ? 'var(--accent-blue)' : ''; btn.style.color = oi === optIndex ? 'white' : ''; }
+  }
+}
+function checkListeningAnswers() {
+  let correct = 0;
+  const total = Object.keys(listeningAnswers).length;
+  Object.values(listeningAnswers).forEach(a => { if (a.chosen === a.correct) correct++; });
+  const scoreEl = document.getElementById('listening-score');
+  if (scoreEl) {
+    scoreEl.style.display = 'block';
+    scoreEl.innerHTML = '\u5F97\u5206: ' + correct + '/' + total + ' \u00B7 ' + (correct >= 4 ? '\U0001F389 \u4F18\u79C0\uFF01' : correct >= 2 ? '\U0001F44D \u7EE7\u7EED\u52A0\u6CB9' : '\U0001F4AA \u591A\u7EC3\u4E60');
+    scoreEl.style.color = correct >= 4 ? 'var(--accent-green)' : correct >= 2 ? 'var(--accent-orange)' : 'var(--primary)';
+  }
+}
+
+let readingAnswers = {};
+function answerReading(qIndex, optIndex, correctIndex) {
+  readingAnswers[qIndex] = { chosen: optIndex, correct: correctIndex };
+  for (let oi = 0; oi < 4; oi++) {
+    const btn = document.getElementById('ropt-' + qIndex + '-' + oi);
+    if (btn) { if (oi === optIndex) { btn.style.background = 'var(--accent-blue)'; btn.style.color = 'white'; } }
+  }
+}
+function checkReadingAnswers() {
+  let correct = 0;
+  const total = Object.keys(readingAnswers).length;
+  Object.values(readingAnswers).forEach(a => { if (a.chosen === a.correct) correct++; });
+  const scoreEl = document.getElementById('reading-score');
+  if (scoreEl) {
+    scoreEl.style.display = 'block';
+    scoreEl.innerHTML = '\u5F97\u5206: ' + correct + '/' + total + ' \u00B7 ' + (correct >= 4 ? '\U0001F389 \u4F18\u79C0\uFF01' : correct >= 2 ? '\U0001F44D \u7EE7\u7EED\u52A0\u6CB9' : '\U0001F4AA \u591A\u7EC3\u4E60');
+    scoreEl.style.color = correct >= 4 ? 'var(--accent-green)' : correct >= 2 ? 'var(--accent-orange)' : 'var(--primary)';
+  }
+}
+
+function checkWriting(taskNum) {
+  const textEl = document.getElementById('writing-task' + taskNum);
+  if (!textEl) return;
+  const text = textEl.value.trim();
+  const minWords = taskNum === 1 ? 150 : 250;
+  const wordCount = text.split(/\s+/).filter(w => w.length > 0).length;
+  if (wordCount < minWords) { showToast('\u26A0\uFE0F \u5B57\u6570\u4E0D\u8DB3\uFF01\u5F53\u524D ' + wordCount + ' \u8BCD\uFF0C\u6700\u5C11\u9700\u8981 ' + minWords + ' \u8BCD'); return; }
+  showToast('\u2705 Task ' + taskNum + ' \u5DF2\u63D0\u4EA4\uFF01\u5B57\u6570: ' + wordCount + ' \u00B7 \u8BF7\u81EA\u884C\u5BF9\u7167\u8303\u6587\u68C0\u67E5');
+}
+
+function startListeningPractice(section) {
+  const questions = {
+    1: [{q:'What type of accommodation is the woman looking for?', opts:['Shared flat','Studio apartment','Homestay','Dormitory'], a:2},{q:'Maximum weekly rent she can afford:', opts:['\u00a380','\u00a3100','\u00a3120','\u00a3150'], a:2},{q:'Preferred location:', opts:['City centre','Near university','Quiet suburb','Near park'], a:1},{q:'She needs to move in by:', opts:['Next Monday','September 1st','October 15th','Next month'], a:1},{q:'What is NOT required?', opts:['En-suite bathroom','Furnished','Parking space','Garden access'], a:3}],
+    2: [{q:'The library tour starts at:', opts:['9:00 AM','10:30 AM','11:00 AM','2:00 PM'], a:2},{q:'Where is the IT help desk?', opts:['Ground floor','First floor','Second floor','Basement'], a:1},{q:'Students can borrow laptops for:', opts:['2 hours','4 hours','24 hours','1 week'], a:2},{q:'The quiet study area is on which floor?', opts:['Ground','First','Second','Third'], a:3},{q:'Cafeteria closes at:', opts:['6:00 PM','7:30 PM','8:00 PM','9:00 PM'], a:3}],
+    3: [{q:'The discussion is mainly about:', opts:['Course selection','Research methods','Internship opportunities','Exam preparation'], a:1},{q:'How many modules must students take?', opts:['3','4','5','6'], a:2},{q:'The deadline for submission is:', opts:['Next Friday','End of month','December 15th','January 5th'], a:2},{q:'What does the tutor recommend?', opts:['Take all core modules','Mix core and elective','Focus on one area','Defer one module'], a:1},{q:'Where can students find reading lists?', opts:['Library website','Course handbook','Email attachment','Notice board'], a:1}],
+    4: [{q:'The lecture topic is:', opts:['Climate change','Renewable energy','Ocean pollution','Biodiversity loss'], a:3},{q:'Plastic waste in oceans has increased by:', opts:['50%','100%','200%','300%'], a:3},{q:'Which species is most affected?', opts:['Whales','Sea turtles','Seabirds','Fish'], a:1},{q:'The speaker suggests:', opts:['Government regulation','Individual action','International cooperation','Technology innovation'], a:2},{q:'Key research finding published in:', opts:['2018','2019','2020','2021'], a:3}]
+  };
+  const qs = questions[section] || questions[1];
+  listeningAnswers = {};
+  const container = document.getElementById('ielts-exam-container');
+  container.innerHTML = '<div style=\"background:white;border-radius:10px;padding:15px;border:2px solid var(--accent-blue)\"><h4 style=\"margin:0 0 5px 0\">Section ' + section + ' \u00B7 \u542C\u529B\u7EC3\u4E60</h4><div style=\"font-size:10px;color:var(--text-light);margin-bottom:10px\">\u70B9\u51FB\u9898\u76EE\u9009\u9879\u9009\u62E9\u7B54\u6848 \u00B7 \u5171' + qs.length + '\u9898</div><div style=\"display:flex;flex-direction:column;gap:10px\">' + qs.map((q,qi) => '<div style=\"background:#f8f8f8;border-radius:8px;padding:12px;border:1px solid var(--border)\"><div style=\"font-weight:600;font-size:12px;margin-bottom:6px\">' + (qi+1) + '. ' + q.q + '</div><div style=\"display:flex;gap:6px;flex-wrap:wrap\">' + q.opts.map((opt,oi) => '<button class=\"btn btn-sm btn-outline\" onclick=\"answerListening(' + qi + ',' + oi + ',' + (q.a-1) + ')\" id=\"lopt-' + qi + '-' + oi + '\" style=\"font-size:11px\">' + opt + '</button>').join('') + '</div></div>').join('') + '</div><button class=\"btn btn-primary\" onclick=\"checkListeningAnswers()\" style=\"margin-top:12px;font-size:12px\">\u2705 \u63D0\u4EA4\u7B54\u6848</button><div id=\"listening-score\" style=\"margin-top:8px;font-size:14px;font-weight:700;text-align:center;display:none\"></div></div>';
+  if ('speechSynthesis' in window) {
+    setTimeout(() => {
+      const utter = new SpeechSynthesisUtterance('Listen carefully and answer the questions.');
+      utter.lang = 'en-US'; utter.rate = 0.85;
+      window.speechSynthesis.speak(utter);
+    }, 500);
+  }
+}
+
+function startReadingPractice(passage) {
+  const passages = {
+    1: { title:'The History of Glass', text:'Glass is one of the most versatile materials known to humanity. Its history dates back to around 3500 BC in Mesopotamia, where it was first used for decorative beads. The earliest glass vessels appeared in Egypt around 1500 BC, crafted using a technique called core-forming. By the first century BC, Syrian craftsmen had invented glassblowing, which revolutionized glass production and made it accessible to ordinary people. The Romans further developed glassmaking, spreading the technology throughout their empire. During the Middle Ages, Venice became the center of European glassmaking. The Venetian glassmakers on the island of Murano developed cristallo, a nearly colorless transparent glass that was highly prized. The Industrial Revolution brought mechanized glass production. In 1959, Sir Alastair Pilkington invented the float glass process, which remains the standard method for producing flat glass today.',
+      questions: [{q:'Glass was first used around:', opts:['1500 BC','3500 BC','First century BC','1959'], a:1},{q:'Glassblowing was invented by:', opts:['Egyptians','Romans','Syrian craftsmen','Venetians'], a:2},{q:'The float glass process was invented in:', opts:['1859','1900','1959','1999'], a:2},{q:'Murano is famous for developing:', opts:['Glassblowing','Cristallo','Float glass','Fiber optics'], a:1},{q:'Core-forming was first used in:', opts:['Mesopotamia','Egypt','Rome','Venice'], a:1}] },
+    2: { title:'Bring Back the Big Cats', text:'The reintroduction of large predators into their former habitats is one of the most controversial topics in conservation biology. In Scotland, there have been serious proposals to reintroduce the Eurasian lynx, which was hunted to extinction there over 1,000 years ago. Studies suggest the Highlands could support around 400 lynx, which would help control deer populations and allow forest regeneration. The case of wolves in Yellowstone National Park is often cited as a success story. After wolves were reintroduced in 1995, elk populations decreased, vegetation recovered, and even river courses changed. However, in areas with significant livestock farming, farmers in the Scottish Highlands worry about sheep losses.',
+      questions: [{q:'The main topic of this passage is:', opts:['Scottish wildlife','Predator reintroduction','Yellowstone wolves','Deer population control'], a:1},{q:'Eurasian lynx went extinct in Scotland about:', opts:['500 years ago','1000 years ago','1995','1959'], a:1},{q:'Wolves were reintroduced to Yellowstone in:', opts:['1985','1990','1995','2000'], a:2},{q:'Highlands could support approximately:', opts:['100 lynx','200 lynx','400 lynx','1000 lynx'], a:2},{q:'Farmers worry about losses of:', opts:['Deer','Sheep','Cattle','Forests'], a:1}] },
+    3: { title:'The Power of Play', text:'Play is often dismissed as mere entertainment, but research increasingly shows that it is fundamental to cognitive and social development. In early childhood, pretend play helps children develop theory of mind. Studies show that children who engage in more imaginative play show stronger language skills and better emotional regulation. Research from the University of Cambridge found that children who had regular unstructured playtime performed better academically. Even in the workplace, elements of play are being incorporated into corporate training. Companies like Google and IDEO have designed playful workspaces, arguing that creativity flourishes when people feel free to experiment without fear of failure.',
+      questions: [{q:'According to the passage, play helps develop:', opts:['Physical strength only','Theory of mind','Musical ability','Mathematical skills'], a:1},{q:'Cambridge research found better performance linked to:', opts:['More homework','Structured activities','Unstructured playtime','Sports training'], a:2},{q:'Google designs playful workspaces to:', opts:['Save money','Attract tourists','Boost creativity','Reduce work hours'], a:2},{q:'Pretend play is particularly important in:', opts:['Adulthood','Early childhood','Adolescence','Old age'], a:1},{q:'The passage suggests play is:', opts:['A waste of time','Only for children','Fundamental to development','Harmful to learning'], a:2}] }
+  };
+  const p = passages[passage] || passages[1];
+  readingAnswers = {};
+  const container = document.getElementById('ielts-exam-container');
+  container.innerHTML = '<div style=\"background:white;border-radius:10px;padding:15px;border:2px solid var(--accent-orange)\"><h4 style=\"margin:0 0 5px 0\">' + p.title + '</h4><div style=\"background:#fff8f0;border-radius:8px;padding:15px;margin:10px 0;font-size:12px;line-height:1.8;max-height:250px;overflow-y:auto;border:1px solid #f0dcc0\">' + p.text + '</div><div style=\"font-size:10px;color:var(--text-light);margin-bottom:10px\">\u23F1 \u9605\u8BFB\u6587\u7AE0\u5E76\u56DE\u7B54\u95EE\u9898 \u00B7 \u5171' + p.questions.length + '\u9898</div><div style=\"display:flex;flex-direction:column;gap:10px\">' + p.questions.map((q,qi) => '<div style=\"background:#f8f8f8;border-radius:8px;padding:12px;border:1px solid var(--border)\"><div style=\"font-weight:600;font-size:12px;margin-bottom:6px\">' + (qi+1) + '. ' + q.q + '</div><div style=\"display:flex;gap:6px;flex-wrap:wrap\">' + q.opts.map((opt,oi) => '<button class=\"btn btn-sm btn-outline\" onclick=\"answerReading(' + qi + ',' + oi + ',' + q.a + ')\" id=\"ropt-' + qi + '-' + oi + '\" style=\"font-size:11px\">' + opt + '</button>').join('') + '</div></div>').join('') + '</div><button class=\"btn btn-primary\" onclick=\"checkReadingAnswers()\" style=\"margin-top:12px;font-size:12px\">\u2705 \u63D0\u4EA4\u7B54\u6848</button><div id=\"reading-score\" style=\"margin-top:8px;font-size:14px;font-weight:700;text-align:center;display:none\"></div></div>';
 }
 
 function toggleEnglishTask(key) {
@@ -3555,7 +3889,6 @@ function toggleEnglishTask(key) {
   saveData();
   renderEnglish();
 }
-
 // ============ PAGE 7: LOVE TIMER ============
 function renderLove() {
   const ls=data.loveSettings, now=new Date(), today=fmtDate(now);
@@ -3779,6 +4112,13 @@ function showBackupModal() {
           当前数据大小：约 ${size} KB
         </div>
 
+        <div style="margin-bottom:12px;padding:10px 12px;background:#fff5f5;border-radius:8px;border-left:3px solid #e74c3c">
+          <div style="font-size:12px;font-weight:bold;color:#c0392b;margin-bottom:4px">⚠️ 添加到主屏幕后数据不见了？</div>
+          <div style="font-size:11px;color:#8a3a3a;line-height:1.6">
+            Chrome 浏览器和桌面图标使用的是不同的数据空间。如果你在 Chrome 里导出了备份，添加到主屏幕后需要重新导入备份文件才能看到数据。
+          </div>
+        </div>
+
         <div style="margin-bottom:12px;padding:10px 12px;background:#f5f0f0;border-radius:8px;border-left:3px solid var(--primary)">
           <div style="font-size:12px;font-weight:bold;color:#8a5a5a;margin-bottom:4px">📅 每周一自动备份</div>
           <div style="font-size:11px;color:#8a6a6a;line-height:1.6">
@@ -3792,7 +4132,7 @@ function showBackupModal() {
           <button class="btn btn-outline" onclick="closeModal()">取消</button>
           <button class="btn btn-primary" onclick="backupAllData()">📤 备份全部数据</button>
           ${weeklyDate ? `<button class="btn btn-outline" onclick="restoreWeeklyBackup()">♻️ 恢复周快照</button>` : ''}
-          <button class="btn btn-primary" onclick="restoreAllData()">📥 从文件恢复</button>
+          <button class="btn btn-primary" onclick="restoreAllData()" style="background:#e74c3c;border-color:#e74c3c">📥 从文件恢复数据</button>
         </div>
         <div style="margin-top:12px;padding:10px;background:#fff8f8;border-radius:8px;font-size:11px;color:#8a6a6a;line-height:1.5">
           <b>注意：</b>恢复数据会覆盖当前所有数据，请谨慎操作。建议先备份当前数据再恢复。
