@@ -1,6 +1,6 @@
-const CACHE_NAME = 'yuanqi-workbench-v35';
+const CACHE_NAME = 'yuanqi-workbench-v36';
 const ASSETS = [
-  './index.html',
+  './workspace_optimized.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
@@ -80,7 +80,7 @@ self.addEventListener('fetch', (event) => {
         return fetchResponse;
       }).catch(() => {
         // Fallback to cached main page when offline or timeout
-        return caches.match('./index.html').then((cached) => {
+        return caches.match('./workspace_optimized.html').then((cached) => {
           if (cached) return cached;
           // Absolute last resort: if nothing cached, return a simple offline page
           return new Response(
