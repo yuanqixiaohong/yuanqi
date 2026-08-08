@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw
 import os
+import colorsys
 
 # Reference spec:
 # - Moon diameter = ~30% of canvas (radius = ~15%) — refined from original 46% to ~65% of that
@@ -9,11 +10,22 @@ import os
 # - Craters on right:   #cdbe9e -> RGB(205, 190, 158)
 # - Background:         #d9a0a0 -> RGB(217, 160, 160)
 
-BG_COLOR = (217, 160, 160)
-LEFT_COLOR = (52, 70, 88)        # #344658
-RIGHT_COLOR = (225, 210, 178)  # #e1d2b2
-CRATER_LEFT = (43, 58, 73)      # slightly lighter than left base
-CRATER_RIGHT = (205, 190, 158)  # slightly darker than right base
+
+def adjust_color(rgb, brightness_boost=0.12, saturation_boost=0.20):
+    """在 HSV 空间增加亮度(+12%)与饱和度(+20%)，让图标颜色更鲜亮。"""
+    r, g, b = [c / 255.0 for c in rgb]
+    h, s, v = colorsys.rgb_to_hsv(r, g, b)
+    v = min(1.0, v * (1.0 + brightness_boost))
+    s = min(1.0, s * (1.0 + saturation_boost))
+    r, g, b = colorsys.hsv_to_rgb(h, s, v)
+    return tuple(int(round(c * 255)) for c in (r, g, b))
+
+
+BG_COLOR = adjust_color((217, 160, 160))
+LEFT_COLOR = adjust_color((52, 70, 88))
+RIGHT_COLOR = adjust_color((225, 210, 178))
+CRATER_LEFT = adjust_color((43, 58, 73))
+CRATER_RIGHT = adjust_color((205, 190, 158))
 
 CRATERS_LEFT = [
     (-0.38, -0.28, 0.24, 0.20),
