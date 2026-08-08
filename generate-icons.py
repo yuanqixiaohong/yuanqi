@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw
 
 # Reference spec:
-# - Moon diameter = 46% of canvas (radius = 23%)
+# - Moon diameter = ~21% of canvas (radius = ~10.5%) — refined from previous 46% to ~46% of that
 # - Left (shadow) side:  #344658 -> RGB(52, 70, 88)
 # - Right (light) side: #e1d2b2 -> RGB(225, 210, 178)
 # - Craters on left:    #2b3a49 -> RGB(43, 58, 73)
@@ -33,7 +33,7 @@ CRATERS_RIGHT = [
 ]
 
 
-def draw_moon(size, corner_radius_ratio=0.22, moon_ratio=0.46, maskable=False):
+def draw_moon(size, corner_radius_ratio=0.22, moon_ratio=0.21, maskable=False):
     """Generate the moon app icon matching the reference screenshot."""
     img = Image.new('RGBA', (size, size), BG_COLOR)
     draw = ImageDraw.Draw(img)
