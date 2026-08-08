@@ -11,8 +11,8 @@ import colorsys
 # - Background:         #d9a0a0 -> RGB(217, 160, 160)
 
 
-def adjust_color(rgb, brightness_boost=0.21, saturation_boost=0.20):
-    """HSV 空间亮度+21%(原始+12%再+8%=~21%)、饱和度+20%。"""
+def adjust_color(rgb, brightness_boost=0.016, saturation_boost=0.20):
+    """HSV 空间亮度+1.6%(当前1.21×0.84≈1.016)、饱和度+20%。"""
     r, g, b = [c / 255.0 for c in rgb]
     h, s, v = colorsys.rgb_to_hsv(r, g, b)
     v = min(1.0, v * (1.0 + brightness_boost))
