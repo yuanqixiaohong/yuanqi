@@ -213,7 +213,7 @@ body {
   width: 36px; height: 36px; border-radius: 9px;
   display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0;
 }
-.stat-info .stat-value { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.stat-info .stat-value { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.2; }
 .stat-info .stat-label { font-size: 10px; color: var(--text-light); }
 
 /* Tables */
@@ -3018,7 +3018,7 @@ function renderGold() {
     var isProfit = stats.profit >= 0;
     return '<div style="background:' + (isProfit ? '#f0fff0' : '#fff0f0') + ';border-radius:10px;padding:12px;text-align:center;border:1px solid ' + (isProfit ? '#c8e6c9' : '#f0d0d0') + '">'
       + '<div style="font-size:11px;color:var(--text-light)">' + icon + ' ' + label + '浮盈/亏</div>'
-      + '<div style="font-size:18px;font-weight:700;color:' + (isProfit ? 'var(--accent-green)' : 'var(--primary)') + '">' + (isProfit ? '+' : '') + '¥' + stats.profit.toFixed(0) + '</div>'
+      + '<div style="font-size:15px;font-weight:700;color:' + (isProfit ? 'var(--accent-green)' : 'var(--primary)') + '">' + (isProfit ? '+' : '') + '¥' + stats.profit.toFixed(0) + '</div>'
       + '<div style="font-size:10px;color:var(--text-light)">' + (stats.netGrams > 0 ? '持仓 ' + stats.netGrams.toFixed(2) + 'g · 均价 ¥' + stats.avgPrice.toFixed(0) + '/g' : '无持仓') + '</div>'
       + '</div>';
   }
@@ -3035,14 +3035,14 @@ function renderGold() {
     // 黄金大盘
     +     '<div style="background:#fff8f0;border-radius:8px;padding:10px;text-align:center;border:1px solid #f0e0c0">'
     +       '<div style="font-size:11px;font-weight:600;color:#b8860b">🥇 黄金大盘价</div>'
-    +       '<div style="font-size:22px;font-weight:800;color:#d4a017;margin:3px 0">¥' + (h.goldPrice || 0).toFixed(2) + '<span style="font-size:11px;font-weight:400">/g</span></div>'
+    +       '<div style="font-size:18px;font-weight:700;color:#d4a017;margin:3px 0">¥' + (h.goldPrice || 0).toFixed(2) + '<span style="font-size:11px;font-weight:400">/g</span></div>'
     +       '<div style="font-size:10px;color:var(--text-light)">国际 $' + (h.goldUsdPrice || 0).toFixed(2) + '/oz · 汇率 ' + (h.usdCnyRate || 0).toFixed(2) + '</div>'
     +       (goldChange !== 0 ? '<div style="font-size:12px;font-weight:600;color:' + (goldChange > 0 ? 'var(--primary)' : 'var(--accent-green)') + ';margin-top:2px">' + (goldChange > 0 ? '↑' : '↓') + ' ' + Math.abs(goldChange).toFixed(2) + ' (' + (goldChangePct > 0 ? '+' : '') + goldChangePct.toFixed(2) + '%)</div>' : '<div style="font-size:12px;color:var(--text-light);margin-top:2px">—</div>')
     +     '</div>'
     // 白银大盘
     +     '<div style="background:#f0f4ff;border-radius:8px;padding:10px;text-align:center;border:1px solid #d0d8f0">'
     +       '<div style="font-size:11px;font-weight:600;color:#4682b4">🥈 白银大盘价</div>'
-    +       '<div style="font-size:22px;font-weight:800;color:#5a8ac4;margin:3px 0">¥' + (h.silverPrice || 0).toFixed(2) + '<span style="font-size:11px;font-weight:400">/g</span></div>'
+    +       '<div style="font-size:18px;font-weight:700;color:#5a8ac4;margin:3px 0">¥' + (h.silverPrice || 0).toFixed(2) + '<span style="font-size:11px;font-weight:400">/g</span></div>'
     +       '<div style="font-size:10px;color:var(--text-light)">国际 $' + (h.silverUsdPrice || 0).toFixed(2) + '/oz · 汇率 ' + (h.usdCnyRate || 0).toFixed(2) + '</div>'
     +       (silverChange !== 0 ? '<div style="font-size:12px;font-weight:600;color:' + (silverChange > 0 ? 'var(--primary)' : 'var(--accent-green)') + ';margin-top:2px">' + (silverChange > 0 ? '↑' : '↓') + ' ' + Math.abs(silverChange).toFixed(2) + ' (' + (silverChangePct > 0 ? '+' : '') + silverChangePct.toFixed(2) + '%)</div>' : '<div style="font-size:12px;color:var(--text-light);margin-top:2px">—</div>')
     +     '</div>'
@@ -3066,7 +3066,7 @@ function renderGold() {
     +   '</div>'
     +   '<div style="text-align:center;margin-top:12px;padding:12px;background:' + (totalProfit >= 0 ? 'linear-gradient(135deg,#f0fff5,#e8f5e8)' : 'linear-gradient(135deg,#fff5f5,#f5e0e0)') + ';border-radius:10px;border:1px solid ' + (totalProfit >= 0 ? '#c8e6c9' : '#f0d0d0') + '">'
     +     '<div style="font-size:11px;color:var(--text-light)">总浮盈/亏</div>'
-    +     '<div style="font-size:28px;font-weight:800;color:' + (totalProfit >= 0 ? 'var(--accent-green)' : 'var(--primary)') + '">' + (totalProfit >= 0 ? '+' : '') + '¥' + totalProfit.toFixed(0) + '</div>'
+    +     '<div style="font-size:22px;font-weight:700;color:' + (totalProfit >= 0 ? 'var(--accent-green)' : 'var(--primary)') + '">' + (totalProfit >= 0 ? '+' : '') + '¥' + totalProfit.toFixed(0) + '</div>'
     +     '<div style="font-size:10px;color:var(--text-light)">总成本 ¥' + (totalCostAll - totalRevenueAll).toFixed(0) + ' · 总市值 ¥' + totalMarketValue.toFixed(0) + ' · 总持仓 ' + totalNetGrams.toFixed(2) + 'g</div>'
     +   '</div>'
     + '</div>'
