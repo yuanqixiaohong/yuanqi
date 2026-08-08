@@ -2,7 +2,7 @@ from PIL import Image, ImageDraw
 import os
 
 # Reference spec:
-# - Moon diameter = ~21% of canvas (radius = ~10.5%) — refined from previous 46% to ~46% of that
+# - Moon diameter = ~30% of canvas (radius = ~15%) — refined from original 46% to ~65% of that
 # - Left (shadow) side:  #344658 -> RGB(52, 70, 88)
 # - Right (light) side: #e1d2b2 -> RGB(225, 210, 178)
 # - Craters on left:    #2b3a49 -> RGB(43, 58, 73)
@@ -43,7 +43,7 @@ def draw_moon(size, corner_radius_ratio=0.22):
     draw.rounded_rectangle([0, 0, size, size], radius=corner_radius, fill=BG_COLOR)
 
     center = size // 2
-    radius = int(size * 0.105)  # diameter ~21% (46% of previous 46%)
+    radius = int(size * 0.15)  # diameter ~30% (about 65% of original 46%)
 
     draw.ellipse(
         [center - radius, center - radius, center + radius, center + radius],
